@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Send, Phone, Mail, MapPin, CheckCircle } from 'lucide-react';
+import { Send, Phone, Mail, MapPin } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
@@ -18,21 +19,21 @@ const serviceOptions = [
 ];
 
 export default function KontaktPage() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
     service: '',
-    message: ''
+    message: '',
+    website: '', // honeypot
   });
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Validate using ContactService
     const validation = ContactService.validate(formData);
     if (!validation.isValid) {
       setErrors(validation.errors);
@@ -45,8 +46,8 @@ export default function KontaktPage() {
       const result = await ContactService.submit(formData);
       
       if (result.success) {
-        setIsSubmitted(true);
         toast.success(result.message);
+        navigate('/danke');
       } else {
         toast.error(result.message);
       }
