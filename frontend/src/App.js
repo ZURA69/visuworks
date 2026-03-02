@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "./components/ui/sonner";
 import { Layout } from "./components/layout/Layout";
 import { ScrollProgress } from "./components/ScrollProgress";
+import { ScrollToTop } from "./components/ScrollToTop";
 import { CookieBanner } from "./components/CookieBanner";
 import { ChatWidget } from "./components/ChatWidget";
 
@@ -21,12 +22,14 @@ import DatenschutzPage from "./pages/DatenschutzPage";
 import AGBPage from "./pages/AGBPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ProcessStepPage from "./pages/ProcessStepPage";
+import DankePage from "./pages/DankePage";
 
 import "./App.css";
 
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <ScrollProgress />
       <Layout>
         <Routes>
@@ -44,6 +47,7 @@ function App() {
           <Route path="/datenschutz" element={<DatenschutzPage />} />
           <Route path="/agb" element={<AGBPage />} />
           <Route path="/prozess/:slug" element={<ProcessStepPage />} />
+          <Route path="/danke" element={<DankePage />} />
           {/* 404 - Must be last */}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
