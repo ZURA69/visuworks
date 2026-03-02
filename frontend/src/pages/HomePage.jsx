@@ -9,6 +9,7 @@ import { ClientLogos } from '../components/ClientLogos';
 import { Statistics } from '../components/Statistics';
 import { Testimonials } from '../components/Testimonials';
 import { NewsletterSignup } from '../components/NewsletterSignup';
+import { SEOHead } from '../components/SEOHead';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -74,6 +75,7 @@ export default function HomePage() {
   
   return (
     <div data-testid="home-page" className="overflow-hidden">
+      <SEOHead page="home" />
       {/* Hero Section */}
       <section data-testid="hero-section" className="relative min-h-[85vh] md:min-h-[90vh] flex items-center" aria-label="Hero">
         {/* Background Glow */}

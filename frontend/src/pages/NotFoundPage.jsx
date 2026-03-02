@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Home, ArrowLeft, Search } from 'lucide-react';
 import { Button } from '../components/ui/button';
+import { SEOHead } from '../components/SEOHead';
 
 export default function NotFoundPage() {
   return (
     <div data-testid="not-found-page" className="min-h-[80vh] flex items-center justify-center px-6">
+      <SEOHead page="home" customTitle="404 - Seite nicht gefunden | VISUWORKS" customDescription="Die gesuchte Seite wurde nicht gefunden." />
       {/* Background Glow */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/3 left-1/4 w-[400px] h-[400px] bg-indigo-500/10 rounded-full blur-[120px]" />

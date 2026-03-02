@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Linkedin, Mail, Users } from 'lucide-react';
 import { Button } from '../components/ui/button';
+import { SEOHead } from '../components/SEOHead';
 
 const team = [
   {
@@ -57,6 +58,7 @@ const values = [
 export default function TeamPage() {
   return (
     <div data-testid="team-page" className="overflow-hidden">
+      <SEOHead page="home" customTitle="Team | VISUWORKS" customDescription="Das Team hinter VISUWORKS – Experten aus Design, Produktion und Projektmanagement." />
       {/* Hero Section */}
       <section className="relative py-24 md:py-32">
         <div className="absolute inset-0 overflow-hidden">
