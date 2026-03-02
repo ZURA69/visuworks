@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Car, Building2, Megaphone, Palette, CheckCircle2 } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
-import { SEOHead } from '../components/SEOHead';
 import { getFeaturedProjects } from '../data/projects';
 
 const fadeInUp = {
