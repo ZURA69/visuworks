@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Building2, Layers, Eye, Paintbrush, Box, HelpCircle } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
-import { SEOHead } from '../components/SEOHead';
+
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -52,7 +52,7 @@ const faqs = [
 export default function ArchitekturRaumPage() {
   return (
     <div data-testid="architektur-raum-page" className="overflow-hidden">
-      <SEOHead page="architektur" />
+      
       
       {/* Hero Section */}
       <section className="relative min-h-[65vh] md:min-h-[70vh] flex items-center" aria-label="Hero">

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Shield, Car, Palette, Users, HelpCircle } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
-import { SEOHead } from '../components/SEOHead';
+
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -43,7 +43,7 @@ const faqs = [
 export default function MobilitaetPage() {
   return (
     <div data-testid="mobilitaet-page" className="overflow-hidden">
-      <SEOHead page="mobilitaet" />
+      
       
       {/* Hero Section */}
       <section className="relative min-h-[65vh] md:min-h-[70vh] flex items-center" aria-label="Hero">

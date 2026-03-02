@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from '../components/ui/tabs';
-import { SEOHead } from '../components/SEOHead';
+
 import { projects, categories } from '../data/projects';
 
 export default function ProjektePage() {
@@ -17,7 +17,7 @@ export default function ProjektePage() {
 
   return (
     <div data-testid="projekte-page" className="overflow-hidden">
-      <SEOHead page="projekte" />
+      
 
       {/* Hero Section */}
       <section className="relative py-24 md:py-32">

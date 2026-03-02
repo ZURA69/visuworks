@@ -4,7 +4,7 @@ import { Send, Phone, Mail, MapPin, CheckCircle } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
-import { SEOHead } from '../components/SEOHead';
+
 import { ContactService } from '../services/contactService';
 import { toast } from 'sonner';
 
@@ -67,7 +67,7 @@ export default function KontaktPage() {
   if (isSubmitted) {
     return (
       <div data-testid="kontakt-page" className="min-h-[80vh] flex items-center justify-center px-6">
-        <SEOHead page="kontakt" />
+        
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -94,7 +94,7 @@ export default function KontaktPage() {
 
   return (
     <div data-testid="kontakt-page" className="overflow-hidden">
-      <SEOHead page="kontakt" />
+      
 
       {/* Hero Section */}
       <section className="relative py-24 md:py-32">

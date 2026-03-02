@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, ArrowLeft, MapPin, Calendar, Building2, Layers } from 'lucide-react';
 import { Button } from '../components/ui/button';
-import { SEOHead } from '../components/SEOHead';
+
 
 // Reusable Case Study Template Component
 export const CaseStudyTemplate = ({ project }) => {

@@ -1,11 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { SEOHead } from '../components/SEOHead';
+
 
 export default function AGBPage() {
   return (
     <div data-testid="agb-page" className="overflow-hidden">
-      <SEOHead page="agb" />
+      
       
       <section className="relative py-24 md:py-32">
         <div className="absolute inset-0 overflow-hidden">
