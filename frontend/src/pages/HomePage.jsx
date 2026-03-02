@@ -52,15 +52,6 @@ const services = [
   }
 ];
 
-const projects = [
-  { id: 1, category: 'Mobilität', title: 'Flottenbranding DAX-Konzern', tags: ['Flotte', 'Folierung'] },
-  { id: 2, category: 'Architektur', title: 'Showroom Premium-Autohaus', tags: ['Interior', 'Glas'] },
-  { id: 3, category: 'Kommunikation', title: 'Messeauftritt IAA', tags: ['Event', 'Großformat'] },
-  { id: 4, category: 'Design', title: 'Markenkonzept Startup', tags: ['Konzept', 'CI'] },
-  { id: 5, category: 'Mobilität', title: 'PPF Luxusfahrzeug', tags: ['Schutz', 'Premium'] },
-  { id: 6, category: 'Architektur', title: 'Office Branding Tech-Firma', tags: ['Wand', 'Leitsystem'] },
-];
-
 const processSteps = [
   { num: '01', title: 'Analyse & Zieldefinition', desc: 'Anforderungen verstehen' },
   { num: '02', title: 'Design & Konzeption', desc: 'Visuelle Lösungen entwickeln' },
