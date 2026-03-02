@@ -152,6 +152,13 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Client Logos */}
+      <section className="py-16 bg-white/[0.01] border-y border-white/5">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <ClientLogos />
+        </div>
+      </section>
+
       {/* Services Section */}
       <section data-testid="services-section" className="py-24 md:py-32">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
