@@ -19,7 +19,7 @@ Production-ready premium multi-page website for VISUWORKS, a European visual bra
 
 ## What's Been Implemented
 
-### Pages (14 Total)
+### Pages (19 Total)
 - [x] Home (/) - Hero, ClientLogos, Services, Projects Preview, Process, Target Audiences, Statistics, Testimonials, Newsletter, CTA
 - [x] Mobilität (/mobilitaet) - Vehicle wrapping & PPF services
 - [x] Raum & Architektur (/architektur-raum) - Interior branding & architectural films
@@ -30,47 +30,41 @@ Production-ready premium multi-page website for VISUWORKS, a European visual bra
 - [x] Case Study (/projekte/:slug) - Dynamic project detail pages
 - [x] Kontakt (/kontakt) - Contact form with validation
 - [x] Team (/team) - Team members, values, company info
+- [x] Prozess: Analyse (/prozess/analyse) - Requirements & goal definition
+- [x] Prozess: Design (/prozess/design) - Design & conception phase
+- [x] Prozess: Produktion (/prozess/produktion) - Production phase
+- [x] Prozess: Umsetzung (/prozess/umsetzung) - Installation & assembly
+- [x] Prozess: Qualitätssicherung (/prozess/qualitaetssicherung) - Quality assurance
 - [x] Impressum (/impressum) - Legal notice
 - [x] Datenschutz (/datenschutz) - Privacy policy
 - [x] AGB (/agb) - Terms & conditions
 - [x] 404 Page (*) - Custom not found page with quick links
 
 ### Production Features
-- [x] SEO meta tags (document.title, og:title, og:description, canonical) on ALL pages
+- [x] SEO meta tags on ALL pages (document.title, og:title, og:description, canonical)
 - [x] JSON-LD structured data (Organization, LocalBusiness) on homepage
-- [x] Cookie consent banner with granular preferences (necessary/analytics/marketing)
+- [x] Cookie consent banner with granular preferences
 - [x] WhatsApp chat widget with phone and email options
 - [x] Client logos trust section
 - [x] Animated statistics counters (CountUp)
 - [x] Testimonials carousel with navigation
-- [x] Newsletter signup form (homepage + footer minimal variant)
+- [x] Newsletter signup form (homepage + footer)
 - [x] Skeleton loading states on Projekte page
 - [x] Scroll progress indicator
 - [x] Responsive navigation with hamburger menu
+- [x] Hero tags link to service pages
+- [x] Process steps link to subpages with professional content
+- [x] Process step navigation (prev/next, step indicators)
 - [x] robots.txt and sitemap.xml
-- [x] Semantic HTML structure
-- [x] Accessibility improvements (ARIA labels, roles)
-
-### Technical Files
-- `/app/frontend/src/components/SEOHead.jsx` - Custom SEO hook using useEffect
-- `/app/frontend/src/config/seo.js` - SEO configuration + JSON-LD schemas
-- `/app/frontend/src/data/projects.js` - 18 project entries with case study data
-- `/app/frontend/src/services/contactService.js` - Email integration service
-- `/app/frontend/src/components/Skeleton.jsx` - Loading skeleton components
-- `/app/frontend/src/components/CookieBanner.jsx` - GDPR cookie consent
-- `/app/frontend/src/components/ChatWidget.jsx` - WhatsApp/contact widget
-- `/app/frontend/src/components/Statistics.jsx` - Animated counters
-- `/app/frontend/src/components/Testimonials.jsx` - Carousel with ratings
-- `/app/frontend/src/components/NewsletterSignup.jsx` - Email subscription form
 
 ## Prioritized Backlog
 
 ### P0 (Critical) - Ready to Implement
+- [ ] Integrate real project images (user has provided 5 images for Mobilität/Markenkommunikation)
+- [ ] E-Mail-Service for contact form (Resend/Formspree)
 - [ ] Performance optimization: Lighthouse score >90, lazy loading images
-- [ ] Replace placeholder project tiles with real project images
 
 ### P1 (High Priority)
-- [ ] Configure email service for contact form (add API key to Resend/Formspree)
 - [ ] Add actual business contact details (replace placeholder phone/email)
 - [ ] Dynamic sitemap generation
 
@@ -78,13 +72,12 @@ Production-ready premium multi-page website for VISUWORKS, a European visual bra
 - [ ] Hero video option (WebM/MP4)
 - [ ] Blog/News section
 - [ ] Language switcher (EN/DE)
-- [ ] Careers page
-- [ ] Partners page
-- [ ] More case studies with real images
 - [ ] Advanced Schema.org (FAQPage, BreadcrumbList)
+- [ ] Analytics integration
 
 ### P3 (Nice to Have)
-- [ ] Google Analytics / Plausible integration
+- [ ] Careers page
+- [ ] Partners page
 - [ ] Search functionality
 - [ ] Live chat provider integration
 
@@ -94,33 +87,16 @@ Production-ready premium multi-page website for VISUWORKS, a European visual bra
 - Chat widget: opens external links only (no live chat)
 - Client logos: placeholder text (no actual logo images)
 
-## File Structure
-```
-/app/frontend/
-├── src/
-│   ├── components/
-│   │   ├── layout/          # Navbar, Footer, Layout
-│   │   ├── ui/              # Button, Card, Input, Tabs, etc.
-│   │   ├── ChatWidget.jsx
-│   │   ├── ClientLogos.jsx
-│   │   ├── CookieBanner.jsx
-│   │   ├── NewsletterSignup.jsx
-│   │   ├── ScrollProgress.jsx
-│   │   ├── SEOHead.jsx
-│   │   ├── Skeleton.jsx
-│   │   ├── Statistics.jsx
-│   │   └── Testimonials.jsx
-│   ├── config/
-│   │   └── seo.js           # SEO config + JSON-LD schemas
-│   ├── data/
-│   │   └── projects.js      # CMS-ready project data (18 entries)
-│   ├── services/
-│   │   └── contactService.js
-│   ├── pages/               # All 14 page components
-│   └── lib/utils.js
-├── public/
-│   ├── robots.txt
-│   ├── sitemap.xml
-│   └── index.html
-└── .env
-```
+## Key Files
+- `/app/frontend/src/pages/ProcessStepPage.jsx` - Dynamic process subpages
+- `/app/frontend/src/components/SEOHead.jsx` - Custom SEO hook
+- `/app/frontend/src/config/seo.js` - SEO configuration + JSON-LD schemas
+- `/app/frontend/src/data/projects.js` - CMS-ready project data (18 entries)
+- `/app/frontend/src/services/contactService.js` - Email integration service
+
+## User-Provided Project Images
+- IMG_5035.jpg → Markenkommunikation (Ritter Sport Großformat-Werbung)
+- IMG_6740.JPG → Mobilität (Porsche GT3 Cup #929, black/gold/red)
+- IMG_6742.JPG → Mobilität (vehicle detail)
+- IMG_6877.JPG → Mobilität (Porsche GT3 Cup #909, black/pink/yellow)
+- IMG_7102.jpg → Mobilität (Porsche GT3 Cup race car)
