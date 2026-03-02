@@ -46,7 +46,6 @@ export const navStructure = {
     ],
   },
   simpleLinks: [
-    { label: 'Projekte', href: '/projekte' },
     { label: 'Projektmanagement', href: '/projektmanagement' },
     { label: 'Kontakt', href: '/kontakt' },
   ],
