@@ -66,10 +66,6 @@ export default function KontaktPage() {
     }
   };
 
-  if (false) {
-    // Removed: redirect to /danke page instead
-  }
-
   return (
     <div data-testid="kontakt-page" className="overflow-hidden">
       <SEOHead page="kontakt" />
