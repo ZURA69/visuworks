@@ -121,21 +121,36 @@ navStructure.leistungen.pillars[0].subItems.push({
 
 ---
 
-## How to Add Images
+## How to Add / Replace Images
 
 All image references are centralized in `src/content/images.js`.
 
-Replace `null` with a URL or relative path:
-```js
-projects: {
-  'ppf-porsche-911-gt3': {
-    thumbnail: 'https://example.com/image.webp',
-    gallery: ['https://example.com/img1.webp', '...'],
-  },
-},
-```
+### Project Images
 
-Keep consistent aspect ratios:
+1. Optimize your image for web (max 1200px width, JPEG ~80% quality, <200KB)
+2. Place the file in `/public/images/projects/`
+3. Open `src/content/images.js` and update the project entry:
+   ```js
+   'ppf-porsche-911-gt3': {
+     thumbnail: '/images/projects/your-new-image.jpg',
+     alt: 'Descriptive alt text for SEO',
+     gallery: ['/images/projects/img1.jpg', '/images/projects/img2.jpg'],
+   },
+   ```
+
+**Current images** (in `/public/images/projects/`):
+| File | Size | Mapped to project |
+|---|---|---|
+| porsche-gt3-cup-929.jpg | 146 KB | flottenbranding-dax-konzern |
+| porsche-gt3-cup-race.jpg | 320 KB | ppf-porsche-911-gt3 |
+| porsche-gt3-cup-909.jpg | 135 KB | designfolierung-mercedes-amg |
+| porsche-gt3-cup-detail.jpg | 128 KB | flottenbranding-logistik-europa |
+| ritter-sport-grossformat.jpg | 361 KB | messestand-iaa-frankfurt |
+
+### Safe fallback
+If a project has no image (`thumbnail: null`), the card shows a dark gradient placeholder — the grid never breaks.
+
+### Aspect ratios
 - Project thumbnails: **4:3**
 - Team photos: **1:1**
 - Hero images: **16:9** or **4:3**

@@ -11,7 +11,7 @@ import { Testimonials } from '../components/Testimonials';
 import { NewsletterSignup } from '../components/NewsletterSignup';
 import { SEOHead } from '../components/SEOHead';
 import { hero, ctaSection, processSteps, targetAudiences } from '../content/site';
-import images from '../content/images';
+import images, { getProjectImage } from '../content/images';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -240,8 +240,20 @@ export default function HomePage() {
               >
                 <Link to={`/projekte/${project.slug}`}>
                   <div data-testid={`project-tile-${project.id}`} className="group relative aspect-[4/3] rounded-[20px] overflow-hidden bg-[#0A0C14] border border-white/10 hover:border-white/20 hover:-translate-y-1 transition-all duration-300">
-                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-transparent to-purple-500/10 group-hover:from-indigo-500/20 group-hover:to-purple-500/20 transition-all duration-500" />
-                    <div className="absolute inset-0 flex flex-col justify-end p-6">
+                    {/* Project Image */}
+                    {(() => {
+                      const img = getProjectImage(project.slug);
+                      return img ? (
+                        <img
+                          src={img.src}
+                          alt={img.alt || project.title}
+                          loading="lazy"
+                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      ) : null;
+                    })()}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#070910] via-[#070910]/60 to-transparent group-hover:via-[#070910]/50 transition-all duration-500" />
+                    <div className="absolute inset-0 flex flex-col justify-end p-6 relative z-10">
                       <span className="text-xs font-medium text-indigo-300/80 uppercase tracking-wider mb-2">{project.category}</span>
                       <h3 className="text-lg font-bold mb-3">{project.title}</h3>
                       <div className="flex flex-wrap gap-2">

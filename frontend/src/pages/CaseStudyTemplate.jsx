@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, ArrowLeft, MapPin, Calendar, Building2, Layers } from 'lucide-react';
 import { Button } from '../components/ui/button';
+import { getProjectImage } from '../content/images';
 
 
 // Reusable Case Study Template Component
@@ -15,13 +16,28 @@ export const CaseStudyTemplate = ({ project }) => {
     );
   }
 
+  const projectImg = getProjectImage(project.slug);
+
   return (
     <div data-testid="case-study-page" className="overflow-hidden">
       {/* Hero Section */}
       <section className="relative min-h-[60vh] flex items-end pb-16">
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[120px]" />
-          <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-[100px]" />
+          {projectImg ? (
+            <>
+              <img
+                src={projectImg.src}
+                alt={projectImg.alt || project.title}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#070910] via-[#070910]/70 to-[#070910]/40" />
+            </>
+          ) : (
+            <>
+              <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[120px]" />
+              <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-[100px]" />
+            </>
+          )}
         </div>
 
         <div className="relative max-w-[1200px] mx-auto px-6 md:px-12 w-full">

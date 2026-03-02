@@ -7,81 +7,104 @@
 const images = {
   // ── Hero ──
   hero: {
-    src: null,                         // Replace with URL or import path, e.g. '/images/hero.webp'
+    src: null, // z. B. '/images/hero.webp'
     alt: 'VISUWORKS Projektarbeit',
     aspectRatio: '4/3',
   },
 
   // ── Project Gallery (keyed by project slug) ──
+  // Images must be inside: /public/images/projects/
   projects: {
     'flottenbranding-dax-konzern': {
-      thumbnail: null,
-      gallery: [],
+      thumbnail: '/images/projects/porsche-gt3-cup-929.jpg',
+      alt: 'Porsche GT3 Cup Flottenbranding',
+      gallery: ['/images/projects/porsche-gt3-cup-909.jpg'],
     },
+
     'ppf-porsche-911-gt3': {
-      thumbnail: null,
-      gallery: [],
+      thumbnail: '/images/projects/porsche-gt3-cup-race.jpg',
+      alt: 'Porsche 911 GT3 mit PPF Lackschutzfolie',
+      gallery: ['/images/projects/porsche-gt3-cup-929.jpg'],
     },
-    'designfolierung-mercedes-amg': {
-      thumbnail: null,
-      gallery: [],
+
+    'designfolierung': {
+      thumbnail: '/images/projects/porsche-gt3-cup-909.jpg',
+      alt: 'Porsche GT3 Cup Designfolierung',
+      gallery: ['/images/projects/porsche-gt3-cup-detail.jpg'],
     },
+
     'flottenbranding-logistik-europa': {
-      thumbnail: null,
-      gallery: [],
+      thumbnail: '/images/projects/porsche-gt3-cup-detail.jpg',
+      alt: 'Detailansicht Fahrzeugfolierung',
+      gallery: ['/images/projects/IMG_6953.jpeg'],
     },
+
     'headquarters-tech-konzern': {
       thumbnail: null,
       gallery: [],
     },
+
     'flagship-store-modemarke': {
       thumbnail: null,
       gallery: [],
     },
+
     'dental-zentrum-muenchen': {
       thumbnail: null,
       gallery: [],
     },
+
     'showroom-premium-autohaus': {
       thumbnail: null,
       gallery: [],
     },
+
     'messestand-iaa-frankfurt': {
-      thumbnail: null,
+      thumbnail: '/images/projects/ritter-sport-grossformat.jpg',
+      alt: 'Ritter Sport Großformat-Werbung Messestand',
       gallery: [],
     },
+
     'produktlaunch-automobil': {
       thumbnail: null,
       gallery: [],
     },
+
     'fassadenwerbung-innenstadt': {
       thumbnail: null,
       gallery: [],
     },
+
     'pos-systeme-retail-kette': {
       thumbnail: null,
       gallery: [],
     },
+
     'ci-entwicklung-startup': {
       thumbnail: null,
       gallery: [],
     },
+
     '3d-rendering-messestand': {
       thumbnail: null,
       gallery: [],
     },
+
     'flottendesign-richtlinie': {
       thumbnail: null,
       gallery: [],
     },
+
     'konferenz-2000-teilnehmer': {
       thumbnail: null,
       gallery: [],
     },
+
     'produktpraesentation-luxusmarke': {
       thumbnail: null,
       gallery: [],
     },
+
     'firmenjubilaeum-mittelstand': {
       thumbnail: null,
       gallery: [],
@@ -116,11 +139,12 @@ const images = {
   },
 };
 
-// Helper: get project image or null
-export const getProjectImage = (slug, type = 'thumbnail') => {
+// ── Helper Functions ──
+
+export const getProjectImage = (slug) => {
   const entry = images.projects[slug];
-  if (!entry) return null;
-  return type === 'thumbnail' ? entry.thumbnail : entry.gallery;
+  if (!entry || !entry.thumbnail) return null;
+  return { src: entry.thumbnail, alt: entry.alt || '' };
 };
 
 export const getTeamImage = (slug) => images.team[slug] || null;
