@@ -1,70 +1,76 @@
 import { Helmet } from 'react-helmet-async';
-import { seoConfig, organizationSchema, localBusinessSchema, servicesSchema } from '../config/seo';
 
-export const SEOHead = ({ 
-  page = 'home',
-  title,
-  description,
-  canonical,
-  noindex = false,
-  structuredData = null,
-  image
-}) => {
-  const pageConfig = seoConfig.pages[page] || seoConfig.pages.home;
+// SEO Configuration for VISUWORKS
+const seoConfig = {
+  siteName: 'VISUWORKS',
+  siteUrl: 'https://visuworks.de',
+  defaultTitle: 'VISUWORKS | Visuelle Marken- und Oberflächenlösungen',
+  defaultDescription: 'Premium visuelle Marken- und Oberflächenlösungen für Mobilität, Architektur und Kommunikation.',
+  locale: 'de_DE',
   
-  const finalTitle = title || pageConfig?.title || seoConfig.defaultTitle;
-  const finalDescription = description || pageConfig?.description || seoConfig.defaultDescription;
-  const finalCanonical = `${seoConfig.siteUrl}${canonical || pageConfig?.canonical || '/'}`;
-  const finalImage = image || `${seoConfig.siteUrl}${seoConfig.defaultImage}`;
+  pages: {
+    home: {
+      title: 'VISUWORKS | Visuelle Marken- und Oberflächenlösungen',
+      description: 'Premium visuelle Marken- und Oberflächenlösungen für Mobilität, Architektur und Kommunikation.',
+    },
+    mobilitaet: {
+      title: 'Fahrzeugfolierung & Schutz | VISUWORKS',
+      description: 'Professionelle Fahrzeugfolierung, PPF Lackschutzfolie und Flottenbranding.',
+    },
+    architektur: {
+      title: 'Raum & Architektur | VISUWORKS',
+      description: 'Interior Branding, Architekturfolierung und Raumgestaltung.',
+    },
+    markenkommunikation: {
+      title: 'Markenkommunikation | VISUWORKS',
+      description: 'Großformatdruck, Messegrafik, Event-Branding und POS-Systeme.',
+    },
+    design: {
+      title: 'Design & Konzeption | VISUWORKS',
+      description: 'Designkonzepte und visuelle Leitlinien mit Produktionsfokus.',
+    },
+    projektmanagement: {
+      title: 'Projektmanagement | VISUWORKS',
+      description: 'Professionelles Projektmanagement für komplexe visuelle Projekte.',
+    },
+    projekte: {
+      title: 'Projekte & Referenzen | VISUWORKS',
+      description: 'Ausgewählte Referenzen aus Fahrzeugfolierung und Interior Branding.',
+    },
+    kontakt: {
+      title: 'Kontakt | VISUWORKS',
+      description: 'Kontaktieren Sie VISUWORKS für Ihr Projekt.',
+    },
+    impressum: {
+      title: 'Impressum | VISUWORKS',
+      description: 'Impressum der VISUWORKS GmbH.',
+    },
+    datenschutz: {
+      title: 'Datenschutzerklärung | VISUWORKS',
+      description: 'Datenschutzerklärung der VISUWORKS GmbH.',
+    },
+    agb: {
+      title: 'AGB | VISUWORKS',
+      description: 'Allgemeine Geschäftsbedingungen der VISUWORKS GmbH.',
+    }
+  }
+};
+
+export const SEOHead = ({ page = 'home' }) => {
+  const pageConfig = seoConfig.pages[page];
+  const pageTitle = pageConfig ? pageConfig.title : seoConfig.defaultTitle;
+  const pageDescription = pageConfig ? pageConfig.description : seoConfig.defaultDescription;
 
   return (
     <Helmet>
-      <title>{String(finalTitle)}</title>
-      <meta name="title" content={String(finalTitle)} />
-      <meta name="description" content={String(finalDescription)} />
-      <link rel="canonical" href={finalCanonical} />
-      
-      <html lang="de" />
-      <meta property="og:locale" content={seoConfig.locale} />
-
-      {noindex ? (
-        <meta name="robots" content="noindex, nofollow" />
-      ) : (
-        <meta name="robots" content="index, follow" />
-      )}
-
+      <title>{pageTitle}</title>
+      <meta name="description" content={pageDescription} />
+      <meta property="og:title" content={pageTitle} />
+      <meta property="og:description" content={pageDescription} />
       <meta property="og:type" content="website" />
-      <meta property="og:url" content={finalCanonical} />
-      <meta property="og:title" content={String(finalTitle)} />
-      <meta property="og:description" content={String(finalDescription)} />
-      <meta property="og:image" content={finalImage} />
-      <meta property="og:site_name" content={seoConfig.siteName} />
-
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:url" content={finalCanonical} />
-      <meta name="twitter:title" content={String(finalTitle)} />
-      <meta name="twitter:description" content={String(finalDescription)} />
-      <meta name="twitter:image" content={finalImage} />
-      
-      <script type="application/ld+json">
-        {JSON.stringify(organizationSchema)}
-      </script>
-
-      <script type="application/ld+json">
-        {JSON.stringify(localBusinessSchema)}
-      </script>
-
-      {(page === 'home' || page === 'mobilitaet' || page === 'architektur' || page === 'markenkommunikation') && (
-        <script type="application/ld+json">
-          {JSON.stringify(servicesSchema)}
-        </script>
-      )}
-
-      {structuredData && (
-        <script type="application/ld+json">
-          {JSON.stringify(structuredData)}
-        </script>
-      )}
+      <meta name="twitter:title" content={pageTitle} />
+      <meta name="twitter:description" content={pageDescription} />
     </Helmet>
   );
 };
