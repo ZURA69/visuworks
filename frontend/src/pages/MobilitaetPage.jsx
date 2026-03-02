@@ -99,7 +99,7 @@ export default function MobilitaetPage() {
                 <Card className="h-full p-8">
                   <CardContent className="p-0 space-y-4">
                     <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
-                      <service.icon className="w-7 h-7 text-white/70" />
+                      {React.createElement(serviceIcons[index] || Shield, { className: 'w-7 h-7 text-white/70' })}
                     </div>
                     <h3 className="text-xl font-bold">{service.title}</h3>
                     <p className="text-white/60">{service.desc}</p>
