@@ -329,6 +329,15 @@ export const Navbar = () => {
               </div>
 
               {/* Simple links */}
+              <Link
+                to="/projekte"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={`block py-3 px-4 rounded-xl text-lg font-medium transition-all duration-200 mb-1 ${
+                  isLinkActive('/projekte') ? 'text-white bg-white/[0.04]' : 'text-white/60'
+                }`}
+              >
+                Projekte
+              </Link>
               {simpleLinks.map((link) => (
                 <Link
                   key={link.href}
