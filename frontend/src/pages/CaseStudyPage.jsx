@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { getProjectBySlug } from '../data/projects';
+import { getProjectBySlug } from '../content/projects';
 import CaseStudyTemplate from './CaseStudyTemplate';
 
 export default function CaseStudyPage() {
