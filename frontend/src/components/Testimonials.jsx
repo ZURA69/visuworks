@@ -1,45 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Quote, ChevronLeft, ChevronRight, Star } from 'lucide-react';
-
-const testimonials = [
-  {
-    id: 1,
-    quote: 'Die Zusammenarbeit mit VISUWORKS war von Anfang bis Ende professionell. Unser Flottenbranding wurde termingerecht und in höchster Qualität umgesetzt. Absolut empfehlenswert.',
-    author: 'Thomas M.',
-    position: 'Flottenmanager',
-    company: 'Logistik-Konzern',
-    rating: 5,
-    project: 'Flottenbranding 50+ Fahrzeuge'
-  },
-  {
-    id: 2,
-    quote: 'VISUWORKS hat unseren Showroom komplett transformiert. Die Glasfolierungen und das Leitsystem sind perfekt auf unsere Marke abgestimmt. Unsere Kunden sind begeistert.',
-    author: 'Sandra K.',
-    position: 'Marketing-Leiterin',
-    company: 'Premium-Autohaus',
-    rating: 5,
-    project: 'Showroom-Gestaltung'
-  },
-  {
-    id: 3,
-    quote: 'Der Messestand auf der IAA war ein voller Erfolg. Die Qualität der Grafiken und die Koordination des gesamten Projekts waren erstklassig. Wir planen bereits den nächsten Auftritt.',
-    author: 'Michael B.',
-    position: 'Event-Manager',
-    company: 'Automobilzulieferer',
-    rating: 5,
-    project: 'Messestand IAA 800m²'
-  },
-  {
-    id: 4,
-    quote: 'Mein Porsche ist nun perfekt geschützt. Die PPF-Folierung ist unsichtbar und die Verarbeitung makellos. Das Team hat sich wirklich Zeit genommen für jedes Detail.',
-    author: 'Andreas W.',
-    position: 'Privatkunde',
-    company: 'Düsseldorf',
-    rating: 5,
-    project: 'PPF Vollschutz'
-  },
-];
+import { testimonials } from '../content/site';
 
 export const Testimonials = ({ className = '' }) => {
   const [currentIndex, setCurrentIndex] = useState(0);

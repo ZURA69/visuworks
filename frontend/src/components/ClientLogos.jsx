@@ -1,15 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-
-// Placeholder company names - replace with actual client logos
-const clients = [
-  { name: 'Mercedes-Benz', industry: 'Automotive' },
-  { name: 'Deutsche Bahn', industry: 'Transport' },
-  { name: 'Siemens', industry: 'Technology' },
-  { name: 'Lufthansa', industry: 'Aviation' },
-  { name: 'Bosch', industry: 'Engineering' },
-  { name: 'Porsche', industry: 'Automotive' },
-];
+import { clients } from '../content/site';
+import { getClientLogo } from '../content/images';
 
 export const ClientLogos = ({ className = '' }) => {
   return (
