@@ -76,10 +76,14 @@ const targetAudiences = [
 ];
 
 export default function HomePage() {
+  const featuredProjects = getFeaturedProjects().slice(0, 6);
+  
   return (
     <div data-testid="home-page" className="overflow-hidden">
+      <SEOHead page="home" />
+      
       {/* Hero Section */}
-      <section data-testid="hero-section" className="relative min-h-[90vh] flex items-center">
+      <section data-testid="hero-section" className="relative min-h-[85vh] md:min-h-[90vh] flex items-center" aria-label="Hero"
         {/* Background Glow */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-[120px]" />
