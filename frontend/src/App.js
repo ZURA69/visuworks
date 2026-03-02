@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "./components/ui/sonner";
 import { Layout } from "./components/layout/Layout";
 import { ScrollProgress } from "./components/ScrollProgress";
+import { CookieBanner } from "./components/CookieBanner";
+import { ChatWidget } from "./components/ChatWidget";
 
 // Pages
 import HomePage from "./pages/HomePage";
@@ -16,6 +18,7 @@ import KontaktPage from "./pages/KontaktPage";
 import ImpressumPage from "./pages/ImpressumPage";
 import DatenschutzPage from "./pages/DatenschutzPage";
 import AGBPage from "./pages/AGBPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 import "./App.css";
 
@@ -37,8 +40,12 @@ function App() {
           <Route path="/impressum" element={<ImpressumPage />} />
           <Route path="/datenschutz" element={<DatenschutzPage />} />
           <Route path="/agb" element={<AGBPage />} />
+          {/* 404 - Must be last */}
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Layout>
+      <ChatWidget />
+      <CookieBanner />
       <Toaster position="bottom-right" />
     </BrowserRouter>
   );
