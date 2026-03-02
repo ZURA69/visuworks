@@ -4,99 +4,92 @@
 Production-ready premium multi-page website for VISUWORKS, a European visual branding and surface solutions company. German language throughout. High-end design with dark theme (#070910), subtle purple/blue glow accents, glassmorphism effects.
 
 ## Architecture
-- **Frontend**: React 18 with React Router 6, Framer Motion for animations, Tailwind CSS, Shadcn/UI components
-- **Backend**: FastAPI (minimal - only API status endpoints)
+- **Frontend**: React 18 (CRA) with React Router 6, Framer Motion, Tailwind CSS, Shadcn/UI
+- **Backend**: FastAPI with Resend email integration
 - **Database**: MongoDB (minimal usage)
-- **Styling**: Custom design system with glass morphism, premium cards, pill buttons
-- **SEO**: Custom useEffect-based SEO solution (replaced react-helmet-async due to React 18 compatibility issues)
-- **Contact Service**: Abstracted for easy integration (Resend/Formspree/Custom API)
-- **Project Data**: CMS-ready JSON structure with case study support
-
-## User Personas
-1. **B2B Clients**: Corporations needing fleet branding, office interior design, event graphics
-2. **Private Customers**: Vehicle customization, PPF protection
-3. **Agencies/Partners**: Design agencies seeking production partner
+- **SEO**: Custom useEffect-based meta tag management
+- **Contact**: Backend /api/contact with Resend, honeypot, rate limiting
+- **Email**: Resend API (configured via RESEND_API_KEY env var)
 
 ## What's Been Implemented
 
-### Pages (19 Total)
+### Pages (20 Total)
 - [x] Home (/) - Hero, ClientLogos, Services, Projects Preview, Process, Target Audiences, Statistics, Testimonials, Newsletter, CTA
-- [x] Mobilität (/mobilitaet) - Vehicle wrapping & PPF services
-- [x] Raum & Architektur (/architektur-raum) - Interior branding & architectural films
-- [x] Markenkommunikation (/markenkommunikation) - Large format & event graphics
-- [x] Design & Konzeption (/design-konzepte) - Design concepts & visual guidelines
-- [x] Projektmanagement (/projektmanagement) - Project coordination & quality assurance
-- [x] Projekte (/projekte) - Portfolio with filter tabs & skeleton loading
-- [x] Case Study (/projekte/:slug) - Dynamic project detail pages
-- [x] Kontakt (/kontakt) - Contact form with validation
-- [x] Team (/team) - Team members, values, company info
-- [x] Prozess: Analyse (/prozess/analyse) - Requirements & goal definition
-- [x] Prozess: Design (/prozess/design) - Design & conception phase
-- [x] Prozess: Produktion (/prozess/produktion) - Production phase
-- [x] Prozess: Umsetzung (/prozess/umsetzung) - Installation & assembly
-- [x] Prozess: Qualitätssicherung (/prozess/qualitaetssicherung) - Quality assurance
-- [x] Impressum (/impressum) - Legal notice
-- [x] Datenschutz (/datenschutz) - Privacy policy
-- [x] AGB (/agb) - Terms & conditions
-- [x] 404 Page (*) - Custom not found page with quick links
+- [x] Mobilität (/mobilitaet)
+- [x] Raum & Architektur (/architektur-raum)
+- [x] Markenkommunikation (/markenkommunikation)
+- [x] Design & Konzeption (/design-konzepte)
+- [x] Projektmanagement (/projektmanagement)
+- [x] Projekte (/projekte) - with skeleton loading
+- [x] Case Study (/projekte/:slug)
+- [x] Kontakt (/kontakt) - real backend form with validation, honeypot, redirect to /danke
+- [x] Danke (/danke) - Thank-you page after form submission
+- [x] Team (/team)
+- [x] Prozess: Analyse (/prozess/analyse)
+- [x] Prozess: Design (/prozess/design)
+- [x] Prozess: Produktion (/prozess/produktion)
+- [x] Prozess: Umsetzung (/prozess/umsetzung)
+- [x] Prozess: Qualitätssicherung (/prozess/qualitaetssicherung)
+- [x] Impressum (/impressum)
+- [x] Datenschutz (/datenschutz)
+- [x] AGB (/agb)
+- [x] 404 Page (*)
 
 ### Production Features
-- [x] SEO meta tags on ALL pages (document.title, og:title, og:description, canonical)
-- [x] JSON-LD structured data (Organization, LocalBusiness) on homepage
-- [x] Cookie consent banner with granular preferences
-- [x] WhatsApp chat widget with phone and email options
-- [x] Client logos trust section
-- [x] Animated statistics counters (CountUp)
-- [x] Testimonials carousel with navigation
-- [x] Newsletter signup form (homepage + footer)
-- [x] Skeleton loading states on Projekte page
-- [x] Scroll progress indicator
-- [x] Responsive navigation with hamburger menu
+- [x] SEO meta tags on ALL pages
+- [x] JSON-LD structured data on homepage
+- [x] ScrollToTop - scroll reset on every route change
+- [x] Cookie consent banner with preferences
+- [x] WhatsApp chat widget
+- [x] Contact form with backend /api/contact endpoint (Resend)
+- [x] Honeypot spam protection
+- [x] Rate limiting (5 req/5min per IP)
+- [x] Client logos, Statistics, Testimonials
+- [x] Newsletter signup (MOCKED)
+- [x] Skeleton loading states
+- [x] Process step subpages with professional content
 - [x] Hero tags link to service pages
-- [x] Process steps link to subpages with professional content
-- [x] Process step navigation (prev/next, step indicators)
-- [x] robots.txt and sitemap.xml
+- [x] robots.txt, sitemap.xml
+
+### API Endpoints
+- POST /api/contact - Contact form submission (Resend email)
+- GET /api/ - Health check
+- POST /api/status - Status check
+- GET /api/status - Get status checks
+
+### Environment Variables (Backend)
+- RESEND_API_KEY= (needs user's Resend API key)
+- CONTACT_TO_EMAIL=info@visuworks.de
+- CONTACT_FROM_EMAIL=no-reply@visuworks.de
 
 ## Prioritized Backlog
 
-### P0 (Critical) - Ready to Implement
-- [ ] Integrate real project images (user has provided 5 images for Mobilität/Markenkommunikation)
-- [ ] E-Mail-Service for contact form (Resend/Formspree)
-- [ ] Performance optimization: Lighthouse score >90, lazy loading images
+### P0 (Critical)
+- [ ] Integrate real project images (5 images uploaded: Porsche GT3 Cup cars, Ritter Sport ad)
+- [ ] Performance optimization: lazy loading, code splitting, Lighthouse >90
+- [ ] Add RESEND_API_KEY to activate live email sending
 
 ### P1 (High Priority)
-- [ ] Add actual business contact details (replace placeholder phone/email)
+- [ ] Replace placeholder contact details with real ones
 - [ ] Dynamic sitemap generation
 
 ### P2 (Medium Priority)
-- [ ] Hero video option (WebM/MP4)
+- [ ] Hero video (WebM/MP4)
 - [ ] Blog/News section
-- [ ] Language switcher (EN/DE)
+- [ ] Language switcher (DE/EN)
 - [ ] Advanced Schema.org (FAQPage, BreadcrumbList)
 - [ ] Analytics integration
-
-### P3 (Nice to Have)
-- [ ] Careers page
-- [ ] Partners page
-- [ ] Search functionality
-- [ ] Live chat provider integration
+- [ ] Careers/Partners pages
 
 ## MOCKED Functionality
-- Newsletter signup: simulated with setTimeout (UI only)
-- Contact form: simulated with setTimeout (UI only)
-- Chat widget: opens external links only (no live chat)
-- Client logos: placeholder text (no actual logo images)
+- Newsletter signup: UI only (simulated)
+- Chat widget: external links only
+- Client logos: placeholder text
+- Contact form: **WORKS** but in DEV MODE (no Resend API key = no actual emails)
 
-## Key Files
-- `/app/frontend/src/pages/ProcessStepPage.jsx` - Dynamic process subpages
-- `/app/frontend/src/components/SEOHead.jsx` - Custom SEO hook
-- `/app/frontend/src/config/seo.js` - SEO configuration + JSON-LD schemas
-- `/app/frontend/src/data/projects.js` - CMS-ready project data (18 entries)
-- `/app/frontend/src/services/contactService.js` - Email integration service
-
-## User-Provided Project Images
-- IMG_5035.jpg → Markenkommunikation (Ritter Sport Großformat-Werbung)
-- IMG_6740.JPG → Mobilität (Porsche GT3 Cup #929, black/gold/red)
+## User-Provided Project Images (Pending Integration)
+- IMG_5035.jpg → Markenkommunikation (Ritter Sport)
+- IMG_6740.JPG → Mobilität (Porsche GT3 Cup #929)
 - IMG_6742.JPG → Mobilität (vehicle detail)
-- IMG_6877.JPG → Mobilität (Porsche GT3 Cup #909, black/pink/yellow)
-- IMG_7102.jpg → Mobilität (Porsche GT3 Cup race car)
+- IMG_6877.JPG → Mobilität (Porsche GT3 Cup #909)
+- IMG_7102.jpg → Mobilität (Porsche GT3 Cup)
