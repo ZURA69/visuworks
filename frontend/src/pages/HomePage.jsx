@@ -172,7 +172,7 @@ export default function HomePage() {
             className="mb-16"
           >
             <p className="text-sm font-medium text-white/40 uppercase tracking-wider mb-4">Leistungen</p>
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tight">Klar hierarchisch strukturiert</h2>
+            <h2 className="text-3xl md:text-5xl font-bold tracking-tight">Klar strukturiert</h2>
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-6">
