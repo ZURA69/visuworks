@@ -57,11 +57,11 @@ const services = [
 ];
 
 const processSteps = [
-  { num: '01', title: 'Analyse & Zieldefinition', desc: 'Anforderungen verstehen' },
-  { num: '02', title: 'Design & Konzeption', desc: 'Visuelle Lösungen entwickeln' },
-  { num: '03', title: 'Produktion', desc: 'Präzise Fertigung' },
-  { num: '04', title: 'Umsetzung & Montage', desc: 'Professionelle Installation' },
-  { num: '05', title: 'Qualitätssicherung', desc: 'Kontrolle & Abnahme' },
+  { num: '01', title: 'Analyse & Zieldefinition', desc: 'Anforderungen verstehen', slug: 'analyse' },
+  { num: '02', title: 'Design & Konzeption', desc: 'Visuelle Lösungen entwickeln', slug: 'design' },
+  { num: '03', title: 'Produktion', desc: 'Präzise Fertigung', slug: 'produktion' },
+  { num: '04', title: 'Umsetzung & Montage', desc: 'Professionelle Installation', slug: 'umsetzung' },
+  { num: '05', title: 'Qualitätssicherung', desc: 'Kontrolle & Abnahme', slug: 'qualitaetssicherung' },
 ];
 
 const targetAudiences = [
