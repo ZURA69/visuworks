@@ -4,12 +4,14 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Car, Building2, Megaphone, Palette, CheckCircle2 } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
-import { getFeaturedProjects } from '../data/projects';
+import { getFeaturedProjects } from '../content/projects';
 import { ClientLogos } from '../components/ClientLogos';
 import { Statistics } from '../components/Statistics';
 import { Testimonials } from '../components/Testimonials';
 import { NewsletterSignup } from '../components/NewsletterSignup';
 import { SEOHead } from '../components/SEOHead';
+import { hero, ctaSection, processSteps, targetAudiences } from '../content/site';
+import images from '../content/images';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -25,35 +27,51 @@ const staggerContainer = {
   }
 };
 
+const serviceIcons = { Car, Building2, Megaphone, Palette };
+
 const services = [
   {
-    icon: Car,
+    icon: 'Car',
     title: 'Mobilität',
     description: 'Fahrzeugveredelung & Schutz',
     features: ['PPF & Schutzfolien', 'Flottenbranding', 'Teil-/Vollfolierung', 'Designentwicklung'],
     href: '/mobilitaet'
   },
   {
-    icon: Building2,
+    icon: 'Building2',
     title: 'Raum & Architektur',
     description: 'Markenräume und Oberflächen',
     features: ['Raumgestaltung', 'Architekturfolierung', 'Glas- & Sichtschutzfolien', 'Interior Branding'],
     href: '/architektur-raum'
   },
   {
-    icon: Megaphone,
+    icon: 'Megaphone',
     title: 'Markenkommunikation',
     description: 'Großformat, Systeme, Event',
     features: ['Großformatmedien', 'Werbesysteme', 'Event- & Messegrafik', 'POS-Systeme'],
     href: '/markenkommunikation'
   },
   {
-    icon: Palette,
+    icon: 'Palette',
     title: 'Design & Konzeption',
     description: 'Leitlinien, die sich umsetzen lassen',
     features: ['Designkonzepte', 'Visuelle Leitlinien', 'Produktionsvorbereitung', 'Markenbegleitung'],
     href: '/design-konzepte'
   }
+];
+
+const processSteps = [
+  { num: '01', title: 'Analyse & Zieldefinition', desc: 'Anforderungen verstehen', slug: 'analyse' },
+  { num: '02', title: 'Design & Konzeption', desc: 'Visuelle Lösungen entwickeln', slug: 'design' },
+  { num: '03', title: 'Produktion', desc: 'Präzise Fertigung', slug: 'produktion' },
+  { num: '04', title: 'Umsetzung & Montage', desc: 'Professionelle Installation', slug: 'umsetzung' },
+  { num: '05', title: 'Qualitätssicherung', desc: 'Kontrolle & Abnahme', slug: 'qualitaetssicherung' },
+];
+
+const targetAudiences = [
+  { title: 'Privatkunden', focus: 'Mobilität', items: ['Fahrzeugfolierung', 'Lackschutz', 'Individual-Design'] },
+  { title: 'Unternehmen', focus: 'Raum · Flotte · Event', items: ['Flottenbranding', 'Raumgestaltung', 'Messepräsenz'] },
+  { title: 'Agenturen & Partner', focus: 'Design + Umsetzung', items: ['Produktionspartner', 'Designentwicklung', 'Projektabwicklung'] },
 ];
 
 const processSteps = [
