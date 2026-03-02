@@ -4,6 +4,7 @@ import { Send, Phone, Mail, MapPin, CheckCircle } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
+import { SEOHead } from '../components/SEOHead';
 
 import { ContactService } from '../services/contactService';
 import { toast } from 'sonner';
@@ -94,7 +95,7 @@ export default function KontaktPage() {
 
   return (
     <div data-testid="kontakt-page" className="overflow-hidden">
-      
+      <SEOHead page="kontakt" />
 
       {/* Hero Section */}
       <section className="relative py-24 md:py-32">
