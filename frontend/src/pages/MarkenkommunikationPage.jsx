@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Megaphone, Image, Presentation, Store, Calendar, HelpCircle } from 'lucide-react';
 import { Button } from '../components/ui/button';
+import { SEOHead } from '../components/SEOHead';
 import { Card, CardContent } from '../components/ui/card';
 
 
@@ -45,6 +46,7 @@ const faqs = [
 export default function MarkenkommunikationPage() {
   return (
     <div data-testid="markenkommunikation-page" className="overflow-hidden">
+      <SEOHead page="markenkommunikation" />
       
       
       {/* Hero Section */}
