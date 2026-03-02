@@ -120,13 +120,20 @@ export default function HomePage() {
               </motion.div>
               {/* Tags */}
               <motion.div variants={fadeInUp} className="flex flex-wrap gap-3 pt-4">
-                {['B2B', 'Flotten', 'Messe/Event', 'Architektur', 'Design'].map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-4 py-1.5 text-xs font-medium text-white/60 bg-white/5 border border-white/10 rounded-full"
+                {[
+                  { label: 'B2B', href: '/projektmanagement' },
+                  { label: 'Flotten', href: '/mobilitaet' },
+                  { label: 'Messe/Event', href: '/markenkommunikation' },
+                  { label: 'Architektur', href: '/architektur-raum' },
+                  { label: 'Design', href: '/design-konzepte' },
+                ].map((tag) => (
+                  <Link
+                    key={tag.label}
+                    to={tag.href}
+                    className="px-4 py-1.5 text-xs font-medium text-white/60 bg-white/5 border border-white/10 rounded-full hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-200"
                   >
-                    {tag}
-                  </span>
+                    {tag.label}
+                  </Link>
                 ))}
               </motion.div>
             </motion.div>
