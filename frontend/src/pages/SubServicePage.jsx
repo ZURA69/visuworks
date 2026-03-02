@@ -4,7 +4,13 @@ import { motion } from 'framer-motion';
 import { ArrowRight, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { SEOHead } from '../components/SEOHead';
-import subservices from '../data/subservices';
+import subservices from '../content/services';
+
+// Re-import from content services (which re-exports from data)
+const getSubservice = (slug) => {
+  // Handle the import - subservices re-export gives us the object
+  return subservices[slug];
+};
 
 export default function SubServicePage() {
   const { slug } = useParams();
