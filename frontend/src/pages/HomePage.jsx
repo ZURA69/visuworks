@@ -122,7 +122,7 @@ export default function HomePage() {
               </motion.div>
             </motion.div>
 
-            {/* Right Image */}
+            {/app/frontend/public/images/Header_Porsche_HD.JPG}
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
