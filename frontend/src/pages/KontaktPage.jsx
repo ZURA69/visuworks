@@ -106,6 +106,18 @@ export default function KontaktPage() {
               className="lg:col-span-3"
             >
               <form onSubmit={handleSubmit} className="space-y-6" data-testid="contact-form" noValidate>
+                {/* Honeypot - hidden from users */}
+                <div className="absolute opacity-0 -z-10" aria-hidden="true" tabIndex={-1}>
+                  <input
+                    type="text"
+                    name="website"
+                    value={formData.website}
+                    onChange={handleChange}
+                    autoComplete="off"
+                    tabIndex={-1}
+                  />
+                </div>
+
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-white/70 mb-2">Name *</label>
