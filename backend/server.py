@@ -56,9 +56,6 @@ async def get_status_checks():
     status_checks = await db.status_checks.find().to_list(1000)
     return [StatusCheck(**status_check) for status_check in status_checks]
 
-# Include the router in the main app
-app.include_router(api_router)
-
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
@@ -196,6 +193,9 @@ async def submit_contact_form(data: ContactFormRequest, request: Request):
     except Exception as e:
         logger.error(f"Failed to send email: {str(e)}")
         raise HTTPException(status_code=500, detail="Fehler beim Senden der E-Mail. Bitte versuchen Sie es erneut.")
+
+# Include the router in the main app (must be after all routes are defined)
+app.include_router(api_router)
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
