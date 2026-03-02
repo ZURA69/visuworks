@@ -1,9 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { SEOHead } from '../components/SEOHead';
 
 export default function DatenschutzPage() {
   return (
     <div data-testid="datenschutz-page" className="overflow-hidden">
+      <SEOHead page="datenschutz" />
+      
       <section className="relative py-24 md:py-32">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-indigo-500/5 rounded-full blur-[100px]" />
