@@ -5,6 +5,8 @@ import { ArrowRight, Shield, Car, Palette, Users, HelpCircle } from 'lucide-reac
 import { Button } from '../components/ui/button';
 import { SEOHead } from '../components/SEOHead';
 import { Card, CardContent } from '../components/ui/card';
+import { servicePages } from '../content/services';
+import { processSteps } from '../content/site';
 
 
 const fadeInUp = {
@@ -13,33 +15,12 @@ const fadeInUp = {
   transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
 };
 
-const services = [
-  { icon: Shield, title: 'PPF & Schutzfolien', desc: 'Lackschutzfolie für langfristigen Werterhalt' },
-  { icon: Users, title: 'Flottenbranding', desc: 'Einheitliches Erscheinungsbild für Ihre Fahrzeugflotte' },
-  { icon: Car, title: 'Teil-/Vollfolierung', desc: 'Individuelle Fahrzeuggestaltung nach Ihren Wünschen' },
-  { icon: Palette, title: 'Designentwicklung', desc: 'Konzeption und Visualisierung Ihrer Fahrzeugprojekte' },
-];
+const pageContent = servicePages.mobilitaet;
+const services = pageContent.services;
+const projects = pageContent.projects;
+const faqs = pageContent.faqs;
 
-const projects = [
-  { id: 1, category: 'Flotte', title: 'Flottenbranding Logistik-Konzern', tags: ['50+ Fahrzeuge', 'Corporate Design'] },
-  { id: 2, category: 'Premium', title: 'PPF Porsche 911 GT3', tags: ['Vollschutz', 'Steinschlag'] },
-  { id: 3, category: 'Design', title: 'Designfolierung Mercedes-AMG', tags: ['Individuell', 'Matt-Finish'] },
-];
-
-const processSteps = [
-  { num: '01', title: 'Analyse & Zieldefinition' },
-  { num: '02', title: 'Design & Konzeption' },
-  { num: '03', title: 'Produktion' },
-  { num: '04', title: 'Umsetzung & Montage' },
-  { num: '05', title: 'Qualitätssicherung' },
-];
-
-const faqs = [
-  { q: 'Wie lange hält eine Fahrzeugfolierung?', a: 'Bei professioneller Pflege halten hochwertige Folien 5-7 Jahre. Wir verwenden ausschließlich Premium-Materialien führender Hersteller.' },
-  { q: 'Ist PPF auch für Neuwagen sinnvoll?', a: 'Besonders für Neuwagen empfehlenswert – Lackschutzfolie bewahrt den Originalzustand und steigert den Wiederverkaufswert.' },
-  { q: 'Welche Vorlaufzeit benötigen Sie?', a: 'Je nach Projektumfang 1-4 Wochen. Bei Flottenrojekten empfehlen wir frühzeitige Planung für optimale Koordination.' },
-  { q: 'Bieten Sie bundesweite Montage an?', a: 'Ja, wir realisieren Projekte europaweit. Bei größeren Aufträgen kommen unsere Teams vor Ort.' },
-];
+const serviceIcons = [Shield, Users, Car, Palette];
 
 export default function MobilitaetPage() {
   return (
