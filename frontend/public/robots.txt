@@ -1,0 +1,12 @@
+# VISUWORKS Robots.txt
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://visuworks.de/sitemap.xml
+
+# Crawl-delay (optional, für respektvolles Crawling)
+Crawl-delay: 1
+
+# Disallow admin and API routes
+Disallow: /api/
