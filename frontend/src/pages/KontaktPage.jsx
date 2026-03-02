@@ -4,6 +4,8 @@ import { Send, Phone, Mail, MapPin, CheckCircle } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
+import { SEOHead } from '../components/SEOHead';
+import { ContactService } from '../services/contactService';
 import { toast } from 'sonner';
 
 const serviceOptions = [
@@ -26,29 +28,32 @@ export default function KontaktPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
 
-  const validateForm = () => {
-    const newErrors = {};
-    if (!formData.name.trim()) newErrors.name = 'Name ist erforderlich';
-    if (!formData.email.trim()) {
-      newErrors.email = 'E-Mail ist erforderlich';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Bitte geben Sie eine gültige E-Mail ein';
-    }
-    if (!formData.message.trim()) newErrors.message = 'Nachricht ist erforderlich';
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
+    
+    // Validate using ContactService
+    const validation = ContactService.validate(formData);
+    if (!validation.isValid) {
+      setErrors(validation.errors);
+      return;
+    }
     
     setIsSubmitting(true);
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    toast.success('Anfrage erfolgreich gesendet!');
+    
+    try {
+      const result = await ContactService.submit(formData);
+      
+      if (result.success) {
+        setIsSubmitted(true);
+        toast.success(result.message);
+      } else {
+        toast.error(result.message);
+      }
+    } catch (error) {
+      toast.error('Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -62,6 +67,7 @@ export default function KontaktPage() {
   if (isSubmitted) {
     return (
       <div data-testid="kontakt-page" className="min-h-[80vh] flex items-center justify-center px-6">
+        <SEOHead page="kontakt" />
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -75,7 +81,10 @@ export default function KontaktPage() {
           <p className="text-white/60 mb-8">
             Ihre Anfrage ist bei uns eingegangen. Wir melden uns zeitnah bei Ihnen – in der Regel innerhalb von 24 Stunden.
           </p>
-          <Button onClick={() => setIsSubmitted(false)} variant="secondary">
+          <Button onClick={() => {
+            setIsSubmitted(false);
+            setFormData({ name: '', email: '', phone: '', service: '', message: '' });
+          }} variant="secondary">
             Neue Anfrage
           </Button>
         </motion.div>
@@ -85,6 +94,8 @@ export default function KontaktPage() {
 
   return (
     <div data-testid="kontakt-page" className="overflow-hidden">
+      <SEOHead page="kontakt" />
+
       {/* Hero Section */}
       <section className="relative py-24 md:py-32">
         <div className="absolute inset-0 overflow-hidden">
@@ -93,7 +104,7 @@ export default function KontaktPage() {
         </div>
 
         <div className="relative max-w-[1200px] mx-auto px-6 md:px-12">
-          <motion.div
+          <motion.header
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -106,7 +117,7 @@ export default function KontaktPage() {
             <p className="text-lg md:text-xl text-white/70">
               Kurze Infos reichen – wir melden uns mit Rückfragen oder einem konkreten Vorschlag.
             </p>
-          </motion.div>
+          </motion.header>
 
           <div className="grid lg:grid-cols-5 gap-12">
             {/* Contact Form */}
@@ -116,39 +127,48 @@ export default function KontaktPage() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="lg:col-span-3"
             >
-              <form onSubmit={handleSubmit} className="space-y-6" data-testid="contact-form">
+              <form onSubmit={handleSubmit} className="space-y-6" data-testid="contact-form" noValidate>
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-white/70 mb-2">Name *</label>
+                    <label htmlFor="name" className="block text-sm font-medium text-white/70 mb-2">Name *</label>
                     <Input
+                      id="name"
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
                       placeholder="Ihr Name"
                       data-testid="input-name"
+                      aria-required="true"
+                      aria-invalid={!!errors.name}
+                      aria-describedby={errors.name ? 'name-error' : undefined}
                       className={errors.name ? 'border-red-500/50' : ''}
                     />
-                    {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name}</p>}
+                    {errors.name && <p id="name-error" className="text-red-400 text-xs mt-1" role="alert">{errors.name}</p>}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-white/70 mb-2">E-Mail *</label>
+                    <label htmlFor="email" className="block text-sm font-medium text-white/70 mb-2">E-Mail *</label>
                     <Input
+                      id="email"
                       name="email"
                       type="email"
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="ihre@email.de"
                       data-testid="input-email"
+                      aria-required="true"
+                      aria-invalid={!!errors.email}
+                      aria-describedby={errors.email ? 'email-error' : undefined}
                       className={errors.email ? 'border-red-500/50' : ''}
                     />
-                    {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
+                    {errors.email && <p id="email-error" className="text-red-400 text-xs mt-1" role="alert">{errors.email}</p>}
                   </div>
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-white/70 mb-2">Telefon</label>
+                    <label htmlFor="phone" className="block text-sm font-medium text-white/70 mb-2">Telefon</label>
                     <Input
+                      id="phone"
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
@@ -157,8 +177,9 @@ export default function KontaktPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-white/70 mb-2">Welche Leistung?</label>
+                    <label htmlFor="service" className="block text-sm font-medium text-white/70 mb-2">Welche Leistung?</label>
                     <select
+                      id="service"
                       name="service"
                       value={formData.service}
                       onChange={handleChange}
@@ -176,17 +197,21 @@ export default function KontaktPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-white/70 mb-2">Ihre Nachricht *</label>
+                  <label htmlFor="message" className="block text-sm font-medium text-white/70 mb-2">Ihre Nachricht *</label>
                   <Textarea
+                    id="message"
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
                     placeholder="Beschreiben Sie kurz Ihr Projekt oder Ihre Anfrage..."
                     rows={5}
                     data-testid="input-message"
+                    aria-required="true"
+                    aria-invalid={!!errors.message}
+                    aria-describedby={errors.message ? 'message-error' : undefined}
                     className={errors.message ? 'border-red-500/50' : ''}
                   />
-                  {errors.message && <p className="text-red-400 text-xs mt-1">{errors.message}</p>}
+                  {errors.message && <p id="message-error" className="text-red-400 text-xs mt-1" role="alert">{errors.message}</p>}
                 </div>
 
                 <Button 
@@ -203,7 +228,7 @@ export default function KontaktPage() {
             </motion.div>
 
             {/* Contact Info */}
-            <motion.div
+            <motion.aside
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -211,27 +236,27 @@ export default function KontaktPage() {
             >
               <div className="rounded-[22px] bg-[#0A0C14] border border-white/10 p-8 space-y-8">
                 <div>
-                  <h3 className="text-lg font-bold mb-6">Direkt erreichen</h3>
-                  <div className="space-y-4">
+                  <h2 className="text-lg font-bold mb-6">Direkt erreichen</h2>
+                  <address className="not-italic space-y-4">
                     <a href="mailto:info@visuworks.de" className="flex items-center gap-4 text-white/70 hover:text-white transition-colors group">
                       <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-white/20 transition-colors">
-                        <Mail className="w-5 h-5" />
+                        <Mail className="w-5 h-5" aria-hidden="true" />
                       </div>
                       <span>info@visuworks.de</span>
                     </a>
                     <a href="tel:+4921112345678" className="flex items-center gap-4 text-white/70 hover:text-white transition-colors group">
                       <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-white/20 transition-colors">
-                        <Phone className="w-5 h-5" />
+                        <Phone className="w-5 h-5" aria-hidden="true" />
                       </div>
                       <span>+49 211 123 456 78</span>
                     </a>
                     <div className="flex items-center gap-4 text-white/70">
                       <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
-                        <MapPin className="w-5 h-5" />
+                        <MapPin className="w-5 h-5" aria-hidden="true" />
                       </div>
                       <span>Düsseldorf</span>
                     </div>
-                  </div>
+                  </address>
                 </div>
 
                 <div className="pt-6 border-t border-white/10">
@@ -240,7 +265,7 @@ export default function KontaktPage() {
                   </p>
                 </div>
               </div>
-            </motion.div>
+            </motion.aside>
           </div>
         </div>
       </section>
