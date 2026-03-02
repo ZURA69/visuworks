@@ -7,7 +7,7 @@ import { Tabs, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { SEOHead } from '../components/SEOHead';
 import { ProjectGridSkeleton } from '../components/Skeleton';
 
-import { projects, categories } from '../data/projects';
+import { projects, categories } from '../content/projects';
 
 export default function ProjektePage() {
   const [activeCategory, setActiveCategory] = useState('alle');
