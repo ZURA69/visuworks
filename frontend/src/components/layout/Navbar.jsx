@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ChevronDown, ChevronRight, ArrowRight } from 'lucide-react';
-import { navStructure, allLeistungenPaths } from '../../data/navigation';
+import { navStructure, allLeistungenPaths } from '../../content/services';
 
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
