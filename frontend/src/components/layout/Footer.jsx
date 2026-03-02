@@ -2,33 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Linkedin, Instagram, Facebook, Youtube, ArrowRight } from 'lucide-react';
 import { NewsletterSignup } from '../NewsletterSignup';
+import { company, footerNav } from '../../content/site';
 
-const navigation = {
-  services: [
-    { name: 'Mobilität', href: '/mobilitaet' },
-    { name: 'Raum & Architektur', href: '/architektur-raum' },
-    { name: 'Markenkommunikation', href: '/markenkommunikation' },
-    { name: 'Design & Konzeption', href: '/design-konzepte' },
-    { name: 'Projektmanagement', href: '/projektmanagement' },
-  ],
-  company: [
-    { name: 'Projekte', href: '/projekte' },
-    { name: 'Team', href: '/team' },
-    { name: 'Kontakt', href: '/kontakt' },
-  ],
-  legal: [
-    { name: 'Impressum', href: '/impressum' },
-    { name: 'Datenschutz', href: '/datenschutz' },
-    { name: 'AGB', href: '/agb' },
-  ],
-};
-
-const socialLinks = [
-  { name: 'LinkedIn', icon: Linkedin, href: 'https://linkedin.com/company/visuworks' },
-  { name: 'Instagram', icon: Instagram, href: 'https://instagram.com/visuworks' },
-  { name: 'Facebook', icon: Facebook, href: 'https://facebook.com/visuworks' },
-  { name: 'YouTube', icon: Youtube, href: 'https://youtube.com/@visuworks' },
-];
+const socialIcons = { LinkedIn: Linkedin, Instagram, Facebook, YouTube: Youtube };
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -41,11 +17,10 @@ export const Footer = () => {
           {/* Brand & Newsletter */}
           <div className="col-span-2 lg:col-span-2">
             <Link to="/" className="inline-block mb-6">
-              <span className="text-2xl font-bold tracking-tight">VISUWORKS</span>
+              <span className="text-2xl font-bold tracking-tight">{company.name}</span>
             </Link>
             <p className="text-sm text-white/50 mb-6 max-w-sm">
-              Premium visuelle Marken- und Oberflächenlösungen für Mobilität, 
-              Architektur und Kommunikation – europaweit umgesetzt.
+              {company.description}
             </p>
             
             {/* Newsletter Compact */}
