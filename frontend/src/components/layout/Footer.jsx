@@ -53,7 +53,7 @@ export const Footer = () => {
               Leistungen
             </h3>
             <ul className="space-y-3">
-              {navigation.services.map((item) => (
+              {footerNav.services.map((item) => (
                 <li key={item.name}>
                   <Link
                     to={item.href}
@@ -72,7 +72,7 @@ export const Footer = () => {
               Unternehmen
             </h3>
             <ul className="space-y-3">
-              {navigation.company.map((item) => (
+              {footerNav.company.map((item) => (
                 <li key={item.name}>
                   <Link
                     to={item.href}
@@ -102,7 +102,7 @@ export const Footer = () => {
               Rechtliches
             </h3>
             <ul className="space-y-3">
-              {navigation.legal.map((item) => (
+              {footerNav.legal.map((item) => (
                 <li key={item.name}>
                   <Link
                     to={item.href}
