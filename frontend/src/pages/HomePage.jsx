@@ -300,11 +300,17 @@ export default function HomePage() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="relative"
               >
-                <div className="p-6 rounded-[20px] bg-white/[0.02] border border-white/10 h-full">
-                  <span className="text-4xl font-bold text-white/10">{step.num}</span>
-                  <h3 className="text-lg font-bold mt-4 mb-2">{step.title}</h3>
-                  <p className="text-sm text-white/50">{step.desc}</p>
-                </div>
+                <Link to={`/prozess/${step.slug}`}>
+                  <div className="p-6 rounded-[20px] bg-white/[0.02] border border-white/10 h-full hover:border-white/20 hover:-translate-y-1 transition-all duration-300 group cursor-pointer">
+                    <span className="text-4xl font-bold text-white/10">{step.num}</span>
+                    <h3 className="text-lg font-bold mt-4 mb-2 group-hover:text-white transition-colors">{step.title}</h3>
+                    <p className="text-sm text-white/50">{step.desc}</p>
+                    <div className="mt-3 flex items-center gap-1 text-xs font-medium text-indigo-400/70 group-hover:text-indigo-400 transition-colors">
+                      Mehr erfahren
+                      <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
+                </Link>
                 {index < processSteps.length - 1 && (
                   <div className="hidden lg:block absolute top-1/2 -right-3 w-6 h-px bg-white/10" />
                 )}
