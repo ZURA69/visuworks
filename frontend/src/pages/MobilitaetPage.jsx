@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, Shield, Car, Palette, Users, CheckCircle2, HelpCircle } from 'lucide-react';
+import { ArrowRight, Shield, Car, Palette, Users, HelpCircle } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
+import { SEOHead } from '../components/SEOHead';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
