@@ -38,6 +38,7 @@ function App() {
           <Route path="/projekte" element={<ProjektePage />} />
           <Route path="/projekte/:slug" element={<CaseStudyPage />} />
           <Route path="/kontakt" element={<KontaktPage />} />
+          <Route path="/team" element={<TeamPage />} />
           <Route path="/impressum" element={<ImpressumPage />} />
           <Route path="/datenschutz" element={<DatenschutzPage />} />
           <Route path="/agb" element={<AGBPage />} />
