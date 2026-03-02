@@ -350,8 +350,17 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Statistics Section */}
+      <Statistics />
+
+      {/* Testimonials Section */}
+      <Testimonials className="bg-white/[0.02]" />
+
+      {/* Newsletter Section */}
+      <NewsletterSignup />
+
       {/* CTA Section */}
-      <section data-testid="cta-section" className="py-24 md:py-32">
+      <section data-testid="cta-section" className="py-24 md:py-32 bg-white/[0.02]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
