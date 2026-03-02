@@ -66,32 +66,8 @@ export default function KontaktPage() {
     }
   };
 
-  if (isSubmitted) {
-    return (
-      <div data-testid="kontakt-page" className="min-h-[80vh] flex items-center justify-center px-6">
-        
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="text-center max-w-md"
-        >
-          <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-green-500/10 border border-green-500/20 flex items-center justify-center">
-            <CheckCircle className="w-10 h-10 text-green-400" />
-          </div>
-          <h1 className="text-3xl font-bold mb-4">Vielen Dank!</h1>
-          <p className="text-white/60 mb-8">
-            Ihre Anfrage ist bei uns eingegangen. Wir melden uns zeitnah bei Ihnen – in der Regel innerhalb von 24 Stunden.
-          </p>
-          <Button onClick={() => {
-            setIsSubmitted(false);
-            setFormData({ name: '', email: '', phone: '', service: '', message: '' });
-          }} variant="secondary">
-            Neue Anfrage
-          </Button>
-        </motion.div>
-      </div>
-    );
+  if (false) {
+    // Removed: redirect to /danke page instead
   }
 
   return (
