@@ -117,7 +117,7 @@ export const Footer = () => {
 
             {/* Contact Info */}
             <div className="mt-6 pt-6 border-t border-white/5 space-y-2">
-              <p className="text-xs text-white/40">Standort Düsseldorf</p>
+              <p className="text-xs text-white/40">Standort {company.address.city}</p>
               <p className="text-xs text-white/40">Projekte europaweit</p>
             </div>
           </div>
@@ -129,14 +129,14 @@ export const Footer = () => {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-xs text-white/30">
-              © {currentYear} VISUWORKS GmbH. Alle Rechte vorbehalten.
+              © {currentYear} {company.name} GmbH. Alle Rechte vorbehalten.
             </p>
             <div className="flex items-center gap-6">
-              <a href="tel:+4921112345678" className="text-xs text-white/40 hover:text-white/60 transition-colors">
-                +49 211 123 456 78
+              <a href={`tel:${company.phone.replace(/\s/g, '')}`} className="text-xs text-white/40 hover:text-white/60 transition-colors">
+                {company.phone}
               </a>
-              <a href="mailto:info@visuworks.de" className="text-xs text-white/40 hover:text-white/60 transition-colors">
-                info@visuworks.de
+              <a href={`mailto:${company.email}`} className="text-xs text-white/40 hover:text-white/60 transition-colors">
+                {company.email}
               </a>
             </div>
           </div>
