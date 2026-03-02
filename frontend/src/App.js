@@ -20,6 +20,7 @@ import ImpressumPage from "./pages/ImpressumPage";
 import DatenschutzPage from "./pages/DatenschutzPage";
 import AGBPage from "./pages/AGBPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import ProcessStepPage from "./pages/ProcessStepPage";
 
 import "./App.css";
 
@@ -42,6 +43,7 @@ function App() {
           <Route path="/impressum" element={<ImpressumPage />} />
           <Route path="/datenschutz" element={<DatenschutzPage />} />
           <Route path="/agb" element={<AGBPage />} />
+          <Route path="/prozess/:slug" element={<ProcessStepPage />} />
           {/* 404 - Must be last */}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
