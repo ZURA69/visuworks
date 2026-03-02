@@ -5,6 +5,10 @@ import { ArrowRight, Car, Building2, Megaphone, Palette, CheckCircle2 } from 'lu
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
 import { getFeaturedProjects } from '../data/projects';
+import { ClientLogos } from '../components/ClientLogos';
+import { Statistics } from '../components/Statistics';
+import { Testimonials } from '../components/Testimonials';
+import { NewsletterSignup } from '../components/NewsletterSignup';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
