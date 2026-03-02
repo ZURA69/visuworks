@@ -68,80 +68,63 @@ export default function HomePage() {
       <SEOHead page="home" />
       {/* Hero Section */}
       <section data-testid="hero-section" className="relative min-h-[85vh] md:min-h-[90vh] flex items-center" aria-label="Hero">
-        {/* Background Glow */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-[120px]" />
-          <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-[100px]" />
-        </div>
+        {/* Background Image */}
+        {images.hero.src && (
+          <img
+            src={images.hero.src}
+            alt={images.hero.alt}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        )}
+        {/* Dark Overlay for readability */}
+        <div className="absolute inset-0 bg-[#070910]/70" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#070910] via-[#070910]/40 to-[#070910]/60" />
 
         <div className="relative max-w-[1200px] mx-auto px-6 md:px-12 py-24 md:py-32">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            {/* Left Content */}
-            <motion.div
-              initial="initial"
-              animate="animate"
-              variants={staggerContainer}
-              className="space-y-8"
+          <motion.div
+            initial="initial"
+            animate="animate"
+            variants={staggerContainer}
+            className="max-w-3xl space-y-8"
+          >
+            <motion.h1
+              variants={fadeInUp}
+              className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1]"
             >
-              <motion.h1
-                variants={fadeInUp}
-                className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1]"
-              >
-                {hero.headline}
-              </motion.h1>
-              <motion.p
-                variants={fadeInUp}
-                className="text-lg md:text-xl text-white/70 max-w-xl leading-relaxed"
-              >
-                {hero.subline}
-              </motion.p>
-              <motion.div variants={fadeInUp} className="flex flex-wrap gap-4">
-                <Link to={hero.ctaPrimary.href}>
-                  <Button data-testid="hero-cta-primary" size="lg">
-                    {hero.ctaPrimary.label}
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </Link>
-                <Link to={hero.ctaSecondary.href}>
-                  <Button data-testid="hero-cta-secondary" variant="secondary" size="lg">
-                    {hero.ctaSecondary.label}
-                  </Button>
-                </Link>
-              </motion.div>
-              {/* Tags */}
-              <motion.div variants={fadeInUp} className="flex flex-wrap gap-3 pt-4">
-                {hero.tags.map((tag) => (
-                  <Link
-                    key={tag.label}
-                    to={tag.href}
-                    className="px-4 py-1.5 text-xs font-medium text-white/60 bg-white/5 border border-white/10 rounded-full hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-200"
-                  >
-                    {tag.label}
-                  </Link>
-                ))}
-              </motion.div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative"
+              {hero.headline}
+            </motion.h1>
+            <motion.p
+              variants={fadeInUp}
+              className="text-lg md:text-xl text-white/80 max-w-xl leading-relaxed"
             >
-              <div className="aspect-[4/3] rounded-[28px] overflow-hidden bg-gradient-to-br from-white/5 to-white/0 border border-white/10">
-                {images.hero.src ? (
-                  <img
-                    src={images.hero.src}
-                    alt={images.hero.alt}
-                    className="absolute inset-0 w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 via-transparent to-purple-500/20" />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#070910]/60 via-transparent to-transparent" />
-              </div>
+              {hero.subline}
+            </motion.p>
+            <motion.div variants={fadeInUp} className="flex flex-wrap gap-4">
+              <Link to={hero.ctaPrimary.href}>
+                <Button data-testid="hero-cta-primary" size="lg">
+                  {hero.ctaPrimary.label}
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
+              <Link to={hero.ctaSecondary.href}>
+                <Button data-testid="hero-cta-secondary" variant="secondary" size="lg">
+                  {hero.ctaSecondary.label}
+                </Button>
+              </Link>
             </motion.div>
-          </div>
+            {/* Tags */}
+            <motion.div variants={fadeInUp} className="flex flex-wrap gap-3 pt-4">
+              {hero.tags.map((tag) => (
+                <Link
+                  key={tag.label}
+                  to={tag.href}
+                  className="px-4 py-1.5 text-xs font-medium text-white/70 bg-white/10 border border-white/15 rounded-full hover:text-white hover:bg-white/15 hover:border-white/25 transition-all duration-200 backdrop-blur-sm"
+                >
+                  {tag.label}
+                </Link>
+              ))}
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
