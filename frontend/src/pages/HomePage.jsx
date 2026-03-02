@@ -101,36 +101,30 @@ export default function HomePage() {
                 variants={fadeInUp}
                 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1]"
               >
-                Präsenz in ihrer stärksten Form.
+                {hero.headline}
               </motion.h1>
               <motion.p
                 variants={fadeInUp}
                 className="text-lg md:text-xl text-white/70 max-w-xl leading-relaxed"
               >
-                Visuelle Marken- und Oberflächenlösungen für Mobilität, Architektur und Kommunikation – europaweit umgesetzt.
+                {hero.subline}
               </motion.p>
               <motion.div variants={fadeInUp} className="flex flex-wrap gap-4">
-                <Link to="/kontakt">
+                <Link to={hero.ctaPrimary.href}>
                   <Button data-testid="hero-cta-primary" size="lg">
-                    Projekt starten
+                    {hero.ctaPrimary.label}
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
-                <Link to="/projekte">
+                <Link to={hero.ctaSecondary.href}>
                   <Button data-testid="hero-cta-secondary" variant="secondary" size="lg">
-                    Referenzen ansehen
+                    {hero.ctaSecondary.label}
                   </Button>
                 </Link>
               </motion.div>
               {/* Tags */}
               <motion.div variants={fadeInUp} className="flex flex-wrap gap-3 pt-4">
-                {[
-                  { label: 'B2B', href: '/projektmanagement' },
-                  { label: 'Flotten', href: '/mobilitaet' },
-                  { label: 'Messe/Event', href: '/markenkommunikation' },
-                  { label: 'Architektur', href: '/architektur-raum' },
-                  { label: 'Design', href: '/design-konzepte' },
-                ].map((tag) => (
+                {hero.tags.map((tag) => (
                   <Link
                     key={tag.label}
                     to={tag.href}
