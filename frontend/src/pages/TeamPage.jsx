@@ -58,7 +58,7 @@ const values = [
 export default function TeamPage() {
   return (
     <div data-testid="team-page" className="overflow-hidden">
-      <SEOHead page="home" customTitle="Team | VISUWORKS" customDescription="Das Team hinter VISUWORKS – Experten aus Design, Produktion und Projektmanagement." />
+      <SEOHead page="team" />
       {/* Hero Section */}
       <section className="relative py-24 md:py-32">
         <div className="absolute inset-0 overflow-hidden">
