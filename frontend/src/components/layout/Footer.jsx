@@ -13,6 +13,7 @@ const navigation = {
   ],
   company: [
     { name: 'Projekte', href: '/projekte' },
+    { name: 'Team', href: '/team' },
     { name: 'Kontakt', href: '/kontakt' },
   ],
   legal: [
