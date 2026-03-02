@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { HelmetProvider } from "react-helmet-async";
 import { Toaster } from "./components/ui/sonner";
 import { Layout } from "./components/layout/Layout";
 import { ScrollProgress } from "./components/ScrollProgress";
@@ -26,7 +25,6 @@ import "./App.css";
 
 function App() {
   return (
-    <HelmetProvider>
     <BrowserRouter>
       <ScrollProgress />
       <Layout>
@@ -52,7 +50,6 @@ function App() {
       <CookieBanner />
       <Toaster position="bottom-right" />
     </BrowserRouter>
-    </HelmetProvider>
   );
 }
 
