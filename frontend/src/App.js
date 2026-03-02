@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 import { Toaster } from "./components/ui/sonner";
 import { Layout } from "./components/layout/Layout";
 import { ScrollProgress } from "./components/ScrollProgress";
