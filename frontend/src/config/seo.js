@@ -63,6 +63,11 @@ export const seoConfig = {
       title: 'AGB | VISUWORKS',
       description: 'Allgemeine Geschäftsbedingungen der VISUWORKS GmbH für Dienstleistungen im Bereich visuelle Marken- und Oberflächenlösungen.',
       canonical: '/agb'
+    },
+    team: {
+      title: 'Team | VISUWORKS',
+      description: 'Das Team hinter VISUWORKS – Experten aus Design, Produktion und Projektmanagement, vereint in der Leidenschaft für visuelle Exzellenz.',
+      canonical: '/team'
     }
   }
 };
