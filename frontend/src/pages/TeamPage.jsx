@@ -4,56 +4,8 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Linkedin, Mail, Users } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { SEOHead } from '../components/SEOHead';
-
-const team = [
-  {
-    name: 'Max Mustermann',
-    role: 'Geschäftsführer',
-    bio: '15+ Jahre Erfahrung in der visuellen Markenführung. Verantwortlich für Strategie und Kundenbeziehungen.',
-    linkedin: 'https://linkedin.com/',
-    email: 'max@visuworks.de',
-  },
-  {
-    name: 'Anna Schmidt',
-    role: 'Leiterin Design',
-    bio: 'Kreativdirektorin mit Fokus auf Markenentwicklung und konzeptionelle Gestaltung.',
-    linkedin: 'https://linkedin.com/',
-    email: 'anna@visuworks.de',
-  },
-  {
-    name: 'Thomas Weber',
-    role: 'Leiter Produktion',
-    bio: 'Experte für Großformatdruck und Folierungstechnik. Qualitätssicherung und Prozessoptimierung.',
-    linkedin: 'https://linkedin.com/',
-    email: 'thomas@visuworks.de',
-  },
-  {
-    name: 'Sarah Müller',
-    role: 'Projektmanagement',
-    bio: 'Koordination komplexer Projekte mit Fokus auf termingerechte Umsetzung und Kundenzufriedenheit.',
-    linkedin: 'https://linkedin.com/',
-    email: 'sarah@visuworks.de',
-  },
-];
-
-const values = [
-  {
-    title: 'Präzision',
-    description: 'Jedes Detail zählt. Wir arbeiten mit höchster Sorgfalt und Genauigkeit.',
-  },
-  {
-    title: 'Partnerschaft',
-    description: 'Langfristige Beziehungen statt einmaliger Aufträge. Wir wachsen mit unseren Kunden.',
-  },
-  {
-    title: 'Innovation',
-    description: 'Neue Materialien, Techniken und Ideen. Wir bleiben am Puls der Zeit.',
-  },
-  {
-    title: 'Verlässlichkeit',
-    description: 'Was wir zusagen, halten wir. Termintreue und Qualität sind für uns selbstverständlich.',
-  },
-];
+import { team, values, company } from '../content/site';
+import { getTeamImage } from '../content/images';
 
 export default function TeamPage() {
   return (
