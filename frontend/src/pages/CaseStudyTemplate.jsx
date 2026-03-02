@@ -17,13 +17,6 @@ export const CaseStudyTemplate = ({ project }) => {
 
   return (
     <div data-testid="case-study-page" className="overflow-hidden">
-      <SEOHead 
-        page="projekte"
-        title={`${project.title} | Case Study | VISUWORKS`}
-        description={project.shortDesc}
-        canonical={`/projekte/${project.slug}`}
-      />
-
       {/* Hero Section */}
       <section className="relative min-h-[60vh] flex items-end pb-16">
         <div className="absolute inset-0 overflow-hidden">
