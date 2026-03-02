@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { HelmetProvider } from "react-helmet-async";
 import { Toaster } from "./components/ui/sonner";
 import { Layout } from "./components/layout/Layout";
 import { ScrollProgress } from "./components/ScrollProgress";
@@ -22,28 +21,26 @@ import "./App.css";
 
 function App() {
   return (
-    <HelmetProvider>
-      <BrowserRouter>
-        <ScrollProgress />
-        <Layout>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/mobilitaet" element={<MobilitaetPage />} />
-            <Route path="/architektur-raum" element={<ArchitekturRaumPage />} />
-            <Route path="/markenkommunikation" element={<MarkenkommunikationPage />} />
-            <Route path="/design-konzepte" element={<DesignKonzeptePage />} />
-            <Route path="/projektmanagement" element={<ProjektmanagementPage />} />
-            <Route path="/projekte" element={<ProjektePage />} />
-            <Route path="/projekte/:slug" element={<CaseStudyPage />} />
-            <Route path="/kontakt" element={<KontaktPage />} />
-            <Route path="/impressum" element={<ImpressumPage />} />
-            <Route path="/datenschutz" element={<DatenschutzPage />} />
-            <Route path="/agb" element={<AGBPage />} />
-          </Routes>
-        </Layout>
-        <Toaster position="bottom-right" />
-      </BrowserRouter>
-    </HelmetProvider>
+    <BrowserRouter>
+      <ScrollProgress />
+      <Layout>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/mobilitaet" element={<MobilitaetPage />} />
+          <Route path="/architektur-raum" element={<ArchitekturRaumPage />} />
+          <Route path="/markenkommunikation" element={<MarkenkommunikationPage />} />
+          <Route path="/design-konzepte" element={<DesignKonzeptePage />} />
+          <Route path="/projektmanagement" element={<ProjektmanagementPage />} />
+          <Route path="/projekte" element={<ProjektePage />} />
+          <Route path="/projekte/:slug" element={<CaseStudyPage />} />
+          <Route path="/kontakt" element={<KontaktPage />} />
+          <Route path="/impressum" element={<ImpressumPage />} />
+          <Route path="/datenschutz" element={<DatenschutzPage />} />
+          <Route path="/agb" element={<AGBPage />} />
+        </Routes>
+      </Layout>
+      <Toaster position="bottom-right" />
+    </BrowserRouter>
   );
 }
 
