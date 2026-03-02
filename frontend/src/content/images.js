@@ -7,8 +7,8 @@
 const images = {
   // ── Hero ──
   hero: {
-    src: null, // z. B. '/images/hero.webp'
-    alt: 'VISUWORKS Projektarbeit',
+    src: '/images/Header_Porsche_HD.JPG',
+    alt: 'VISUWORKS Projektarbeit – Porsche Fahrzeugveredelung',
     aspectRatio: '4/3',
   },
 

@@ -37,7 +37,8 @@ Documentation: `/frontend/README-CONTENT.md` — full guide for content updates
 
 ## Prioritized Backlog
 ### P0
-- [ ] Integrate real project images (5 uploaded, pending)
+- [x] Integrate real project images (5 uploaded, integrated via content layer)
+- [x] Hero image integrated (Header_Porsche_HD.JPG)
 - [ ] Performance: lazy loading, code splitting, Lighthouse >90
 - [ ] Activate Resend API key
 
@@ -54,4 +55,4 @@ Documentation: `/frontend/README-CONTENT.md` — full guide for content updates
 - Chat widget: external links only
 - Client logos: placeholder text (no images)
 - Contact form: works in DEV MODE (no Resend API key)
-- All images in images.js: null (placeholders)
+- Most images in images.js: null (placeholders) — hero image now active

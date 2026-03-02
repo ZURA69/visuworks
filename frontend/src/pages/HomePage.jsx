@@ -122,7 +122,6 @@ export default function HomePage() {
               </motion.div>
             </motion.div>
 
-            {/app/frontend/public/images/Header_Porsche_HD.JPG}
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -130,15 +129,16 @@ export default function HomePage() {
               className="relative"
             >
               <div className="aspect-[4/3] rounded-[28px] overflow-hidden bg-gradient-to-br from-white/5 to-white/0 border border-white/10">
-                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 via-transparent to-purple-500/20" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center p-8">
-                    <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
-                      <Palette className="w-10 h-10 text-white/40" />
-                    </div>
-                    <p className="text-white/40 text-sm">Premium Showcase</p>
-                  </div>
-                </div>
+                {images.hero.src ? (
+                  <img
+                    src={images.hero.src}
+                    alt={images.hero.alt}
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 via-transparent to-purple-500/20" />
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#070910]/60 via-transparent to-transparent" />
               </div>
             </motion.div>
           </div>
