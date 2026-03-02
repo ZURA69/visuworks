@@ -60,20 +60,6 @@ const services = [
   }
 ];
 
-const processSteps = [
-  { num: '01', title: 'Analyse & Zieldefinition', desc: 'Anforderungen verstehen', slug: 'analyse' },
-  { num: '02', title: 'Design & Konzeption', desc: 'Visuelle Lösungen entwickeln', slug: 'design' },
-  { num: '03', title: 'Produktion', desc: 'Präzise Fertigung', slug: 'produktion' },
-  { num: '04', title: 'Umsetzung & Montage', desc: 'Professionelle Installation', slug: 'umsetzung' },
-  { num: '05', title: 'Qualitätssicherung', desc: 'Kontrolle & Abnahme', slug: 'qualitaetssicherung' },
-];
-
-const targetAudiences = [
-  { title: 'Privatkunden', focus: 'Mobilität', items: ['Fahrzeugfolierung', 'Lackschutz', 'Individual-Design'] },
-  { title: 'Unternehmen', focus: 'Raum · Flotte · Event', items: ['Flottenbranding', 'Raumgestaltung', 'Messepräsenz'] },
-  { title: 'Agenturen & Partner', focus: 'Design + Umsetzung', items: ['Produktionspartner', 'Designentwicklung', 'Projektabwicklung'] },
-];
-
 export default function HomePage() {
   const featuredProjects = getFeaturedProjects().slice(0, 6);
   
