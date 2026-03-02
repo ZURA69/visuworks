@@ -23,6 +23,7 @@ import AGBPage from "./pages/AGBPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ProcessStepPage from "./pages/ProcessStepPage";
 import DankePage from "./pages/DankePage";
+import SubServicePage from "./pages/SubServicePage";
 
 import "./App.css";
 
@@ -35,8 +36,11 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/mobilitaet" element={<MobilitaetPage />} />
+          <Route path="/mobilitaet/:slug" element={<SubServicePage />} />
           <Route path="/architektur-raum" element={<ArchitekturRaumPage />} />
+          <Route path="/architektur-raum/:slug" element={<SubServicePage />} />
           <Route path="/markenkommunikation" element={<MarkenkommunikationPage />} />
+          <Route path="/markenkommunikation/:slug" element={<SubServicePage />} />
           <Route path="/design-konzepte" element={<DesignKonzeptePage />} />
           <Route path="/projektmanagement" element={<ProjektmanagementPage />} />
           <Route path="/projekte" element={<ProjektePage />} />
