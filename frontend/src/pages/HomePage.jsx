@@ -229,7 +229,7 @@ export default function HomePage() {
           </motion.div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projects.map((project, index) => (
+            {featuredProjects.map((project, index) => (
               <motion.div
                 key={project.id}
                 initial={{ opacity: 0, y: 30 }}
@@ -237,14 +237,14 @@ export default function HomePage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.08 }}
               >
-                <Link to="/projekte">
-                  <div data-testid={`project-tile-${project.id}`} className="group relative aspect-[4/3] rounded-[20px] overflow-hidden bg-[#0A0C14] border border-white/10 hover:border-white/20 transition-all duration-300">
+                <Link to={`/projekte/${project.slug}`}>
+                  <div data-testid={`project-tile-${project.id}`} className="group relative aspect-[4/3] rounded-[20px] overflow-hidden bg-[#0A0C14] border border-white/10 hover:border-white/20 hover:-translate-y-1 transition-all duration-300">
                     <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-transparent to-purple-500/10 group-hover:from-indigo-500/20 group-hover:to-purple-500/20 transition-all duration-500" />
                     <div className="absolute inset-0 flex flex-col justify-end p-6">
                       <span className="text-xs font-medium text-indigo-300/80 uppercase tracking-wider mb-2">{project.category}</span>
                       <h3 className="text-lg font-bold mb-3">{project.title}</h3>
                       <div className="flex flex-wrap gap-2">
-                        {project.tags.map((tag) => (
+                        {project.tags.slice(0, 2).map((tag) => (
                           <span key={tag} className="px-2.5 py-1 text-xs text-white/50 bg-white/5 rounded-full">
                             {tag}
                           </span>
