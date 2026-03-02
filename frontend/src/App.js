@@ -15,6 +15,7 @@ import ProjektmanagementPage from "./pages/ProjektmanagementPage";
 import ProjektePage from "./pages/ProjektePage";
 import CaseStudyPage from "./pages/CaseStudyPage";
 import KontaktPage from "./pages/KontaktPage";
+import TeamPage from "./pages/TeamPage";
 import ImpressumPage from "./pages/ImpressumPage";
 import DatenschutzPage from "./pages/DatenschutzPage";
 import AGBPage from "./pages/AGBPage";
