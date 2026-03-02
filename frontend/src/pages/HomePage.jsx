@@ -194,7 +194,7 @@ export default function HomePage() {
                     <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <CardContent className="relative p-0 space-y-6">
                       <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
-                        <service.icon className="w-7 h-7 text-white/70" />
+                        {React.createElement(serviceIcons[service.icon], { className: 'w-7 h-7 text-white/70' })}
                       </div>
                       <div>
                         <h3 className="text-2xl font-bold mb-2">{service.title}</h3>
@@ -388,27 +388,19 @@ export default function HomePage() {
 
             <div className="relative text-center max-w-2xl mx-auto">
               <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">
-                Projekt besprechen?
+                {ctaSection.headline}
               </h2>
               <p className="text-lg text-white/60 mb-10">
-                Lassen Sie uns über Ihr Projekt sprechen – unverbindlich und persönlich.
+                {ctaSection.subline}
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Link to="/kontakt">
-                  <Button data-testid="cta-discuss" size="lg">
-                    Projekt besprechen
-                  </Button>
-                </Link>
-                <Link to="/kontakt">
-                  <Button data-testid="cta-quote" variant="secondary" size="lg">
-                    Angebot anfordern
-                  </Button>
-                </Link>
-                <Link to="/kontakt">
-                  <Button data-testid="cta-consult" variant="secondary" size="lg">
-                    Beratung vereinbaren
-                  </Button>
-                </Link>
+                {ctaSection.buttons.map((btn, i) => (
+                  <Link key={i} to={btn.href}>
+                    <Button data-testid={`cta-btn-${i}`} size="lg" variant={btn.variant}>
+                      {btn.label}
+                    </Button>
+                  </Link>
+                ))}
               </div>
             </div>
           </motion.div>
