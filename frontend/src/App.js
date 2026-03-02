@@ -26,6 +26,7 @@ import "./App.css";
 
 function App() {
   return (
+    <HelmetProvider>
     <BrowserRouter>
       <ScrollProgress />
       <Layout>
@@ -51,6 +52,7 @@ function App() {
       <CookieBanner />
       <Toaster position="bottom-right" />
     </BrowserRouter>
+    </HelmetProvider>
   );
 }
 
