@@ -43,8 +43,10 @@ const faqs = [
 export default function MobilitaetPage() {
   return (
     <div data-testid="mobilitaet-page" className="overflow-hidden">
+      <SEOHead page="mobilitaet" />
+      
       {/* Hero Section */}
-      <section className="relative min-h-[70vh] flex items-center">
+      <section className="relative min-h-[65vh] md:min-h-[70vh] flex items-center" aria-label="Hero">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[120px]" />
           <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-[100px]" />
