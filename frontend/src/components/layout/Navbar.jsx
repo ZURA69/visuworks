@@ -217,9 +217,9 @@ export const Navbar = () => {
 
                   {/* CTA bar */}
                   <div className="border-t border-white/[0.06] px-5 py-3 flex items-center justify-between">
-                    <p className="text-xs text-white/40">Alle Leistungen auch als Komplettpaket verfügbar</p>
+                    <p className="text-xs text-white/40">{isDE ? t.nav.alleLeistungen.de : t.nav.alleLeistungen.en}</p>
                     <Link to="/kontakt" className="flex items-center gap-2 text-xs font-medium text-indigo-400 hover:text-indigo-300 transition-colors">
-                      Projekt besprechen
+                      {isDE ? t.nav.projektBesprechen.de : t.nav.projektBesprechen.en}
                       <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
