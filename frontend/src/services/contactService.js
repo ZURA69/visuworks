@@ -13,6 +13,7 @@ export const ContactService = {
           service: formData.service || '',
           message: formData.message,
           website: formData.website || '', // honeypot field
+          pagePath: window.location.pathname || '', // current page for tracking
         }),
       });
 
