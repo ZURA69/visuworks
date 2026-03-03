@@ -63,7 +63,7 @@ export const Footer = () => {
           {/* Services */}
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wider text-white/40 mb-4">
-              Leistungen
+              {isDE ? t.footer.leistungen.de : t.footer.leistungen.en}
             </h3>
             <ul className="space-y-3">
               {footerNav.services.map((item) => (
@@ -82,7 +82,7 @@ export const Footer = () => {
           {/* Company */}
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wider text-white/40 mb-4">
-              Unternehmen
+              {isDE ? t.footer.unternehmen.de : t.footer.unternehmen.en}
             </h3>
             <ul className="space-y-3">
               {footerNav.company.map((item) => (
@@ -103,7 +103,7 @@ export const Footer = () => {
                 to="/kontakt"
                 className="inline-flex items-center gap-2 text-sm font-medium text-indigo-400 hover:text-indigo-300 transition-colors"
               >
-                Projekt starten
+                {isDE ? t.nav.projektStarten.de : t.nav.projektStarten.en}
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
@@ -112,7 +112,7 @@ export const Footer = () => {
           {/* Legal */}
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wider text-white/40 mb-4">
-              Rechtliches
+              {isDE ? t.footer.rechtliches.de : t.footer.rechtliches.en}
             </h3>
             <ul className="space-y-3">
               {footerNav.legal.map((item) => (
@@ -130,8 +130,8 @@ export const Footer = () => {
 
             {/* Contact Info */}
             <div className="mt-6 pt-6 border-t border-white/5 space-y-2">
-              <p className="text-xs text-white/40">Standort {company.address.city}</p>
-              <p className="text-xs text-white/40">Projekte europaweit</p>
+              <p className="text-xs text-white/40">{isDE ? 'Standort' : 'Location'} {company.address.city}</p>
+              <p className="text-xs text-white/40">{isDE ? 'Projekte europaweit' : 'Projects Europe-wide'}</p>
             </div>
           </div>
         </div>
