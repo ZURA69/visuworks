@@ -256,7 +256,11 @@ def send_email_smtp(to_email: str, from_email: str, reply_to: str, subject: str,
 
 @api_router.post("/contact")
 async def submit_contact_form(data: ContactFormRequest, request: Request):
-    # Honeypot check
+    """
+    Handle contact form submissions via IONOS SMTP.
+    Includes honeypot check, rate limiting, and proper error handling.
+    """
+    # Honeypot check - silently succeed if triggered (don't alert bots)
     if data.honeypot:
         logger.warning(f"Honeypot triggered from {request.client.host}")
         return {"status": "success", "message": "Anfrage erfolgreich gesendet"}
@@ -264,38 +268,43 @@ async def submit_contact_form(data: ContactFormRequest, request: Request):
     # Rate limit check
     client_ip = request.client.host
     if not check_rate_limit(client_ip):
+        logger.warning(f"Rate limit exceeded for IP: {client_ip}")
         raise HTTPException(status_code=429, detail="Zu viele Anfragen. Bitte versuchen Sie es später erneut.")
 
-    # If no Resend API key configured, log and return success (dev mode)
-    if not resend_api_key:
-        logger.info(f"[DEV MODE] Contact form from {data.name} ({data.email}): {data.service}")
-        return {
-            "status": "success",
-            "message": "Anfrage erfolgreich gesendet (Entwicklungsmodus – E-Mail wird gesendet, sobald der API-Key konfiguriert ist)"
-        }
+    # Check if SMTP is configured
+    if not SMTP_USER or not SMTP_PASS:
+        logger.error("SMTP credentials not configured - email cannot be sent")
+        raise HTTPException(status_code=500, detail="E-Mail-Dienst nicht konfiguriert. Bitte kontaktieren Sie uns direkt.")
 
-    # Send email via Resend
+    # Build email
     service_label = SERVICE_LABELS.get(data.service, data.service or 'Allgemein')
-    subject = f"Neue Anfrage: {service_label} – {data.name}"
+    subject = f"Neue Anfrage über VISUWORKS Website – {data.name}"
+    html_content = format_contact_email(data, client_ip)
 
-    params = {
-        "from": contact_from_email,
-        "to": [contact_to_email],
-        "reply_to": data.email,
-        "subject": subject,
-        "html": format_contact_email(data),
-    }
-
+    # Send email via SMTP
     try:
-        email_result = await asyncio.to_thread(resend.Emails.send, params)
-        logger.info(f"Email sent successfully: {email_result.get('id', 'unknown')}")
+        await asyncio.to_thread(
+            send_email_smtp,
+            CONTACT_TO_EMAIL,
+            CONTACT_FROM_EMAIL,
+            data.email,  # Reply-To = customer email
+            subject,
+            html_content
+        )
+        logger.info(f"Contact form email sent successfully for {data.name} ({data.email})")
         return {
             "status": "success",
             "message": "Anfrage erfolgreich gesendet"
         }
-    except Exception as e:
-        logger.error(f"Failed to send email: {str(e)}")
+    except smtplib.SMTPAuthenticationError as e:
+        logger.error(f"SMTP Authentication failed: {e}")
+        raise HTTPException(status_code=500, detail="E-Mail-Authentifizierung fehlgeschlagen. Bitte versuchen Sie es später erneut.")
+    except smtplib.SMTPException as e:
+        logger.error(f"SMTP error sending email: {e}")
         raise HTTPException(status_code=500, detail="Fehler beim Senden der E-Mail. Bitte versuchen Sie es erneut.")
+    except Exception as e:
+        logger.error(f"Unexpected error sending email: {e}")
+        raise HTTPException(status_code=500, detail="Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut.")
 
 # ── Public Content Override (no auth needed) ──
 
