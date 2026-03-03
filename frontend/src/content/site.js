@@ -7,22 +7,21 @@
 // ── Company Info ──
 export const company = {
   name: 'VISUWORKS',
+  legalName: 'Visuworks visual work labs GmbH',
   tagline: 'Visuelle Marken- und Oberflächenlösungen',
   description:
     'Premium visuelle Marken- und Oberflächenlösungen für Mobilität, Architektur und Kommunikation – europaweit umgesetzt.',
   address: {
-    street: 'Musterstraße 1',
-    zip: '40210',
-    city: 'Düsseldorf',
+    street: 'Verbindungsstraße 19c',
+    zip: '40723',
+    city: 'Hilden',
     country: 'Deutschland',
   },
-  phone: '+49 211 000 000',
+  phone: '+49 (0)151 72615378',
   email: 'info@visuworks.de',
   socialLinks: [
-    { name: 'LinkedIn', href: 'https://linkedin.com/company/visuworks' },
-    { name: 'Instagram', href: 'https://instagram.com/visuworks' },
-    { name: 'Facebook', href: 'https://facebook.com/visuworks' },
-    { name: 'YouTube', href: 'https://youtube.com/@visuworks' },
+    { name: 'Instagram', href: 'https://www.instagram.com/visualworklabs/' },
+    { name: 'TikTok', href: 'https://www.tiktok.com/@visuworks' },
   ],
 };
 

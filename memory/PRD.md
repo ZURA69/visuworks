@@ -45,7 +45,8 @@ Documentation: `/frontend/README-CONTENT.md` — full guide for content updates
 - [x] AGB B2C (/agb) — 14 Paragraphen, DSGVO/BGB/ROM-I-konform
 - [x] AGB B2B (/agb-b2b) — 15 Paragraphen, §377 HGB, CISG-Ausschluss
 - [x] Datenschutzerklärung (/datenschutz) — 13 Abschnitte, DSGVO/TTDSG-konform
-- [x] Footer: 4 Rechtstext-Links (Impressum, Datenschutz, AGB B2C, AGB Unternehmer)
+- [x] Impressum (/impressum) — echte Firmendaten, §5 TMG, §18 MStV, Social Media, Bildnachweise
+- [x] Firmendaten in site.js aktualisiert (Hilden, Daniel Zura, HRB 96931, echte Kontaktdaten)
 - [ ] Performance: lazy loading, code splitting, Lighthouse >90
 - [ ] Activate Resend API key
 

@@ -71,13 +71,13 @@ export default function DatenschutzPage() {
                   Verantwortlicher im Sinne der Datenschutz-Grundverordnung (DSGVO) ist:
                 </p>
                 <div className="text-white/70 mb-3 pl-4 border-l-2 border-white/10">
-                  <p>VISUWORKS GmbH</p>
-                  <p>Musterstraße 42</p>
-                  <p>40210 Düsseldorf</p>
+                  <p>Visuworks visual work labs GmbH</p>
+                  <p>Verbindungsstraße 19c</p>
+                  <p>40723 Hilden</p>
                   <p>Deutschland</p>
-                  <p className="mt-2">Geschäftsführer: [Name des Geschäftsführers]</p>
-                  <p>Handelsregister: AG Düsseldorf, HRB [Nummer]</p>
-                  <p className="mt-2">Telefon: +49 (0) 211 / 123 456 0</p>
+                  <p className="mt-2">Geschäftsführer: Daniel Zura</p>
+                  <p>Handelsregister: AG Düsseldorf, HRB 96931</p>
+                  <p className="mt-2">Telefon: +49 (0)151 72615378</p>
                   <p>E-Mail: datenschutz@visuworks.de</p>
                 </div>
                 <p className="text-white/70">

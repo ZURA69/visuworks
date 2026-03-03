@@ -4,7 +4,13 @@ import { Linkedin, Instagram, Facebook, Youtube, ArrowRight } from 'lucide-react
 import { NewsletterSignup } from '../NewsletterSignup';
 import { company, footerNav } from '../../content/site';
 
-const socialIcons = { LinkedIn: Linkedin, Instagram, Facebook, YouTube: Youtube };
+const TikTokIcon = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 0010.86 4.44v-7.15a8.16 8.16 0 005.58 2.18V11.2a4.85 4.85 0 01-2.65-.78V6.69h2.65z" />
+  </svg>
+);
+
+const socialIcons = { LinkedIn: Linkedin, Instagram, Facebook, YouTube: Youtube, TikTok: TikTokIcon };
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -132,7 +138,7 @@ export const Footer = () => {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-xs text-white/30">
-              © {currentYear} {company.name} GmbH. Alle Rechte vorbehalten.
+              © {currentYear} {company.legalName || company.name}. Alle Rechte vorbehalten.
             </p>
             <div className="flex items-center gap-6">
               <a href={`tel:${company.phone.replace(/\s/g, '')}`} className="text-xs text-white/40 hover:text-white/60 transition-colors">
