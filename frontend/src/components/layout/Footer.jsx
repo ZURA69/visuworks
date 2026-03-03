@@ -142,7 +142,7 @@ export const Footer = () => {
         <div className="max-w-[1200px] mx-auto px-6 md:px-12 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-xs text-white/30">
-              © {currentYear} {company.legalName || company.name}. Alle Rechte vorbehalten.
+              © {currentYear} {company.legalName || company.name}. {isDE ? t.footer.copyright.de : t.footer.copyright.en}
             </p>
             <div className="flex items-center gap-6">
               <a href={`tel:${company.phone.replace(/\s/g, '')}`} className="text-xs text-white/40 hover:text-white/60 transition-colors">
