@@ -16,6 +16,8 @@ export const Navbar = () => {
   const megaRef = useRef(null);
   const megaTriggerRef = useRef(null);
   const closeTimeoutRef = useRef(null);
+  const { language } = useLanguage();
+  const isDE = language === 'de';
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
