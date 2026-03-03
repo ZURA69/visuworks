@@ -277,7 +277,6 @@ async def submit_contact_form(data: ContactFormRequest, request: Request):
         raise HTTPException(status_code=500, detail="E-Mail-Dienst nicht konfiguriert. Bitte kontaktieren Sie uns direkt.")
 
     # Build email
-    service_label = SERVICE_LABELS.get(data.service, data.service or 'Allgemein')
     subject = f"Neue Anfrage über VISUWORKS Website – {data.name}"
     html_content = format_contact_email(data, client_ip)
 
