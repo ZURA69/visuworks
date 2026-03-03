@@ -245,6 +245,11 @@ export const Navbar = () => {
             aria-modal="true"
           >
             <nav className="pt-24 pb-12 px-6">
+              {/* Language switcher in mobile */}
+              <div className="flex justify-end mb-4 px-4">
+                <LanguageSwitcher />
+              </div>
+              
               {/* Leistungen accordion */}
               <div className="mb-2">
                 <button
@@ -254,7 +259,7 @@ export const Navbar = () => {
                     isLeistungenActive ? 'text-white bg-white/[0.04]' : 'text-white/60'
                   }`}
                 >
-                  Leistungen
+                  {isDE ? t.nav.leistungen.de : t.nav.leistungen.en}
                   <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${mobileAccordion.leistungen ? 'rotate-180' : ''}`} />
                 </button>
 
