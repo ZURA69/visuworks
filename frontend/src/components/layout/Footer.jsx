@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Linkedin, Instagram, Facebook, Youtube, ArrowRight } from 'lucide-react';
 import { NewsletterSignup } from '../NewsletterSignup';
 import { company, footerNav } from '../../content/site';
+import { useLanguage } from '../../contexts/LanguageContext';
+import * as t from '../../i18n/translations';
 
 const TikTokIcon = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -14,6 +16,8 @@ const socialIcons = { LinkedIn: Linkedin, Instagram, Facebook, YouTube: Youtube,
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { language } = useLanguage();
+  const isDE = language === 'de';
 
   return (
     <footer data-testid="footer" className="border-t border-white/5 bg-[#070910]">
