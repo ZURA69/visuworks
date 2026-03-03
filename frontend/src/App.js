@@ -6,6 +6,7 @@ import { ScrollToTop } from "./components/ScrollToTop";
 import { CookieBanner } from "./components/CookieBanner";
 import { ChatWidget } from "./components/ChatWidget";
 import { EditorProvider } from "./contexts/EditorContext";
+import { LanguageProvider } from "./contexts/LanguageContext";
 
 // Pages
 import HomePage from "./pages/HomePage";
@@ -33,6 +34,7 @@ import "./App.css";
 function App() {
   return (
     <BrowserRouter>
+      <LanguageProvider>
       <EditorProvider>
       <ScrollToTop />
       <ScrollProgress />
@@ -66,6 +68,7 @@ function App() {
       <CookieBanner />
       <Toaster position="bottom-right" />
       </EditorProvider>
+      </LanguageProvider>
     </BrowserRouter>
   );
 }
