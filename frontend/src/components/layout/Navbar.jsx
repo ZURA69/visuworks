@@ -350,7 +350,7 @@ export const Navbar = () => {
                   isLinkActive('/projekte') ? 'text-white bg-white/[0.04]' : 'text-white/60'
                 }`}
               >
-                Projekte
+                {isDE ? t.nav.projekte.de : t.nav.projekte.en}
               </Link>
               {simpleLinks.map((link) => (
                 <Link
@@ -361,7 +361,10 @@ export const Navbar = () => {
                     isLinkActive(link.href) ? 'text-white bg-white/[0.04]' : 'text-white/60'
                   }`}
                 >
-                  {link.label}
+                  {link.href === '/projektmanagement' 
+                    ? (isDE ? t.nav.projektmanagement.de : t.nav.projektmanagement.en)
+                    : (isDE ? t.nav.kontakt.de : t.nav.kontakt.en)
+                  }
                 </Link>
               ))}
 
@@ -369,7 +372,7 @@ export const Navbar = () => {
               <div className="mt-6 px-4">
                 <Link to="/kontakt" onClick={() => setIsMobileMenuOpen(false)}>
                   <button className="w-full py-3 text-base font-medium rounded-xl bg-white text-[#070910] hover:bg-white/90 transition-all">
-                    Projekt starten
+                    {isDE ? t.nav.projektStarten.de : t.nav.projektStarten.en}
                   </button>
                 </Link>
               </div>
