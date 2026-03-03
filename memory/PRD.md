@@ -47,6 +47,10 @@ Documentation: `/frontend/README-CONTENT.md` — full guide for content updates
 - [x] Datenschutzerklärung (/datenschutz) — 13 Abschnitte, DSGVO/TTDSG-konform
 - [x] Impressum (/impressum) — echte Firmendaten, §5 TMG, §18 MStV, Social Media, Bildnachweise
 - [x] Firmendaten in site.js aktualisiert (Hilden, Daniel Zura, HRB 96931, echte Kontaktdaten)
+- [x] Visual Content Editor (/admin) — Framer-ähnlicher Live-Editor mit Sidebar
+- [x] Content Override System (MongoDB) — Texte + Bilder persistent editierbar
+- [x] Bild-Upload (lokal, /uploads/) — Drag & Drop, max. 12MB, JPG/PNG/WebP
+- [x] Public Override API — gespeicherte Änderungen für alle Besucher sichtbar
 - [ ] Performance: lazy loading, code splitting, Lighthouse >90
 - [ ] Activate Resend API key
 
