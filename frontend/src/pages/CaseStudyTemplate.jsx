@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, ArrowLeft, MapPin, Calendar, Building2, Layers } from 'lucide-react';
 import { Button } from '../components/ui/button';
-import { getProjectImage } from '../content/images';
+import { getProjectImage, getProjectGallery } from '../content/images';
 
 
 // Reusable Case Study Template Component
@@ -17,6 +17,7 @@ export const CaseStudyTemplate = ({ project }) => {
   }
 
   const projectImg = getProjectImage(project.slug);
+  const galleryImages = getProjectGallery(project.slug);
 
   return (
     <div data-testid="case-study-page" className="overflow-hidden">
@@ -170,7 +171,7 @@ export const CaseStudyTemplate = ({ project }) => {
       </section>
 
       {/* Gallery */}
-      {project.gallery && project.gallery.length > 0 && (
+      {galleryImages.length > 0 && (
         <section className="py-24 md:py-32">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <motion.div
@@ -184,18 +185,21 @@ export const CaseStudyTemplate = ({ project }) => {
             </motion.div>
 
             <div className="grid md:grid-cols-3 gap-6">
-              {project.gallery.map((item, index) => (
+              {galleryImages.map((item, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="aspect-[4/3] rounded-[20px] overflow-hidden bg-gradient-to-br from-white/5 to-white/0 border border-white/10"
+                  className="aspect-[4/3] rounded-[20px] overflow-hidden bg-[#0A0C14] border border-white/10 group"
                 >
-                  <div className="h-full flex items-center justify-center">
-                    <p className="text-white/30 text-sm text-center px-4">{item.alt}</p>
-                  </div>
+                  <img
+                    src={item.src}
+                    alt={item.alt}
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
                 </motion.div>
               ))}
             </div>

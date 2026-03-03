@@ -17,7 +17,7 @@ export const projects = [
   {
     id: 1,
     slug: 'Flottenbranding',
-    category: 'Mobilität',
+    category: 'mobilität',
     title: 'Flottenbranding',
     shortDesc: '20+ Fahrzeuge im einheitlichen Design',
     tags: ['Flotte', 'Folierung', 'B2B'],
