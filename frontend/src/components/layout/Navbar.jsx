@@ -3,6 +3,9 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ChevronDown, ChevronRight, ArrowRight } from 'lucide-react';
 import { navStructure, allLeistungenPaths } from '../../content/services';
+import { LanguageSwitcher } from '../LanguageSwitcher';
+import { useLanguage } from '../../contexts/LanguageContext';
+import * as t from '../../i18n/translations';
 
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
