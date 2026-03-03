@@ -30,7 +30,7 @@ export const ClientLogos = ({ className = '' }) => {
             {/* Logo - Replace URL in /content/images.js */}
             <div className="px-6 py-3 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-all duration-300">
               {getClientLogo(client.key) ? (
-                <img src={getClientLogo(client.key)} alt={client.name} className="h-8 object-contain opacity-30 group-hover:opacity-50 transition-opacity" />
+                <img src={getClientLogo(client.key)} alt={client.name} loading="lazy" decoding="async" className="h-8 object-contain opacity-30 group-hover:opacity-50 transition-opacity" />
               ) : (
                 <span className="text-lg font-semibold text-white/30 group-hover:text-white/50 transition-colors">
                   {client.name}

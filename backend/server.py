@@ -299,11 +299,32 @@ async def upload_image(file: UploadFile = File(...), authorization: str = Header
     contents = await file.read()
     if len(contents) > MAX_UPLOAD_SIZE:
         raise HTTPException(status_code=400, detail=f"Datei zu groß. Maximum: {MAX_UPLOAD_SIZE // (1024*1024)}MB")
-    filename = f"{uuid.uuid4().hex}{ext}"
-    filepath = UPLOAD_DIR / filename
-    with open(filepath, "wb") as f:
-        f.write(contents)
-    return {"status": "ok", "url": f"/uploads/{filename}", "filename": filename}
+    try:
+        from PIL import Image as PILImage
+        import io
+        img = PILImage.open(io.BytesIO(contents))
+        max_dim = 2400
+        if max(img.size) > max_dim:
+            img.thumbnail((max_dim, max_dim), PILImage.LANCZOS)
+        if img.mode in ('RGBA', 'LA', 'PA'):
+            img = img.convert('RGBA')
+        else:
+            img = img.convert('RGB')
+        output = io.BytesIO()
+        img.save(output, format='WEBP', quality=82, method=4)
+        optimized = output.getvalue()
+        filename = f"{uuid.uuid4().hex}.webp"
+        filepath = UPLOAD_DIR / filename
+        with open(filepath, "wb") as f:
+            f.write(optimized)
+        return {"status": "ok", "url": f"/uploads/{filename}", "filename": filename}
+    except Exception as e:
+        logging.warning(f"Image optimization failed, saving raw: {e}")
+        filename = f"{uuid.uuid4().hex}{ext}"
+        filepath = UPLOAD_DIR / filename
+        with open(filepath, "wb") as f:
+            f.write(contents)
+        return {"status": "ok", "url": f"/uploads/{filename}", "filename": filename}
 
 @api_router.get("/health")
 async def health_check():

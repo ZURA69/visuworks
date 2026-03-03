@@ -154,15 +154,57 @@ export function EditorProvider({ children }) {
     }
   };
 
+  const compressImage = async (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new window.Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const maxW = 1920;
+          let { width, height } = img;
+          if (width > maxW) {
+            height = Math.round((height * maxW) / width);
+            width = maxW;
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          canvas.toBlob(
+            (blob) => blob ? resolve(new File([blob], file.name.replace(/\.[^.]+$/, '.webp'), { type: 'image/webp' })) : reject(new Error('Compression failed')),
+            'image/webp',
+            0.82
+          );
+        };
+        img.onerror = () => resolve(file);
+        img.src = event.target.result;
+      };
+      reader.onerror = () => resolve(file);
+      reader.readAsDataURL(file);
+    });
+  };
+
   const uploadImage = async (file) => {
+    let uploadFile = file;
+    try {
+      if (file.size > 500 * 1024) {
+        uploadFile = await compressImage(file);
+      }
+    } catch {
+      uploadFile = file;
+    }
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('file', uploadFile);
     const res = await fetch(`${API}/api/admin/upload`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}` },
       body: formData,
     });
-    if (!res.ok) throw new Error('Upload failed');
+    if (!res.ok) {
+      const detail = await res.text().catch(() => '');
+      throw new Error(detail || `Upload failed (${res.status})`);
+    }
     const data = await res.json();
     return data.url;
   };

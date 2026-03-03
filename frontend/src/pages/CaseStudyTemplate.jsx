@@ -44,6 +44,8 @@ export const CaseStudyTemplate = ({ project }) => {
               <img
                 src={heroImgSrc}
                 alt={projectImg?.alt || title}
+                fetchPriority="high"
+                decoding="async"
                 className="absolute inset-0 w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#070910] via-[#070910]/70 to-[#070910]/40" />

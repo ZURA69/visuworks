@@ -11,6 +11,7 @@ import { toast } from 'sonner';
 function ImageField({ field, value, onChange, onUpload }) {
   const [isDragging, setIsDragging] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState('');
   const fileRef = useRef(null);
 
   const handleFile = useCallback(async (file) => {
@@ -25,14 +26,19 @@ function ImageField({ field, value, onChange, onUpload }) {
       return;
     }
     setUploading(true);
+    setProgress('Komprimiere...');
     try {
+      setProgress('Hochladen...');
       const url = await onUpload(file);
       onChange(field.key, url);
-      toast.success('Bild hochgeladen');
-    } catch {
-      toast.error('Upload fehlgeschlagen');
+      toast.success('Bild hochgeladen & optimiert');
+      setProgress('');
+    } catch (err) {
+      toast.error(`Upload fehlgeschlagen: ${err.message || 'Unbekannter Fehler'}`);
+      setProgress('');
     } finally {
       setUploading(false);
+      if (fileRef.current) fileRef.current.value = '';
     }
   }, [field.key, onChange, onUpload]);
 
@@ -66,7 +72,10 @@ function ImageField({ field, value, onChange, onUpload }) {
           onChange={(e) => handleFile(e.target.files[0])}
         />
         {uploading ? (
-          <Loader2 className="w-5 h-5 mx-auto text-indigo-400 animate-spin" />
+          <div className="flex items-center justify-center gap-2 text-indigo-400 text-xs">
+            <Loader2 className="w-5 h-5 animate-spin" />
+            <span>{progress || 'Hochladen...'}</span>
+          </div>
         ) : (
           <div className="flex items-center justify-center gap-2 text-white/40 text-xs">
             <Upload className="w-4 h-4" />

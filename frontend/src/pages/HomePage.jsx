@@ -83,6 +83,8 @@ export default function HomePage() {
           <img
             src={heroImg}
             alt={images.hero.alt}
+            fetchPriority="high"
+            decoding="async"
             className="absolute inset-0 w-full h-full object-cover"
           />
         )}
