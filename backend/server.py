@@ -93,18 +93,18 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Resend configuration
-resend_api_key = os.environ.get('RESEND_API_KEY', '')
-contact_to_email = os.environ.get('CONTACT_TO_EMAIL', 'info@visuworks.de')
-contact_from_email = os.environ.get('CONTACT_FROM_EMAIL', 'no-reply@visuworks.de')
-
-if resend_api_key:
-    resend.api_key = resend_api_key
+# IONOS SMTP configuration
+SMTP_HOST = os.environ.get('IONOS_SMTP_HOST', 'smtp.ionos.de')
+SMTP_PORT = int(os.environ.get('IONOS_SMTP_PORT', '587'))
+SMTP_USER = os.environ.get('IONOS_SMTP_USER', '')
+SMTP_PASS = os.environ.get('IONOS_SMTP_PASS', '')
+CONTACT_TO_EMAIL = os.environ.get('CONTACT_TO_EMAIL', 'info@visuworks.de')
+CONTACT_FROM_EMAIL = os.environ.get('CONTACT_FROM_EMAIL', 'info@visuworks.de')
 
 # Basic rate limiter (IP-based, in-memory)
 rate_limit_store = defaultdict(list)
 RATE_LIMIT_MAX = 5  # max requests
-RATE_LIMIT_WINDOW = 300  # per 5 minutes
+RATE_LIMIT_WINDOW = 600  # per 10 minutes
 
 def check_rate_limit(ip: str) -> bool:
     now = time.time()
