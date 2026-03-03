@@ -20,6 +20,7 @@ import TeamPage from "./pages/TeamPage";
 import ImpressumPage from "./pages/ImpressumPage";
 import DatenschutzPage from "./pages/DatenschutzPage";
 import AGBPage from "./pages/AGBPage";
+import AGBB2BPage from "./pages/AGBB2BPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ProcessStepPage from "./pages/ProcessStepPage";
 import DankePage from "./pages/DankePage";
@@ -50,6 +51,7 @@ function App() {
           <Route path="/impressum" element={<ImpressumPage />} />
           <Route path="/datenschutz" element={<DatenschutzPage />} />
           <Route path="/agb" element={<AGBPage />} />
+          <Route path="/agb-b2b" element={<AGBB2BPage />} />
           <Route path="/prozess/:slug" element={<ProcessStepPage />} />
           <Route path="/danke" element={<DankePage />} />
           {/* 404 - Must be last */}

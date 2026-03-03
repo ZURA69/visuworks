@@ -188,6 +188,7 @@ export const footerNav = {
   legal: [
     { name: 'Impressum', href: '/impressum' },
     { name: 'Datenschutz', href: '/datenschutz' },
-    { name: 'AGB', href: '/agb' },
+    { name: 'AGB (B2C)', href: '/agb' },
+    { name: 'AGB Unternehmer', href: '/agb-b2b' },
   ],
 };
