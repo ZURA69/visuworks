@@ -1,70 +1,72 @@
-# VISUWORKS Website - Product Requirements Document
+# VISUWORKS Website — PRD
 
 ## Original Problem Statement
-Production-ready premium multi-page website for VISUWORKS, a European visual branding company. German language. Dark theme.
+Build a fully designed, premium, multi-page website for a European visual branding company called VISUWORKS. German language, dark theme, with a visual content editor for live content management.
+
+## Core Requirements
+- **Pages:** Home, Mobilität, Raum & Architektur, Markenkommunikation, Design & Konzeption, Projektmanagement, Projekte, Kontakt, Impressum, Datenschutz, AGB (B2C + B2B)
+- **Global:** Sticky navigation with mega menu, global footer
+- **Design:** Dark theme, glass-like cards, premium typography, micro-interactions
+- **Editor:** Visual Content Editor with MongoDB persistence for text/image overrides
+- **Legal:** Full German legal pages with real company data
 
 ## Architecture
-- **Frontend**: React 18, React Router 6, Framer Motion, Tailwind CSS, Shadcn/UI
-- **Backend**: FastAPI with Resend email integration
-- **Content Layer**: Centralized in `/src/content/` — CMS-ready architecture
-- **SEO**: Custom useEffect-based meta tag management
-- **Contact**: Backend /api/contact with Resend, honeypot, rate limiting
+```
+/app/backend/server.py     → FastAPI (contact, admin, editor APIs, health)
+/app/frontend/src/
+  ├── content/registry.js  → Central field definitions for editor
+  ├── contexts/EditorContext.jsx → Editor state, getValue(), save()
+  ├── components/editor/EditorSidebar.jsx → Admin sidebar UI
+  └── pages/               → All page components using useEditor()
+```
 
-## Content Layer (CMS-Ready)
-All editable content lives in `/src/content/`:
-- **`site.js`** — hero, company info, stats, testimonials, clients, team, values, process steps, audiences, CTA, footer nav
-- **`projects.js`** — 18 project entries with case study data + helpers
-- **`services.js`** — service page content, re-exports nav structure + subservices
-- **`images.js`** — centralized image map (null placeholders, ready for URLs)
-
-Supporting data files:
-- **`data/navigation.js`** — mega menu structure
-- **`data/subservices.js`** — 14 sub-service page content
-
-Documentation: `/frontend/README-CONTENT.md` — full guide for content updates
-
-## Pages (34 Total)
-20 main pages + 14 sub-service pages. All routing in App.js.
-
-## Key Features
-- [x] Content layer refactoring (all text/data in /content/)
-- [x] Mega menu navigation with hover/active states
-- [x] Mobile accordion navigation
-- [x] Contact form with /api/contact backend (Resend)
+## What's Implemented (as of Feb 2026)
+- [x] All 11+ pages with professional German copy
+- [x] Visual Content Editor connected to ALL pages:
+  - [x] Homepage (hero, stats, audiences, CTA, testimonials, process)
+  - [x] Mobilität (hero, services, FAQs, CTA)
+  - [x] Raum & Architektur (hero, services, FAQs, CTA)
+  - [x] Markenkommunikation (hero, services, FAQs, CTA)
+  - [x] Design & Konzeption (hero, services, FAQs, CTA)
+  - [x] Projektmanagement (hero, services, CTA)
+  - [x] Projekte overview (hero title/subline, project titles)
+  - [x] Individual project/case study pages (title, desc, challenge, solution, result, images)
+- [x] Admin login with password protection
+- [x] Image upload with local storage
+- [x] Legal pages (Impressum, AGB B2C, AGB B2B, Datenschutz) with real company data
+- [x] 50+ real images integrated
+- [x] /api/health endpoint for production monitoring
+- [x] Cookie consent banner (UI only)
+- [x] Responsive design (desktop + mobile)
 - [x] SEO meta tags on all pages
-- [x] Cookie consent, chat widget, statistics, testimonials
-- [x] ScrollToTop, skeleton loading, scroll progress
+
+## Key API Endpoints
+- `GET /api/health` — Health check
+- `GET /api/public/overrides` — Public content overrides
+- `POST /api/contact` — Contact form (MOCKED - needs RESEND_API_KEY)
+- `POST /api/admin/login` — Admin authentication
+- `GET/POST/DELETE /api/admin/overrides` — Content override CRUD
+- `POST /api/admin/upload` — Image upload
+
+## DB Schema
+- Collection: `content_overrides`
+- Document: `{ key, value, type: "text"|"image", page, updatedAt }`
+
+## Credentials
+- Admin password: see ADMIN_PASSWORD in /app/backend/.env
+- Contact form: needs RESEND_API_KEY in /app/backend/.env
 
 ## Prioritized Backlog
-### P0
-- [x] Integrate real project images (50+ uploaded, all mapped via content layer)
-- [x] Hero image integrated (Header_Porsche_HD.JPG)
-- [x] All 18 projects have image thumbnails (17 with images, 1 design-only)
-- [x] Project detail galleries with real images
-- [x] Service page hero images configured
-- [x] AGB B2C (/agb) — 14 Paragraphen, DSGVO/BGB/ROM-I-konform
-- [x] AGB B2B (/agb-b2b) — 15 Paragraphen, §377 HGB, CISG-Ausschluss
-- [x] Datenschutzerklärung (/datenschutz) — 13 Abschnitte, DSGVO/TTDSG-konform
-- [x] Impressum (/impressum) — echte Firmendaten, §5 TMG, §18 MStV, Social Media, Bildnachweise
-- [x] Firmendaten in site.js aktualisiert (Hilden, Daniel Zura, HRB 96931, echte Kontaktdaten)
-- [x] Visual Content Editor (/admin) — Framer-ähnlicher Live-Editor mit Sidebar
-- [x] Content Override System (MongoDB) — Texte + Bilder persistent editierbar
-- [x] Bild-Upload (lokal, /uploads/) — Drag & Drop, max. 12MB, JPG/PNG/WebP
-- [x] Public Override API — gespeicherte Änderungen für alle Besucher sichtbar
-- [ ] Performance: lazy loading, code splitting, Lighthouse >90
-- [ ] Activate Resend API key
 
-### P1
-- [ ] Replace placeholder contact details with real ones
-- [ ] Add real client logos (SVG)
+### P1 — Next Up
+- Language switcher (DE/EN)
+- Hero video on homepage
 
-### P2
-- [ ] Hero video, Blog/News, Language switcher (DE/EN), Analytics
-- [ ] Connect to headless CMS (Sanity/Contentful)
+### P2 — Future
+- Google Analytics 4 + DSGVO-compliant cookie consent (opt-in)
+- Performance optimization (Lighthouse >90)
+- Advanced SEO (structured data: FAQPage, BreadcrumbList)
+- Content expansion: Blog/News, Careers, Partners pages
 
-## MOCKED
-- Newsletter signup: UI only
-- Chat widget: external links only
-- Client logos: placeholder text (no images)
-- Contact form: works in DEV MODE (no Resend API key)
-- Most images in images.js: now active — 50+ real images mapped to projects, services, and hero
+## MOCKED Integrations
+- Resend email service (contact form) — needs real API key
