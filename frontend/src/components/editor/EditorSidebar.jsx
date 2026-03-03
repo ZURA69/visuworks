@@ -2,9 +2,10 @@ import React, { useState, useMemo, useRef, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEditor } from '../../contexts/EditorContext';
 import { getFieldsForPage } from '../../content/registry';
+import { normalizeImageValue } from '../EditableImage';
 import {
   X, Save, RotateCcw, Search, ChevronDown, ChevronRight,
-  Upload, Image as ImageIcon, Type, Check, Loader2
+  Upload, Image as ImageIcon, Type, Check, Loader2, ZoomIn, Move, Trash2
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -13,6 +14,17 @@ function ImageField({ field, value, onChange, onUpload }) {
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState('');
   const fileRef = useRef(null);
+
+  const img = normalizeImageValue(value, field.default);
+  const hasImage = img && img.url;
+  const zoom = img?.zoom ?? 1;
+  const offsetX = img?.offsetX ?? 0;
+  const offsetY = img?.offsetY ?? 0;
+
+  const setImageProp = useCallback((props) => {
+    const current = normalizeImageValue(value, field.default);
+    onChange(field.key, { ...current, ...props });
+  }, [value, field.key, field.default, onChange]);
 
   const handleFile = useCallback(async (file) => {
     if (!file) return;
@@ -30,7 +42,8 @@ function ImageField({ field, value, onChange, onUpload }) {
     try {
       setProgress('Hochladen...');
       const url = await onUpload(file);
-      onChange(field.key, url);
+      const current = normalizeImageValue(value, field.default);
+      onChange(field.key, { ...current, url, zoom: 1, offsetX: 0, offsetY: 0 });
       toast.success('Bild hochgeladen & optimiert');
       setProgress('');
     } catch (err) {
@@ -40,7 +53,7 @@ function ImageField({ field, value, onChange, onUpload }) {
       setUploading(false);
       if (fileRef.current) fileRef.current.value = '';
     }
-  }, [field.key, onChange, onUpload]);
+  }, [field.key, field.default, value, onChange, onUpload]);
 
   const handleDrop = (e) => {
     e.preventDefault();
@@ -48,13 +61,41 @@ function ImageField({ field, value, onChange, onUpload }) {
     handleFile(e.dataTransfer.files[0]);
   };
 
+  const handleReset = () => {
+    onChange(field.key, { url: field.default, zoom: 1, offsetX: 0, offsetY: 0 });
+    toast.success('Bild zurückgesetzt');
+  };
+
+  const maxShift = ((zoom - 1) / 2) * 100;
+  const tx = zoom > 1 ? (offsetX / zoom) : 0;
+  const ty = zoom > 1 ? (offsetY / zoom) : 0;
+  const previewTransform = `translate(${tx}%, ${ty}%) scale(${zoom})`;
+
   return (
-    <div className="space-y-2">
-      {value && (
-        <div className="relative rounded-lg overflow-hidden bg-white/5 aspect-video">
-          <img src={value} alt="" className="w-full h-full object-cover" />
+    <div className="space-y-2.5">
+      {hasImage && (
+        <div className="relative rounded-lg overflow-hidden bg-white/5 aspect-video group">
+          <img
+            src={img.url}
+            alt={img.alt || ''}
+            className="w-full h-full object-cover"
+            style={{ transform: previewTransform, transformOrigin: 'center' }}
+          />
+          <div className="absolute top-1.5 right-1.5 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+            {field.default && img.url !== field.default && (
+              <button
+                onClick={handleReset}
+                className="p-1 rounded bg-black/70 text-white/60 hover:text-white"
+                title="Zurücksetzen"
+              >
+                <RotateCcw className="w-3 h-3" />
+              </button>
+            )}
+          </div>
         </div>
       )}
+
+      {/* Upload zone */}
       <div
         className={`border-2 border-dashed rounded-lg p-3 text-center cursor-pointer transition-colors ${
           isDragging ? 'border-indigo-500 bg-indigo-500/10' : 'border-white/10 hover:border-white/20'
@@ -79,10 +120,65 @@ function ImageField({ field, value, onChange, onUpload }) {
         ) : (
           <div className="flex items-center justify-center gap-2 text-white/40 text-xs">
             <Upload className="w-4 h-4" />
-            <span>Bild ersetzen</span>
+            <span>{hasImage ? 'Bild ersetzen' : 'Bild hochladen'}</span>
           </div>
         )}
       </div>
+
+      {/* Zoom slider */}
+      {hasImage && (
+        <div className="space-y-1.5">
+          <div className="flex items-center gap-2">
+            <ZoomIn className="w-3 h-3 text-white/30" />
+            <span className="text-[10px] text-white/30">Zoom</span>
+            <span className="text-[10px] text-white/50 ml-auto">{zoom.toFixed(1)}x</span>
+          </div>
+          <input
+            type="range"
+            min="1"
+            max="2"
+            step="0.05"
+            value={zoom}
+            onChange={(e) => {
+              const z = parseFloat(e.target.value);
+              const ms = ((z - 1) / 2) * 100;
+              setImageProp({
+                zoom: z,
+                offsetX: Math.max(-ms, Math.min(ms, offsetX)),
+                offsetY: Math.max(-ms, Math.min(ms, offsetY)),
+              });
+            }}
+            className="w-full h-1 bg-white/10 rounded-full appearance-none cursor-pointer accent-indigo-500"
+          />
+        </div>
+      )}
+
+      {/* Offset info */}
+      {hasImage && zoom > 1 && (
+        <div className="flex items-center gap-2 text-[10px] text-white/30">
+          <Move className="w-3 h-3" />
+          <span>Position: {offsetX.toFixed(1)}, {offsetY.toFixed(1)}</span>
+          {(offsetX !== 0 || offsetY !== 0) && (
+            <button
+              onClick={() => setImageProp({ offsetX: 0, offsetY: 0 })}
+              className="ml-auto text-indigo-400 hover:text-indigo-300"
+            >
+              Zentrieren
+            </button>
+          )}
+        </div>
+      )}
+
+      {/* Alt text */}
+      {hasImage && (
+        <input
+          type="text"
+          value={img.alt || ''}
+          onChange={(e) => setImageProp({ alt: e.target.value })}
+          placeholder="Alt-Text (optional)"
+          className="w-full px-2 py-1 rounded bg-white/5 border border-white/10 text-white text-[11px] placeholder:text-white/20 focus:outline-none focus:border-indigo-500/50"
+        />
+      )}
     </div>
   );
 }

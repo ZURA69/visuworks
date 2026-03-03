@@ -10,6 +10,7 @@ import { ProjectGridSkeleton } from '../components/Skeleton';
 import { projects, categories } from '../content/projects';
 import { getProjectImage } from '../content/images';
 import { useEditor } from '../contexts/EditorContext';
+import { EditableImage } from '../components/EditableImage';
 
 export default function ProjektePage() {
   const { getValue } = useEditor();
@@ -118,11 +119,12 @@ export default function ProjektePage() {
                         {(() => {
                           const img = getProjectImage(project.slug);
                           return img ? (
-                            <img
-                              src={img.src}
+                            <EditableImage
+                              contentKey={`images.projects.${project.slug}.thumbnail`}
+                              fallbackSrc={img.src}
                               alt={img.alt || project.title}
-                              loading="lazy"
-                              className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                              className="absolute inset-0 w-full h-full"
+                              imgClassName="transition-transform duration-500 group-hover:scale-105"
                             />
                           ) : null;
                         })()}

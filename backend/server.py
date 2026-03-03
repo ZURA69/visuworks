@@ -6,6 +6,7 @@ import os
 import logging
 import asyncio
 import time
+from typing import Any
 from collections import defaultdict
 from pathlib import Path
 from pydantic import BaseModel, Field, EmailStr
@@ -230,7 +231,7 @@ class AdminLoginRequest(BaseModel):
 
 class OverrideEntry(BaseModel):
     key: str
-    value: str
+    value: Any
     type: str = 'text'
     page: Optional[str] = ''
 

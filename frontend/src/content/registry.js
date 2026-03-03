@@ -7,7 +7,6 @@ const f = (key, label, type, group, page, defaultValue) => ({
   key, label, type, group, page, default: defaultValue,
 });
 
-// ── Service page definitions (hero + services + FAQs + CTA) ──
 const servicePageDefs = {
   '/mobilitaet': {
     slug: 'mobilitaet',
@@ -16,6 +15,7 @@ const servicePageDefs = {
     heroDesc: 'Von der Lackschutzfolie bis zum kompletten Flottenbranding – wir realisieren Ihre Fahrzeugprojekte mit Präzision und Premium-Qualität.',
     ctaTitle: 'Ihr Fahrzeugprojekt',
     ctaDesc: 'Ob Einzelfahrzeug oder Flotte – wir beraten Sie gerne zu den Möglichkeiten.',
+    heroImage: images.servicePages['mobilitaet'],
     services: servicePages.mobilitaet?.services || [],
     faqs: servicePages.mobilitaet?.faqs || [],
   },
@@ -26,6 +26,7 @@ const servicePageDefs = {
     heroDesc: 'Wir transformieren Räume in Markenerlebnisse – durch Architekturfolierung, Glasgestaltung und Interior Branding.',
     ctaTitle: 'Ihr Raumprojekt',
     ctaDesc: 'Lassen Sie uns über Ihre Raumgestaltung sprechen – von der ersten Idee bis zur Umsetzung.',
+    heroImage: images.servicePages['architektur-raum'],
     services: [
       { title: 'Raumgestaltung', desc: 'Ganzheitliche Konzepte für Ihre Markenräume' },
       { title: 'Architekturfolierung', desc: 'Oberflächenveredelung für Fassaden und Innenräume' },
@@ -48,6 +49,7 @@ const servicePageDefs = {
     heroDesc: 'Von der Messewand bis zur Fassadenwerbung – wir produzieren und installieren Ihre Markenkommunikation in jeder Größe.',
     ctaTitle: 'Ihr Kommunikationsprojekt',
     ctaDesc: 'Messe, Event oder Retail – wir realisieren Ihre visuelle Kommunikation in jeder Größenordnung.',
+    heroImage: images.servicePages['markenkommunikation'],
     services: [
       { title: 'Großformatmedien', desc: 'Banner, Planen, Fassadenwerbung im XXL-Format' },
       { title: 'Werbesysteme', desc: 'Displays, Roll-ups, Messewände und Aufsteller' },
@@ -69,6 +71,7 @@ const servicePageDefs = {
     heroDesc: 'Design mit Produktionsfokus – wir entwickeln Konzepte, die nicht nur gut aussehen, sondern sich auch realisieren lassen.',
     ctaTitle: 'Ihr Designprojekt',
     ctaDesc: 'Konzept, Visualisierung oder komplette Umsetzung – lassen Sie uns über Ihre Anforderungen sprechen.',
+    heroImage: images.servicePages['design-konzepte'],
     services: [
       { title: 'Designkonzepte', desc: 'Visuelle Ideen und Konzepte für Ihre Projekte' },
       { title: 'Visuelle Leitlinien', desc: 'Styleguides und Designrichtlinien für Konsistenz' },
@@ -89,6 +92,7 @@ const servicePageDefs = {
     heroDesc: 'Planung, Koordination und Qualitätssicherung für Flotten, Räume und Events – strukturiert und zuverlässig.',
     ctaTitle: 'Großprojekt geplant?',
     ctaDesc: 'Flotten-Rollout, Messeauftritt oder komplexe Raumgestaltung – wir übernehmen die Koordination.',
+    heroImage: images.servicePages['projektmanagement'],
     services: [
       { title: 'Planung', desc: 'Strukturierte Projektplanung und Zeitmanagement' },
       { title: 'Koordination', desc: 'Steuerung aller Beteiligten und Gewerke' },
@@ -106,6 +110,13 @@ function getServiceFields(pathname) {
   if (!def) return [];
   const fields = [];
   const slug = def.slug;
+
+  // Hero image
+  if (def.heroImage) {
+    fields.push(
+      f(`images.service.${slug}.hero`, 'Hero Bild', 'image', 'Hero-Bild', pathname, def.heroImage),
+    );
+  }
 
   fields.push(
     f(`service.${slug}.heroTitle`, 'Hero Überschrift', 'text', 'Hero', pathname, def.heroTitle),
@@ -139,7 +150,6 @@ function getServiceFields(pathname) {
 export function getFieldsForPage(pathname) {
   const fields = [];
 
-  // ── Global ──
   const global = [
     f('company.name', 'Firmenname', 'text', 'Global', '*', company.name),
     f('company.tagline', 'Tagline', 'text', 'Global', '*', company.tagline),
@@ -151,11 +161,11 @@ export function getFieldsForPage(pathname) {
   // ── Homepage ──
   if (pathname === '/') {
     fields.push(
+      f('images.hero.src', 'Hero Bild', 'image', 'Hero-Bild', '/', images.hero.src),
       f('hero.headline', 'Hero Überschrift', 'textarea', 'Hero', '/', hero.headline),
       f('hero.subline', 'Hero Untertitel', 'textarea', 'Hero', '/', hero.subline),
       f('hero.ctaPrimary.label', 'Primärer Button', 'text', 'Hero', '/', hero.ctaPrimary.label),
       f('hero.ctaSecondary.label', 'Sekundärer Button', 'text', 'Hero', '/', hero.ctaSecondary.label),
-      f('images.hero.src', 'Hero Bild', 'image', 'Hero', '/', images.hero.src),
     );
     statistics.forEach((s, i) => {
       fields.push(
@@ -202,14 +212,14 @@ export function getFieldsForPage(pathname) {
       f('projekte.heroSubline', 'Hero Untertitel', 'text', 'Hero', '/projekte', 'Kuratiert. Präzise. Umgesetzt.'),
     );
     projects.forEach((p) => {
-      fields.push(
-        f(`projects.${p.slug}.title`, `${p.title.substring(0, 25)}… – Titel`, 'text', 'Projekte', '/projekte', p.title),
-        f(`projects.${p.slug}.subtitle`, `${p.title.substring(0, 25)}… – Untertitel`, 'text', 'Projekte', '/projekte', p.subtitle),
-      );
       const img = images.projects[p.slug];
-      if (img) {
+      fields.push(
+        f(`projects.${p.slug}.title`, `${p.title.substring(0, 22)} – Titel`, 'text', 'Projekte', '/projekte', p.title),
+        f(`projects.${p.slug}.subtitle`, `${p.title.substring(0, 22)} – Untertitel`, 'text', 'Projekte', '/projekte', p.subtitle),
+      );
+      if (img?.thumbnail) {
         fields.push(
-          f(`images.projects.${p.slug}.thumbnail`, `${p.title.substring(0, 25)}… – Bild`, 'image', 'Projektbilder', '/projekte', img.thumbnail),
+          f(`images.projects.${p.slug}.thumbnail`, `${p.title.substring(0, 22)} – Bild`, 'image', 'Projektbilder', '/projekte', img.thumbnail),
         );
       }
     });
@@ -221,6 +231,22 @@ export function getFieldsForPage(pathname) {
     const slug = decodeURIComponent(projectMatch[1]);
     const p = projects.find((x) => x.slug === slug);
     if (p) {
+      const img = images.projects[slug];
+      // Project image
+      if (img?.thumbnail) {
+        fields.push(
+          f(`images.projects.${slug}.thumbnail`, 'Hauptbild', 'image', 'Projekt-Bilder', pathname, img.thumbnail),
+        );
+      }
+      // Gallery images
+      if (img?.gallery?.length > 0) {
+        img.gallery.forEach((src, i) => {
+          fields.push(
+            f(`images.projects.${slug}.gallery.${i}`, `Galerie-Bild ${i + 1}`, 'image', 'Projekt-Galerie', pathname, src),
+          );
+        });
+      }
+      // Text fields
       fields.push(
         f(`projects.${slug}.title`, 'Projekttitel', 'text', 'Projekt', pathname, p.title),
         f(`projects.${slug}.subtitle`, 'Untertitel', 'text', 'Projekt', pathname, p.subtitle),
@@ -234,12 +260,6 @@ export function getFieldsForPage(pathname) {
         f(`projects.${slug}.solution`, 'Lösung', 'textarea', 'Projekt-Texte', pathname, p.solution),
         f(`projects.${slug}.result`, 'Ergebnis', 'textarea', 'Projekt-Texte', pathname, p.result),
       );
-      const img = images.projects[slug];
-      if (img) {
-        fields.push(
-          f(`images.projects.${slug}.thumbnail`, 'Projektbild', 'image', 'Projekt-Bild', pathname, img.thumbnail),
-        );
-      }
     }
   }
 

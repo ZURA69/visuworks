@@ -6,6 +6,8 @@ import { Button } from '../components/ui/button';
 import { SEOHead } from '../components/SEOHead';
 import { Card, CardContent } from '../components/ui/card';
 import { useEditor } from '../contexts/EditorContext';
+import { EditableImage } from '../components/EditableImage';
+import { getServiceImage } from '../content/images';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -93,11 +95,15 @@ export default function ArchitekturRaumPage() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="relative"
             >
-              <div className="aspect-[4/3] rounded-[28px] overflow-hidden bg-gradient-to-br from-white/5 to-white/0 border border-white/10">
-                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 via-transparent to-purple-500/20" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Building2 className="w-24 h-24 text-white/20" />
-                </div>
+              <div className="aspect-[4/3] rounded-[28px] overflow-hidden bg-gradient-to-br from-white/5 to-white/0 border border-white/10 relative">
+                <EditableImage
+                  contentKey="images.service.architektur.hero"
+                  fallbackSrc={getServiceImage('architektur-raum')}
+                  alt="Raum & Architektur"
+                  className="absolute inset-0 w-full h-full"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#070910]/40 to-transparent pointer-events-none" />
               </div>
             </motion.div>
           </div>

@@ -107,8 +107,8 @@ export function EditorProvider({ children }) {
     try {
       const entries = Object.entries(pending).map(([key, value]) => {
         const isImage =
-          typeof value === 'string' &&
-          /\.(jpe?g|png|webp|gif|svg)$/i.test(value);
+          (typeof value === 'object' && value !== null && value.url) ||
+          (typeof value === 'string' && /\.(jpe?g|png|webp|gif|svg)$/i.test(value));
         return { key, value, type: isImage ? 'image' : 'text', page: page || '' };
       });
       const res = await fetch(`${API}/api/admin/overrides`, {

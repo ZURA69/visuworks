@@ -5,6 +5,7 @@ import { ArrowRight, ArrowLeft, MapPin, Calendar, Building2, Layers } from 'luci
 import { Button } from '../components/ui/button';
 import { getProjectImage, getProjectGallery } from '../content/images';
 import { useEditor } from '../contexts/EditorContext';
+import { EditableImage, normalizeImageValue } from '../components/EditableImage';
 
 export const CaseStudyTemplate = ({ project }) => {
   const { getValue } = useEditor();
@@ -20,7 +21,6 @@ export const CaseStudyTemplate = ({ project }) => {
 
   const slug = project.slug;
   const projectImg = getProjectImage(slug);
-  const heroImgSrc = e(`images.projects.${slug}.thumbnail`, projectImg?.src);
   const galleryImages = getProjectGallery(slug);
 
   const title = e(`projects.${slug}.title`, project.title);
@@ -39,14 +39,14 @@ export const CaseStudyTemplate = ({ project }) => {
       {/* Hero Section */}
       <section className="relative min-h-[60vh] flex items-end pb-16">
         <div className="absolute inset-0 overflow-hidden">
-          {heroImgSrc ? (
+          {projectImg?.src ? (
             <>
-              <img
-                src={heroImgSrc}
-                alt={projectImg?.alt || title}
-                fetchPriority="high"
-                decoding="async"
-                className="absolute inset-0 w-full h-full object-cover"
+              <EditableImage
+                contentKey={`images.projects.${slug}.thumbnail`}
+                fallbackSrc={projectImg.src}
+                alt={projectImg.alt || title}
+                className="absolute inset-0 w-full h-full"
+                priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#070910] via-[#070910]/70 to-[#070910]/40" />
             </>
@@ -209,11 +209,12 @@ export const CaseStudyTemplate = ({ project }) => {
                   transition={{ delay: index * 0.1 }}
                   className="aspect-[4/3] rounded-[20px] overflow-hidden bg-[#0A0C14] border border-white/10 group"
                 >
-                  <img
-                    src={item.src}
+                  <EditableImage
+                    contentKey={`images.projects.${slug}.gallery.${index}`}
+                    fallbackSrc={item.src}
                     alt={item.alt}
-                    loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-full"
+                    imgClassName="transition-transform duration-500 group-hover:scale-105"
                   />
                 </motion.div>
               ))}

@@ -13,6 +13,7 @@ import { SEOHead } from '../components/SEOHead';
 import { hero, ctaSection, processSteps, targetAudiences } from '../content/site';
 import images, { getProjectImage } from '../content/images';
 import { useEditable } from '../contexts/EditorContext';
+import { EditableImage } from '../components/EditableImage';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -79,15 +80,13 @@ export default function HomePage() {
       {/* Hero Section */}
       <section data-testid="hero-section" className="relative min-h-[85vh] md:min-h-[90vh] flex items-center" aria-label="Hero">
         {/* Background Image */}
-        {heroImg && (
-          <img
-            src={heroImg}
-            alt={images.hero.alt}
-            fetchPriority="high"
-            decoding="async"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-        )}
+        <EditableImage
+          contentKey="images.hero.src"
+          fallbackSrc={images.hero.src}
+          alt={images.hero.alt}
+          className="absolute inset-0 w-full h-full"
+          priority
+        />
         {/* Dark Overlay for readability */}
         <div className="absolute inset-0 bg-[#070910]/70" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#070910] via-[#070910]/40 to-[#070910]/60" />
@@ -239,11 +238,12 @@ export default function HomePage() {
                     {(() => {
                       const img = getProjectImage(project.slug);
                       return img ? (
-                        <img
-                          src={img.src}
+                        <EditableImage
+                          contentKey={`images.projects.${project.slug}.thumbnail`}
+                          fallbackSrc={img.src}
                           alt={img.alt || project.title}
-                          loading="lazy"
-                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          className="absolute inset-0 w-full h-full"
+                          imgClassName="transition-transform duration-500 group-hover:scale-105"
                         />
                       ) : null;
                     })()}
