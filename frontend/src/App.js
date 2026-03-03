@@ -5,6 +5,7 @@ import { ScrollProgress } from "./components/ScrollProgress";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { CookieBanner } from "./components/CookieBanner";
 import { ChatWidget } from "./components/ChatWidget";
+import { EditorProvider } from "./contexts/EditorContext";
 
 // Pages
 import HomePage from "./pages/HomePage";
@@ -25,12 +26,14 @@ import NotFoundPage from "./pages/NotFoundPage";
 import ProcessStepPage from "./pages/ProcessStepPage";
 import DankePage from "./pages/DankePage";
 import SubServicePage from "./pages/SubServicePage";
+import AdminPage from "./pages/admin/AdminPage";
 
 import "./App.css";
 
 function App() {
   return (
     <BrowserRouter>
+      <EditorProvider>
       <ScrollToTop />
       <ScrollProgress />
       <Layout>
@@ -54,6 +57,7 @@ function App() {
           <Route path="/agb-b2b" element={<AGBB2BPage />} />
           <Route path="/prozess/:slug" element={<ProcessStepPage />} />
           <Route path="/danke" element={<DankePage />} />
+          <Route path="/admin" element={<AdminPage />} />
           {/* 404 - Must be last */}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
@@ -61,6 +65,7 @@ function App() {
       <ChatWidget />
       <CookieBanner />
       <Toaster position="bottom-right" />
+      </EditorProvider>
     </BrowserRouter>
   );
 }

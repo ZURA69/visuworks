@@ -12,6 +12,7 @@ import { NewsletterSignup } from '../components/NewsletterSignup';
 import { SEOHead } from '../components/SEOHead';
 import { hero, ctaSection, processSteps, targetAudiences } from '../content/site';
 import images, { getProjectImage } from '../content/images';
+import { useEditable } from '../contexts/EditorContext';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -63,15 +64,24 @@ const services = [
 export default function HomePage() {
   const featuredProjects = getFeaturedProjects().slice(0, 6);
   
+  // Editable content (falls back to content files when editor is not active)
+  const heroHeadline = useEditable('hero.headline', hero.headline);
+  const heroSubline = useEditable('hero.subline', hero.subline);
+  const heroCta1 = useEditable('hero.ctaPrimary.label', hero.ctaPrimary.label);
+  const heroCta2 = useEditable('hero.ctaSecondary.label', hero.ctaSecondary.label);
+  const heroImg = useEditable('images.hero.src', images.hero.src);
+  const ctaHeadline = useEditable('cta.headline', ctaSection.headline);
+  const ctaSubline = useEditable('cta.subline', ctaSection.subline);
+  
   return (
     <div data-testid="home-page" className="overflow-hidden">
       <SEOHead page="home" />
       {/* Hero Section */}
       <section data-testid="hero-section" className="relative min-h-[85vh] md:min-h-[90vh] flex items-center" aria-label="Hero">
         {/* Background Image */}
-        {images.hero.src && (
+        {heroImg && (
           <img
-            src={images.hero.src}
+            src={heroImg}
             alt={images.hero.alt}
             className="absolute inset-0 w-full h-full object-cover"
           />
@@ -91,24 +101,24 @@ export default function HomePage() {
               variants={fadeInUp}
               className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1]"
             >
-              {hero.headline}
+              {heroHeadline}
             </motion.h1>
             <motion.p
               variants={fadeInUp}
               className="text-lg md:text-xl text-white/80 max-w-xl leading-relaxed"
             >
-              {hero.subline}
+              {heroSubline}
             </motion.p>
             <motion.div variants={fadeInUp} className="flex flex-wrap gap-4">
               <Link to={hero.ctaPrimary.href}>
                 <Button data-testid="hero-cta-primary" size="lg">
-                  {hero.ctaPrimary.label}
+                  {heroCta1}
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
               <Link to={hero.ctaSecondary.href}>
                 <Button data-testid="hero-cta-secondary" variant="secondary" size="lg">
-                  {hero.ctaSecondary.label}
+                  {heroCta2}
                 </Button>
               </Link>
             </motion.div>
@@ -369,10 +379,10 @@ export default function HomePage() {
 
             <div className="relative text-center max-w-2xl mx-auto">
               <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">
-                {ctaSection.headline}
+                {ctaHeadline}
               </h2>
               <p className="text-lg text-white/60 mb-10">
-                {ctaSection.subline}
+                {ctaSubline}
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 {ctaSection.buttons.map((btn, i) => (

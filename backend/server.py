@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter, HTTPException, Request
+from fastapi import FastAPI, APIRouter, HTTPException, Request, Header, UploadFile, File
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -11,8 +11,9 @@ from pathlib import Path
 from pydantic import BaseModel, Field, EmailStr
 from typing import List, Optional
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 import resend
+import shutil
 
 
 ROOT_DIR = Path(__file__).parent
@@ -22,6 +23,23 @@ load_dotenv(ROOT_DIR / '.env')
 mongo_url = os.environ['MONGO_URL']
 client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
+
+# Admin config
+ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', '')
+UPLOAD_DIR = Path(__file__).parent.parent / 'frontend' / 'public' / 'uploads'
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+ALLOWED_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.webp'}
+MAX_UPLOAD_SIZE = 12 * 1024 * 1024  # 12MB
+
+async def verify_admin(authorization: str = Header(None)):
+    if not ADMIN_PASSWORD:
+        raise HTTPException(status_code=503, detail="Admin not configured")
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    token = authorization.replace("Bearer ", "")
+    if token != ADMIN_PASSWORD:
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+    return True
 
 # Create the main app without a prefix
 app = FastAPI()
@@ -194,8 +212,107 @@ async def submit_contact_form(data: ContactFormRequest, request: Request):
         logger.error(f"Failed to send email: {str(e)}")
         raise HTTPException(status_code=500, detail="Fehler beim Senden der E-Mail. Bitte versuchen Sie es erneut.")
 
+# ── Public Content Override (no auth needed) ──
+
+@api_router.get("/content/overrides")
+async def get_public_overrides():
+    cursor = db.content_overrides.find({}, {"_id": 0, "key": 1, "value": 1})
+    overrides = await cursor.to_list(2000)
+    result = {}
+    for o in overrides:
+        result[o["key"]] = o["value"]
+    return {"overrides": result}
+
+# ── Admin Routes ──
+
+class AdminLoginRequest(BaseModel):
+    password: str
+
+class OverrideEntry(BaseModel):
+    key: str
+    value: str
+    type: str = 'text'
+    page: Optional[str] = ''
+
+class BulkOverrideRequest(BaseModel):
+    overrides: List[OverrideEntry]
+
+@api_router.post("/admin/login")
+async def admin_login(body: AdminLoginRequest):
+    if not ADMIN_PASSWORD or body.password != ADMIN_PASSWORD:
+        raise HTTPException(status_code=401, detail="Ungültiges Passwort")
+    return {"status": "ok", "token": ADMIN_PASSWORD}
+
+@api_router.get("/admin/overrides")
+async def get_overrides(page: Optional[str] = None, authorization: str = Header(None)):
+    await verify_admin(authorization)
+    query = {}
+    if page:
+        query["page"] = page
+    cursor = db.content_overrides.find(query, {"_id": 0})
+    overrides = await cursor.to_list(2000)
+    return {"overrides": overrides}
+
+@api_router.post("/admin/overrides")
+async def save_overrides(body: BulkOverrideRequest, authorization: str = Header(None)):
+    await verify_admin(authorization)
+    from pymongo import UpdateOne
+    operations = []
+    now = datetime.now(timezone.utc)
+    for entry in body.overrides:
+        operations.append(UpdateOne(
+            {"key": entry.key},
+            {"$set": {
+                "key": entry.key,
+                "value": entry.value,
+                "type": entry.type,
+                "page": entry.page or '',
+                "updatedAt": now,
+            }},
+            upsert=True
+        ))
+    if operations:
+        await db.content_overrides.bulk_write(operations)
+    return {"status": "ok", "count": len(operations)}
+
+@api_router.delete("/admin/overrides")
+async def delete_overrides(page: Optional[str] = None, key: Optional[str] = None, authorization: str = Header(None)):
+    await verify_admin(authorization)
+    if key:
+        await db.content_overrides.delete_one({"key": key})
+    elif page:
+        await db.content_overrides.delete_many({"page": page})
+    return {"status": "ok"}
+
+@api_router.delete("/admin/overrides/all")
+async def delete_all_overrides(authorization: str = Header(None)):
+    await verify_admin(authorization)
+    result = await db.content_overrides.delete_many({})
+    return {"status": "ok", "deleted": result.deleted_count}
+
+@api_router.post("/admin/upload")
+async def upload_image(file: UploadFile = File(...), authorization: str = Header(None)):
+    await verify_admin(authorization)
+    ext = Path(file.filename).suffix.lower()
+    if ext not in ALLOWED_EXTENSIONS:
+        raise HTTPException(status_code=400, detail=f"Ungültiger Dateityp. Erlaubt: {', '.join(ALLOWED_EXTENSIONS)}")
+    contents = await file.read()
+    if len(contents) > MAX_UPLOAD_SIZE:
+        raise HTTPException(status_code=400, detail=f"Datei zu groß. Maximum: {MAX_UPLOAD_SIZE // (1024*1024)}MB")
+    filename = f"{uuid.uuid4().hex}{ext}"
+    filepath = UPLOAD_DIR / filename
+    with open(filepath, "wb") as f:
+        f.write(contents)
+    return {"status": "ok", "url": f"/uploads/{filename}", "filename": filename}
+
 # Include the router in the main app (must be after all routes are defined)
 app.include_router(api_router)
+
+@app.on_event("startup")
+async def startup_db_index():
+    await db.content_overrides.create_index("key", unique=True)
+    await db.content_overrides.create_index("page")
+    logger.info("MongoDB indexes ensured for content_overrides")
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
