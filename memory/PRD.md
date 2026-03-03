@@ -3,68 +3,65 @@
 ## Original Problem Statement
 Build a fully designed, premium, multi-page website for a European visual branding company called VISUWORKS. German language, dark theme, with a visual content editor for live content management.
 
-## Core Requirements
-- **Pages:** Home, Mobilität, Raum & Architektur, Markenkommunikation, Design & Konzeption, Projektmanagement, Projekte, Kontakt, Impressum, Datenschutz, AGB (B2C + B2B)
-- **Global:** Sticky navigation with mega menu, global footer
-- **Design:** Dark theme, glass-like cards, premium typography, micro-interactions
-- **Editor:** Visual Content Editor with MongoDB persistence for text/image overrides
-- **Legal:** Full German legal pages with real company data
-
 ## Architecture
 ```
-/app/backend/server.py     -> FastAPI (contact, admin, editor APIs, health, image upload+optimization)
+/app/backend/server.py     -> FastAPI (contact, admin, editor APIs, health, image upload+Pillow optimization)
 /app/frontend/src/
-  ├── content/registry.js  -> Central field definitions for editor
-  ├── content/images.js    -> All image paths (now .webp)
-  ├── contexts/EditorContext.jsx -> Editor state, getValue(), save(), uploadImage(), compressImage()
-  ├── components/editor/EditorSidebar.jsx -> Admin sidebar UI with progress
-  └── pages/               -> All page components using useEditor()
+  ├── components/
+  │   ├── EditableImage.jsx       -> Image component with zoom/offset, drag-to-reposition
+  │   └── editor/EditorSidebar.jsx -> Admin sidebar with zoom slider, alt text, reset
+  ├── content/
+  │   ├── registry.js             -> ALL editable fields (text + images) per page
+  │   └── images.js               -> Static image map (all .webp)
+  ├── contexts/EditorContext.jsx   -> Editor state, getValue, setValue, save (supports objects)
+  └── pages/                      -> All pages using useEditor() + EditableImage
 ```
 
 ## What's Implemented
 
-### Visual Content Editor - ALL pages connected
-- [x] Homepage (hero, stats, audiences, CTA, testimonials, process)
-- [x] Mobilität (hero, services, FAQs, CTA)
-- [x] Raum & Architektur (hero, services, FAQs, CTA)
-- [x] Markenkommunikation (hero, services, FAQs, CTA)
-- [x] Design & Konzeption (hero, services, FAQs, CTA)
-- [x] Projektmanagement (hero, services, CTA)
-- [x] Projekte overview (hero title/subline, project titles)
-- [x] Individual project/case study pages (all fields editable)
+### Visual Content Editor - ALL content editable
+**Text fields:** Hero titles, descriptions, service items, FAQs, CTAs, project details
+**Image fields (NEW):**
+- Homepage hero image (zoom, offset, alt)
+- 5 service page hero images (replaced icon placeholders with real photos)
+- 18+ project thumbnails (grid + detail pages)
+- Project gallery images (per project)
+- All with zoom slider (1.0-2.0x), drag-to-reposition, alt text, reset
 
 ### Image Optimization Pipeline
-- [x] Client-side: Canvas API compression for files >500KB (resize to 1920px max, WebP quality 82)
-- [x] Server-side: Pillow optimization on upload (resize to 2400px max, convert to WebP quality 82)
-- [x] All 57 static images converted: 160MB -> 17MB (89% reduction)
-- [x] All image references updated to .webp in images.js
-- [x] Lazy loading (loading="lazy") on all non-hero images
-- [x] fetchPriority="high" on hero images for fast first paint
+- Client-side: Canvas API compression >500KB, resize to 1920px max, WebP
+- Server-side: Pillow optimization, resize to 2400px max, WebP Q82
+- All 57 static images: 160MB -> 17MB (89% reduction)
+- Lazy loading on all non-hero images, fetchPriority="high" on heroes
+
+### Image Override Data Model
+```json
+{
+  "key": "images.service.mobilitaet.hero",
+  "type": "image",
+  "value": { "url": "/uploads/x.webp", "zoom": 1.3, "offsetX": 5, "offsetY": -3, "alt": "..." },
+  "page": "/mobilitaet",
+  "updatedAt": "2026-03-03T..."
+}
+```
 
 ### Other Features
-- [x] /api/health endpoint for production monitoring
-- [x] Admin login with password protection
-- [x] Legal pages (Impressum, AGB B2C, AGB B2B, Datenschutz)
-- [x] Contact form (MOCKED - needs RESEND_API_KEY)
-- [x] Cookie consent banner
-- [x] Responsive design
-- [x] SEO meta tags
+- /api/health endpoint
+- Admin login with password protection
+- Legal pages (Impressum, AGB B2C, AGB B2B, Datenschutz)
+- Contact form (MOCKED - needs RESEND_API_KEY)
+- Responsive design, SEO meta tags
 
 ## Key API Endpoints
 - `GET /api/health`
-- `GET /api/public/overrides`
-- `POST /api/contact` (MOCKED)
+- `GET /api/public/overrides` (returns text strings + image objects)
+- `POST /api/admin/overrides` (accepts text strings + image objects)
+- `POST /api/admin/upload` (Pillow optimization + WebP conversion)
 - `POST /api/admin/login`
-- `GET/POST/DELETE /api/admin/overrides`
-- `POST /api/admin/upload` (now with Pillow optimization + WebP conversion)
-
-## DB Schema
-- Collection: `content_overrides`
-- Document: `{ key, value, type: "text"|"image", page, updatedAt }`
 
 ## Credentials
 - Admin: ADMIN_PASSWORD in /app/backend/.env
-- Contact: needs RESEND_API_KEY in /app/backend/.env
+- Contact: needs RESEND_API_KEY
 
 ## Prioritized Backlog
 
@@ -73,7 +70,6 @@ Build a fully designed, premium, multi-page website for a European visual brandi
 - Hero video on homepage
 
 ### P2 — Future
-- Google Analytics 4 + DSGVO cookie consent (opt-in with script loading)
-- Performance optimization (Lighthouse >90)
-- Advanced SEO (structured data: FAQPage, BreadcrumbList)
-- Content expansion: Blog/News, Careers, Partners pages
+- Google Analytics 4 + DSGVO cookie consent
+- Lighthouse >90, Structured Data SEO
+- Blog, Careers, Partners pages
