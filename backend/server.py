@@ -123,6 +123,7 @@ class ContactFormRequest(BaseModel):
     service: Optional[str] = Field(default='', max_length=100)
     message: str = Field(..., min_length=1, max_length=5000)
     honeypot: Optional[str] = Field(default='', alias='website')
+    pagePath: Optional[str] = Field(default='', max_length=500)
 
 
 SERVICE_LABELS = {
@@ -133,44 +134,124 @@ SERVICE_LABELS = {
     'projektmanagement': 'Projektmanagement',
 }
 
-def format_contact_email(data: ContactFormRequest) -> str:
+def format_contact_email(data: ContactFormRequest, client_ip: str = '') -> str:
+    """Format contact form data as a professional HTML email."""
     service_label = SERVICE_LABELS.get(data.service, data.service or 'Nicht angegeben')
+    timestamp = datetime.now(timezone.utc).strftime('%d.%m.%Y um %H:%M Uhr')
+    
     phone_row = f"""
         <tr>
           <td style="padding: 12px 16px; border-bottom: 1px solid #e5e7eb; color: #6b7280; font-size: 14px;">Telefon</td>
           <td style="padding: 12px 16px; border-bottom: 1px solid #e5e7eb; font-size: 14px;">{data.phone}</td>
         </tr>""" if data.phone else ''
+    
+    page_path_row = f"""
+        <tr>
+          <td style="padding: 12px 16px; border-bottom: 1px solid #e5e7eb; color: #6b7280; font-size: 14px;">Seite</td>
+          <td style="padding: 12px 16px; border-bottom: 1px solid #e5e7eb; font-size: 14px;">{data.pagePath}</td>
+        </tr>""" if data.pagePath else ''
+    
+    ip_row = f"""
+        <tr>
+          <td style="padding: 12px 16px; border-bottom: 1px solid #e5e7eb; color: #6b7280; font-size: 14px;">IP-Adresse</td>
+          <td style="padding: 12px 16px; border-bottom: 1px solid #e5e7eb; font-size: 14px; font-family: monospace;">{client_ip}</td>
+        </tr>""" if client_ip else ''
 
-    return f"""
-    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto;">
-      <div style="background: #070910; padding: 32px; border-radius: 16px 16px 0 0;">
-        <h1 style="color: #ffffff; font-size: 20px; margin: 0;">Neue Projektanfrage</h1>
-        <p style="color: #9ca3af; font-size: 14px; margin: 8px 0 0;">via visuworks.de Kontaktformular</p>
-      </div>
-      <div style="background: #ffffff; padding: 0; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 16px 16px;">
-        <table style="width: 100%; border-collapse: collapse;">
-          <tr>
-            <td style="padding: 12px 16px; border-bottom: 1px solid #e5e7eb; color: #6b7280; font-size: 14px; width: 120px;">Name</td>
-            <td style="padding: 12px 16px; border-bottom: 1px solid #e5e7eb; font-size: 14px; font-weight: 600;">{data.name}</td>
-          </tr>
-          <tr>
-            <td style="padding: 12px 16px; border-bottom: 1px solid #e5e7eb; color: #6b7280; font-size: 14px;">E-Mail</td>
-            <td style="padding: 12px 16px; border-bottom: 1px solid #e5e7eb; font-size: 14px;"><a href="mailto:{data.email}" style="color: #4f46e5;">{data.email}</a></td>
-          </tr>{phone_row}
-          <tr>
-            <td style="padding: 12px 16px; border-bottom: 1px solid #e5e7eb; color: #6b7280; font-size: 14px;">Leistung</td>
-            <td style="padding: 12px 16px; border-bottom: 1px solid #e5e7eb; font-size: 14px;">{service_label}</td>
-          </tr>
-          <tr>
-            <td style="padding: 12px 16px; color: #6b7280; font-size: 14px; vertical-align: top;">Nachricht</td>
-            <td style="padding: 12px 16px; font-size: 14px; white-space: pre-wrap; line-height: 1.6;">{data.message}</td>
-          </tr>
-        </table>
-      </div>
-      <p style="color: #9ca3af; font-size: 12px; text-align: center; margin-top: 16px;">
-        Gesendet am {datetime.utcnow().strftime('%d.%m.%Y um %H:%M Uhr')} (UTC)
-      </p>
-    </div>"""
+    return f"""<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin: 0; padding: 20px; background-color: #f3f4f6;">
+  <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto;">
+    <div style="background: #070910; padding: 32px; border-radius: 16px 16px 0 0;">
+      <h1 style="color: #ffffff; font-size: 20px; margin: 0;">Neue Projektanfrage</h1>
+      <p style="color: #9ca3af; font-size: 14px; margin: 8px 0 0;">via visuworks.de Kontaktformular</p>
+    </div>
+    <div style="background: #ffffff; padding: 0; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 16px 16px;">
+      <table style="width: 100%; border-collapse: collapse;">
+        <tr>
+          <td style="padding: 12px 16px; border-bottom: 1px solid #e5e7eb; color: #6b7280; font-size: 14px; width: 120px;">Name</td>
+          <td style="padding: 12px 16px; border-bottom: 1px solid #e5e7eb; font-size: 14px; font-weight: 600;">{data.name}</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px 16px; border-bottom: 1px solid #e5e7eb; color: #6b7280; font-size: 14px;">E-Mail</td>
+          <td style="padding: 12px 16px; border-bottom: 1px solid #e5e7eb; font-size: 14px;"><a href="mailto:{data.email}" style="color: #4f46e5;">{data.email}</a></td>
+        </tr>{phone_row}
+        <tr>
+          <td style="padding: 12px 16px; border-bottom: 1px solid #e5e7eb; color: #6b7280; font-size: 14px;">Leistung</td>
+          <td style="padding: 12px 16px; border-bottom: 1px solid #e5e7eb; font-size: 14px;">{service_label}</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px 16px; border-bottom: 1px solid #e5e7eb; color: #6b7280; font-size: 14px; vertical-align: top;">Nachricht</td>
+          <td style="padding: 12px 16px; border-bottom: 1px solid #e5e7eb; font-size: 14px; white-space: pre-wrap; line-height: 1.6;">{data.message}</td>
+        </tr>{page_path_row}{ip_row}
+        <tr>
+          <td style="padding: 12px 16px; color: #6b7280; font-size: 14px;">Zeitstempel</td>
+          <td style="padding: 12px 16px; font-size: 14px;">{timestamp} (UTC)</td>
+        </tr>
+      </table>
+    </div>
+    <p style="color: #9ca3af; font-size: 12px; text-align: center; margin-top: 16px;">
+      Diese E-Mail wurde automatisch über das VISUWORKS Kontaktformular versendet.
+    </p>
+  </div>
+</body>
+</html>"""
+
+
+def send_email_smtp(to_email: str, from_email: str, reply_to: str, subject: str, html_content: str) -> bool:
+    """
+    Send email via IONOS SMTP with STARTTLS (port 587).
+    Falls back to SSL (port 465) if STARTTLS fails.
+    Returns True on success, raises exception on failure.
+    """
+    if not SMTP_USER or not SMTP_PASS:
+        raise ValueError("SMTP credentials not configured")
+    
+    # Create message
+    msg = MIMEMultipart('alternative')
+    msg['From'] = from_email
+    msg['To'] = to_email
+    msg['Reply-To'] = reply_to
+    msg['Subject'] = subject
+    
+    # Attach HTML content
+    html_part = MIMEText(html_content, 'html', 'utf-8')
+    msg.attach(html_part)
+    
+    # Try STARTTLS first (port 587)
+    try:
+        logger.info(f"Attempting SMTP connection to {SMTP_HOST}:{SMTP_PORT} with STARTTLS")
+        with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=30) as server:
+            server.ehlo()
+            server.starttls(context=ssl.create_default_context())
+            server.ehlo()
+            server.login(SMTP_USER, SMTP_PASS)
+            server.sendmail(from_email, [to_email], msg.as_string())
+            logger.info(f"Email sent successfully via STARTTLS to {to_email}")
+            return True
+    except smtplib.SMTPException as e:
+        logger.warning(f"STARTTLS failed: {e}. Attempting SSL fallback on port 465...")
+    except Exception as e:
+        logger.warning(f"STARTTLS connection failed: {e}. Attempting SSL fallback on port 465...")
+    
+    # Fallback to SSL (port 465)
+    try:
+        logger.info(f"Attempting SMTP connection to {SMTP_HOST}:465 with SSL")
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL(SMTP_HOST, 465, timeout=30, context=context) as server:
+            server.login(SMTP_USER, SMTP_PASS)
+            server.sendmail(from_email, [to_email], msg.as_string())
+            logger.info(f"Email sent successfully via SSL to {to_email}")
+            return True
+    except smtplib.SMTPException as e:
+        logger.error(f"SSL SMTP failed: {e}")
+        raise
+    except Exception as e:
+        logger.error(f"SSL connection failed: {e}")
+        raise
 
 
 @api_router.post("/contact")
