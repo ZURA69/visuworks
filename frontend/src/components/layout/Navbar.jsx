@@ -109,7 +109,7 @@ export const Navbar = () => {
                 data-testid="nav-link-projekte"
                 className={`nav-link-base ${isLinkActive('/projekte') ? 'nav-link-active' : ''}`}
               >
-                Projekte
+                {isDE ? t.nav.projekte.de : t.nav.projekte.en}
                 {isLinkActive('/projekte') && <span className="nav-accent" />}
               </Link>
             </div>
@@ -124,7 +124,7 @@ export const Navbar = () => {
               <span className="text-2xl font-bold tracking-tight">VISUWORKS</span>
             </Link>
 
-            {/* Right: Projektmanagement + Kontakt + CTA */}
+            {/* Right: Projektmanagement + Kontakt + Language + CTA */}
             <div className="hidden lg:flex items-center gap-1">
               {simpleLinks.map((link) => (
                 <Link
@@ -133,13 +133,17 @@ export const Navbar = () => {
                   data-testid={`nav-link-${link.href.replace(/\//g, '')}`}
                   className={`nav-link-base ${isLinkActive(link.href) ? 'nav-link-active' : ''}`}
                 >
-                  {link.label}
+                  {link.href === '/projektmanagement' 
+                    ? (isDE ? t.nav.projektmanagement.de : t.nav.projektmanagement.en)
+                    : (isDE ? t.nav.kontakt.de : t.nav.kontakt.en)
+                  }
                   {isLinkActive(link.href) && <span className="nav-accent" />}
                 </Link>
               ))}
-              <Link to="/kontakt" className="ml-3">
+              <LanguageSwitcher className="ml-1" />
+              <Link to="/kontakt" className="ml-2">
                 <button data-testid="nav-cta-button" className="px-5 py-2 text-sm font-medium rounded-full bg-white text-[#070910] hover:bg-white/90 transition-all duration-200">
-                  Projekt starten
+                  {isDE ? t.nav.projektStarten.de : t.nav.projektStarten.en}
                 </button>
               </Link>
             </div>
