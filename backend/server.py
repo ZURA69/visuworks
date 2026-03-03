@@ -305,6 +305,10 @@ async def upload_image(file: UploadFile = File(...), authorization: str = Header
         f.write(contents)
     return {"status": "ok", "url": f"/uploads/{filename}", "filename": filename}
 
+@api_router.get("/health")
+async def health_check():
+    return {"status": "ok"}
+
 # Include the router in the main app (must be after all routes are defined)
 app.include_router(api_router)
 

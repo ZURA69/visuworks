@@ -5,7 +5,7 @@ import { ArrowRight, Building2, Layers, Eye, Paintbrush, Box, HelpCircle } from 
 import { Button } from '../components/ui/button';
 import { SEOHead } from '../components/SEOHead';
 import { Card, CardContent } from '../components/ui/card';
-
+import { useEditor } from '../contexts/EditorContext';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -51,10 +51,12 @@ const faqs = [
 ];
 
 export default function ArchitekturRaumPage() {
+  const { getValue } = useEditor();
+  const e = getValue || ((_, fb) => fb);
+
   return (
     <div data-testid="architektur-raum-page" className="overflow-hidden">
       <SEOHead page="architektur" />
-      
       
       {/* Hero Section */}
       <section className="relative min-h-[65vh] md:min-h-[70vh] flex items-center" aria-label="Hero">
@@ -68,12 +70,12 @@ export default function ArchitekturRaumPage() {
             <motion.div initial="initial" animate="animate" className="space-y-8">
               <motion.div variants={fadeInUp}>
                 <p className="text-sm font-medium text-indigo-300/80 uppercase tracking-wider mb-4">Raum & Architektur</p>
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1]">
-                  Markenräume und Oberflächen
+                <h1 data-testid="architektur-hero-title" className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1]">
+                  {e('service.architektur.heroTitle', 'Markenräume und Oberflächen')}
                 </h1>
               </motion.div>
               <motion.p variants={fadeInUp} className="text-lg md:text-xl text-white/70 max-w-xl leading-relaxed">
-                Wir transformieren Räume in Markenerlebnisse – durch Architekturfolierung, Glasgestaltung und Interior Branding.
+                {e('service.architektur.heroDesc', 'Wir transformieren Räume in Markenerlebnisse – durch Architekturfolierung, Glasgestaltung und Interior Branding.')}
               </motion.p>
               <motion.div variants={fadeInUp}>
                 <Link to="/kontakt">
@@ -129,8 +131,8 @@ export default function ArchitekturRaumPage() {
                     <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
                       <service.icon className="w-6 h-6 text-white/70" />
                     </div>
-                    <h3 className="text-lg font-bold">{service.title}</h3>
-                    <p className="text-sm text-white/60">{service.desc}</p>
+                    <h3 className="text-lg font-bold">{e(`service.architektur.services.${index}.title`, service.title)}</h3>
+                    <p className="text-sm text-white/60">{e(`service.architektur.services.${index}.desc`, service.desc)}</p>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -274,9 +276,9 @@ export default function ArchitekturRaumPage() {
                   <CardContent className="p-0 space-y-3">
                     <div className="flex items-start gap-3">
                       <HelpCircle className="w-5 h-5 text-indigo-300/80 flex-shrink-0 mt-0.5" />
-                      <h3 className="font-bold">{faq.q}</h3>
+                      <h3 className="font-bold">{e(`service.architektur.faqs.${index}.q`, faq.q)}</h3>
                     </div>
-                    <p className="text-sm text-white/60 pl-8">{faq.a}</p>
+                    <p className="text-sm text-white/60 pl-8">{e(`service.architektur.faqs.${index}.a`, faq.a)}</p>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -296,9 +298,9 @@ export default function ArchitekturRaumPage() {
           >
             <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-indigo-500/10 rounded-full blur-[100px]" />
             <div className="relative text-center max-w-2xl mx-auto">
-              <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">Ihr Raumprojekt</h2>
+              <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">{e('service.architektur.ctaTitle', 'Ihr Raumprojekt')}</h2>
               <p className="text-lg text-white/60 mb-10">
-                Lassen Sie uns über Ihre Raumgestaltung sprechen – von der ersten Idee bis zur Umsetzung.
+                {e('service.architektur.ctaDesc', 'Lassen Sie uns über Ihre Raumgestaltung sprechen – von der ersten Idee bis zur Umsetzung.')}
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link to="/kontakt"><Button size="lg">Projekt besprechen</Button></Link>

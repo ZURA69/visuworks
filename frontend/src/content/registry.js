@@ -1,15 +1,145 @@
 import { hero, company, ctaSection, statistics, targetAudiences, testimonials, processSteps } from './site';
 import { projects } from './projects';
+import { servicePages } from './services';
 import images from './images';
 
 const f = (key, label, type, group, page, defaultValue) => ({
   key, label, type, group, page, default: defaultValue,
 });
 
+// ── Service page definitions (hero + services + FAQs + CTA) ──
+const servicePageDefs = {
+  '/mobilitaet': {
+    slug: 'mobilitaet',
+    label: 'Mobilität',
+    heroTitle: 'Fahrzeugveredelung & Schutz',
+    heroDesc: 'Von der Lackschutzfolie bis zum kompletten Flottenbranding – wir realisieren Ihre Fahrzeugprojekte mit Präzision und Premium-Qualität.',
+    ctaTitle: 'Ihr Fahrzeugprojekt',
+    ctaDesc: 'Ob Einzelfahrzeug oder Flotte – wir beraten Sie gerne zu den Möglichkeiten.',
+    services: servicePages.mobilitaet?.services || [],
+    faqs: servicePages.mobilitaet?.faqs || [],
+  },
+  '/architektur-raum': {
+    slug: 'architektur',
+    label: 'Raum & Architektur',
+    heroTitle: 'Markenräume und Oberflächen',
+    heroDesc: 'Wir transformieren Räume in Markenerlebnisse – durch Architekturfolierung, Glasgestaltung und Interior Branding.',
+    ctaTitle: 'Ihr Raumprojekt',
+    ctaDesc: 'Lassen Sie uns über Ihre Raumgestaltung sprechen – von der ersten Idee bis zur Umsetzung.',
+    services: [
+      { title: 'Raumgestaltung', desc: 'Ganzheitliche Konzepte für Ihre Markenräume' },
+      { title: 'Architekturfolierung', desc: 'Oberflächenveredelung für Fassaden und Innenräume' },
+      { title: 'Glas- & Sichtschutzfolien', desc: 'Funktionale und ästhetische Glaslösungen' },
+      { title: 'Interior Branding', desc: 'Markenidentität in Ihren Räumen verankern' },
+      { title: 'Oberflächenveredelung', desc: 'Premium-Finish für Möbel und Einbauten' },
+      { title: 'Raumkonzepte', desc: 'Von der Idee zur fertigen Raumgestaltung' },
+    ],
+    faqs: [
+      { q: 'Welche Oberflächen können foliert werden?', a: 'Nahezu alle glatten Oberflächen: Glas, Metall, Holz, Kunststoff. Wir beraten Sie zu den Möglichkeiten Ihrer spezifischen Anwendung.' },
+      { q: 'Wie lange dauert ein Raumprojekt?', a: 'Je nach Umfang 2-8 Wochen von der Konzeption bis zur Fertigstellung. Für zeitkritische Projekte bieten wir Express-Optionen.' },
+      { q: 'Arbeiten Sie mit Innenarchitekten zusammen?', a: 'Ja, wir sind etablierter Produktionspartner für Architektur- und Designbüros und setzen deren Entwürfe präzise um.' },
+      { q: 'Gibt es Mustermaterialien?', a: 'Selbstverständlich. Wir senden Ihnen gerne ein Musterpaket mit den für Ihr Projekt relevanten Materialien zu.' },
+    ],
+  },
+  '/markenkommunikation': {
+    slug: 'markenkommunikation',
+    label: 'Markenkommunikation',
+    heroTitle: 'Großformat, Systeme, Event',
+    heroDesc: 'Von der Messewand bis zur Fassadenwerbung – wir produzieren und installieren Ihre Markenkommunikation in jeder Größe.',
+    ctaTitle: 'Ihr Kommunikationsprojekt',
+    ctaDesc: 'Messe, Event oder Retail – wir realisieren Ihre visuelle Kommunikation in jeder Größenordnung.',
+    services: [
+      { title: 'Großformatmedien', desc: 'Banner, Planen, Fassadenwerbung im XXL-Format' },
+      { title: 'Werbesysteme', desc: 'Displays, Roll-ups, Messewände und Aufsteller' },
+      { title: 'Printmedien', desc: 'Flyer, Broschüren, Kataloge und Geschäftsausstattung' },
+      { title: 'Event- & Messegrafik', desc: 'Komplette visuelle Ausstattung für Ihre Events' },
+      { title: 'POS-Systeme', desc: 'Point-of-Sale Materialien und Ladenkommunikation' },
+    ],
+    faqs: [
+      { q: 'Welche Druckgrößen sind möglich?', a: 'Nahezu unbegrenzt – von Visitenkarten bis zu Fassadenwerbung über mehrere hundert Quadratmeter. Wir beraten zur optimalen Lösung.' },
+      { q: 'Können Sie komplette Messestände liefern?', a: 'Ja, wir bieten Full-Service: Konzept, Grafik, Produktion und Aufbau – alles aus einer Hand.' },
+      { q: 'Wie kurzfristig können Sie produzieren?', a: 'Express-Produktion ist möglich. Je nach Umfang können wir auch sehr kurzfristige Termine realisieren.' },
+      { q: 'Bieten Sie auch Montageservice an?', a: 'Selbstverständlich. Unsere Montageteams arbeiten deutschlandweit und auch international.' },
+    ],
+  },
+  '/design-konzepte': {
+    slug: 'design',
+    label: 'Design & Konzeption',
+    heroTitle: 'Leitlinien, die sich umsetzen lassen',
+    heroDesc: 'Design mit Produktionsfokus – wir entwickeln Konzepte, die nicht nur gut aussehen, sondern sich auch realisieren lassen.',
+    ctaTitle: 'Ihr Designprojekt',
+    ctaDesc: 'Konzept, Visualisierung oder komplette Umsetzung – lassen Sie uns über Ihre Anforderungen sprechen.',
+    services: [
+      { title: 'Designkonzepte', desc: 'Visuelle Ideen und Konzepte für Ihre Projekte' },
+      { title: 'Visuelle Leitlinien', desc: 'Styleguides und Designrichtlinien für Konsistenz' },
+      { title: 'Produktionsvorbereitung', desc: 'Druckdaten, Plotdaten und technische Dokumentation' },
+      { title: 'Ganzheitliche Markenbegleitung', desc: 'Langfristige Designpartnerschaft für Ihre Marke' },
+    ],
+    faqs: [
+      { q: 'Übernehmen Sie auch die Umsetzung?', a: 'Ja, das ist unsere Stärke: Wir denken von Anfang an produktionsorientiert und können nahtlos in die Umsetzung übergehen.' },
+      { q: 'Arbeiten Sie auch für Agenturen?', a: 'Selbstverständlich. Wir sind verlässlicher White-Label-Partner für Agenturen, die Produktionskompetenz benötigen.' },
+      { q: 'Welche Formate liefern Sie?', a: 'Alle gängigen Formate: Print-PDFs, Plotdaten, Vektorgrafiken, 3D-Renderings – immer abgestimmt auf den Verwendungszweck.' },
+      { q: 'Wie läuft die Abstimmung ab?', a: 'Transparent und effizient: Klare Meilensteine, regelmäßige Präsentationen und strukturiertes Feedback.' },
+    ],
+  },
+  '/projektmanagement': {
+    slug: 'projektmanagement',
+    label: 'Projektmanagement',
+    heroTitle: 'Struktur für große Umsetzungen',
+    heroDesc: 'Planung, Koordination und Qualitätssicherung für Flotten, Räume und Events – strukturiert und zuverlässig.',
+    ctaTitle: 'Großprojekt geplant?',
+    ctaDesc: 'Flotten-Rollout, Messeauftritt oder komplexe Raumgestaltung – wir übernehmen die Koordination.',
+    services: [
+      { title: 'Planung', desc: 'Strukturierte Projektplanung und Zeitmanagement' },
+      { title: 'Koordination', desc: 'Steuerung aller Beteiligten und Gewerke' },
+      { title: 'Materialberatung', desc: 'Auswahl optimaler Materialien für Ihr Projekt' },
+      { title: 'Produktion', desc: 'Steuerung und Überwachung der Fertigung' },
+      { title: 'Montage', desc: 'Professionelle Installation vor Ort' },
+      { title: 'Qualitätssicherung', desc: 'Kontrolle und Abnahme aller Leistungen' },
+    ],
+    faqs: [],
+  },
+};
+
+function getServiceFields(pathname) {
+  const def = servicePageDefs[pathname];
+  if (!def) return [];
+  const fields = [];
+  const slug = def.slug;
+
+  fields.push(
+    f(`service.${slug}.heroTitle`, 'Hero Überschrift', 'text', 'Hero', pathname, def.heroTitle),
+    f(`service.${slug}.heroDesc`, 'Hero Beschreibung', 'textarea', 'Hero', pathname, def.heroDesc),
+  );
+
+  def.services.forEach((s, i) => {
+    fields.push(
+      f(`service.${slug}.services.${i}.title`, `Leistung ${i + 1} – Titel`, 'text', 'Leistungen', pathname, s.title),
+      f(`service.${slug}.services.${i}.desc`, `Leistung ${i + 1} – Beschreibung`, 'text', 'Leistungen', pathname, s.desc),
+    );
+  });
+
+  def.faqs.forEach((faq, i) => {
+    fields.push(
+      f(`service.${slug}.faqs.${i}.q`, `FAQ ${i + 1} – Frage`, 'text', 'FAQ', pathname, faq.q),
+      f(`service.${slug}.faqs.${i}.a`, `FAQ ${i + 1} – Antwort`, 'textarea', 'FAQ', pathname, faq.a),
+    );
+  });
+
+  if (def.ctaTitle) {
+    fields.push(
+      f(`service.${slug}.ctaTitle`, 'CTA Überschrift', 'text', 'CTA', pathname, def.ctaTitle),
+      f(`service.${slug}.ctaDesc`, 'CTA Beschreibung', 'textarea', 'CTA', pathname, def.ctaDesc),
+    );
+  }
+
+  return fields;
+}
+
 export function getFieldsForPage(pathname) {
   const fields = [];
 
-  // ── Global (visible on all pages) ──
+  // ── Global ──
   const global = [
     f('company.name', 'Firmenname', 'text', 'Global', '*', company.name),
     f('company.tagline', 'Tagline', 'text', 'Global', '*', company.tagline),
@@ -27,34 +157,28 @@ export function getFieldsForPage(pathname) {
       f('hero.ctaSecondary.label', 'Sekundärer Button', 'text', 'Hero', '/', hero.ctaSecondary.label),
       f('images.hero.src', 'Hero Bild', 'image', 'Hero', '/', images.hero.src),
     );
-    // Stats
     statistics.forEach((s, i) => {
       fields.push(
         f(`stats.${i}.value`, `Statistik ${i + 1} – Wert`, 'text', 'Statistiken', '/', String(s.value) + (s.suffix || '')),
         f(`stats.${i}.label`, `Statistik ${i + 1} – Label`, 'text', 'Statistiken', '/', s.label),
-        f(`stats.${i}.description`, `Statistik ${i + 1} – Beschreibung`, 'text', 'Statistiken', '/', s.description),
       );
     });
-    // Audiences
     targetAudiences.forEach((a, i) => {
       fields.push(
         f(`audiences.${i}.title`, `Zielgruppe ${i + 1} – Titel`, 'text', 'Zielgruppen', '/', a.title),
         f(`audiences.${i}.focus`, `Zielgruppe ${i + 1} – Fokus`, 'text', 'Zielgruppen', '/', a.focus),
       );
     });
-    // CTA Section
     fields.push(
       f('cta.headline', 'CTA Überschrift', 'text', 'CTA', '/', ctaSection.headline),
       f('cta.subline', 'CTA Untertitel', 'textarea', 'CTA', '/', ctaSection.subline),
     );
-    // Process Steps
     processSteps.forEach((p, i) => {
       fields.push(
         f(`process.${i}.title`, `Schritt ${p.num} – Titel`, 'text', 'Prozess', '/', p.title),
         f(`process.${i}.desc`, `Schritt ${p.num} – Beschreibung`, 'text', 'Prozess', '/', p.desc),
       );
     });
-    // Testimonials
     testimonials.forEach((t, i) => {
       fields.push(
         f(`testimonials.${i}.quote`, `Bewertung ${i + 1} – Zitat`, 'textarea', 'Bewertungen', '/', t.quote),
@@ -65,18 +189,27 @@ export function getFieldsForPage(pathname) {
     });
   }
 
+  // ── Service Pages ──
+  const serviceFields = getServiceFields(pathname);
+  if (serviceFields.length > 0) {
+    fields.push(...serviceFields);
+  }
+
   // ── Projekte-Übersicht ──
-  if (pathname === '/projekte' || pathname === '/') {
+  if (pathname === '/projekte') {
+    fields.push(
+      f('projekte.heroTitle', 'Hero Überschrift', 'text', 'Hero', '/projekte', 'Projekte & Referenzen'),
+      f('projekte.heroSubline', 'Hero Untertitel', 'text', 'Hero', '/projekte', 'Kuratiert. Präzise. Umgesetzt.'),
+    );
     projects.forEach((p) => {
       fields.push(
-        f(`projects.${p.slug}.title`, `${p.title.substring(0, 30)}… – Titel`, 'text', 'Projekte', '/projekte', p.title),
-        f(`projects.${p.slug}.subtitle`, `${p.title.substring(0, 30)}… – Untertitel`, 'text', 'Projekte', '/projekte', p.subtitle),
-        f(`projects.${p.slug}.category`, `${p.title.substring(0, 30)}… – Kategorie`, 'text', 'Projekte', '/projekte', p.category),
+        f(`projects.${p.slug}.title`, `${p.title.substring(0, 25)}… – Titel`, 'text', 'Projekte', '/projekte', p.title),
+        f(`projects.${p.slug}.subtitle`, `${p.title.substring(0, 25)}… – Untertitel`, 'text', 'Projekte', '/projekte', p.subtitle),
       );
       const img = images.projects[p.slug];
       if (img) {
         fields.push(
-          f(`images.projects.${p.slug}.thumbnail`, `${p.title.substring(0, 30)}… – Bild`, 'image', 'Projektbilder', '/projekte', img.thumbnail),
+          f(`images.projects.${p.slug}.thumbnail`, `${p.title.substring(0, 25)}… – Bild`, 'image', 'Projektbilder', '/projekte', img.thumbnail),
         );
       }
     });
@@ -90,67 +223,25 @@ export function getFieldsForPage(pathname) {
     if (p) {
       fields.push(
         f(`projects.${slug}.title`, 'Projekttitel', 'text', 'Projekt', pathname, p.title),
-        f(`projects.${slug}.subtitle`, 'Projekt-Untertitel', 'text', 'Projekt', pathname, p.subtitle),
+        f(`projects.${slug}.subtitle`, 'Untertitel', 'text', 'Projekt', pathname, p.subtitle),
         f(`projects.${slug}.category`, 'Kategorie', 'text', 'Projekt', pathname, p.category),
-        f(`projects.${slug}.challenge`, 'Herausforderung', 'textarea', 'Projekt', pathname, p.challenge),
-        f(`projects.${slug}.solution`, 'Lösung', 'textarea', 'Projekt', pathname, p.solution),
-        f(`projects.${slug}.result`, 'Ergebnis', 'textarea', 'Projekt', pathname, p.result),
-        f(`projects.${slug}.client`, 'Auftraggeber', 'text', 'Projekt', pathname, p.client),
+        f(`projects.${slug}.client`, 'Auftraggeber', 'text', 'Projekt-Details', pathname, p.client),
+        f(`projects.${slug}.scope`, 'Umfang', 'text', 'Projekt-Details', pathname, p.scope),
+        f(`projects.${slug}.location`, 'Standort', 'text', 'Projekt-Details', pathname, p.location),
+        f(`projects.${slug}.year`, 'Jahr', 'text', 'Projekt-Details', pathname, p.year),
+        f(`projects.${slug}.shortDesc`, 'Kurzbeschreibung', 'textarea', 'Projekt-Texte', pathname, p.shortDesc),
+        f(`projects.${slug}.challenge`, 'Herausforderung', 'textarea', 'Projekt-Texte', pathname, p.challenge),
+        f(`projects.${slug}.solution`, 'Lösung', 'textarea', 'Projekt-Texte', pathname, p.solution),
+        f(`projects.${slug}.result`, 'Ergebnis', 'textarea', 'Projekt-Texte', pathname, p.result),
       );
       const img = images.projects[slug];
       if (img) {
         fields.push(
-          f(`images.projects.${slug}.thumbnail`, 'Projektbild', 'image', 'Projekt', pathname, img.thumbnail),
+          f(`images.projects.${slug}.thumbnail`, 'Projektbild', 'image', 'Projekt-Bild', pathname, img.thumbnail),
         );
       }
     }
   }
 
   return [...global, ...fields];
-}
-
-export function getAllContentKeys() {
-  const keys = {};
-  keys['hero.headline'] = hero.headline;
-  keys['hero.subline'] = hero.subline;
-  keys['hero.ctaPrimary.label'] = hero.ctaPrimary.label;
-  keys['hero.ctaSecondary.label'] = hero.ctaSecondary.label;
-  keys['images.hero.src'] = images.hero.src;
-  keys['company.name'] = company.name;
-  keys['company.tagline'] = company.tagline;
-  keys['company.description'] = company.description;
-  keys['company.phone'] = company.phone;
-  keys['company.email'] = company.email;
-  keys['cta.headline'] = ctaSection.headline;
-  keys['cta.subline'] = ctaSection.subline;
-  statistics.forEach((s, i) => {
-    keys[`stats.${i}.value`] = String(s.value) + (s.suffix || '');
-    keys[`stats.${i}.label`] = s.label;
-    keys[`stats.${i}.description`] = s.description;
-  });
-  targetAudiences.forEach((a, i) => {
-    keys[`audiences.${i}.title`] = a.title;
-    keys[`audiences.${i}.focus`] = a.focus;
-  });
-  processSteps.forEach((p, i) => {
-    keys[`process.${i}.title`] = p.title;
-    keys[`process.${i}.desc`] = p.desc;
-  });
-  testimonials.forEach((t, i) => {
-    keys[`testimonials.${i}.quote`] = t.quote;
-    keys[`testimonials.${i}.author`] = t.author;
-    keys[`testimonials.${i}.position`] = t.position;
-    keys[`testimonials.${i}.company`] = t.company;
-  });
-  projects.forEach((p) => {
-    keys[`projects.${p.slug}.title`] = p.title;
-    keys[`projects.${p.slug}.subtitle`] = p.subtitle;
-    keys[`projects.${p.slug}.category`] = p.category;
-    keys[`projects.${p.slug}.challenge`] = p.challenge;
-    keys[`projects.${p.slug}.solution`] = p.solution;
-    keys[`projects.${p.slug}.result`] = p.result;
-    const img = images.projects[p.slug];
-    if (img?.thumbnail) keys[`images.projects.${p.slug}.thumbnail`] = img.thumbnail;
-  });
-  return keys;
 }

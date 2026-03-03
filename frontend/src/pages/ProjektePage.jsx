@@ -9,8 +9,11 @@ import { ProjectGridSkeleton } from '../components/Skeleton';
 
 import { projects, categories } from '../content/projects';
 import { getProjectImage } from '../content/images';
+import { useEditor } from '../contexts/EditorContext';
 
 export default function ProjektePage() {
+  const { getValue } = useEditor();
+  const e = getValue || ((_, fb) => fb);
   const [activeCategory, setActiveCategory] = useState('alle');
   const [isLoading, setIsLoading] = useState(true);
 
@@ -45,11 +48,11 @@ export default function ProjektePage() {
             className="text-center max-w-3xl mx-auto mb-16"
           >
             <p className="text-sm font-medium text-indigo-300/80 uppercase tracking-wider mb-4">Portfolio</p>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] mb-6">
-              Projekte & Referenzen
+            <h1 data-testid="projekte-hero-title" className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] mb-6">
+              {e('projekte.heroTitle', 'Projekte & Referenzen')}
             </h1>
             <p className="text-lg md:text-xl text-white/70">
-              Kuratiert. Präzise. Umgesetzt.
+              {e('projekte.heroSubline', 'Kuratiert. Präzise. Umgesetzt.')}
             </p>
           </motion.header>
 
@@ -129,8 +132,8 @@ export default function ProjektePage() {
                           <span className="text-xs font-medium text-indigo-300/80 uppercase tracking-wider mb-2">
                             {project.category}
                           </span>
-                          <h2 className="text-lg font-bold mb-2">{project.title}</h2>
-                          <p className="text-sm text-white/50 mb-3 line-clamp-2">{project.shortDesc}</p>
+                          <h2 className="text-lg font-bold mb-2">{e(`projects.${project.slug}.title`, project.title)}</h2>
+                          <p className="text-sm text-white/50 mb-3 line-clamp-2">{e(`projects.${project.slug}.shortDesc`, project.shortDesc)}</p>
                           <div className="flex flex-wrap gap-2">
                             {project.tags.slice(0, 3).map((tag) => (
                               <span key={tag} className="px-2.5 py-1 text-xs text-white/50 bg-white/5 rounded-full">

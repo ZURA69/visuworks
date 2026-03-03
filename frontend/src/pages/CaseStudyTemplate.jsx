@@ -4,10 +4,12 @@ import { motion } from 'framer-motion';
 import { ArrowRight, ArrowLeft, MapPin, Calendar, Building2, Layers } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { getProjectImage, getProjectGallery } from '../content/images';
+import { useEditor } from '../contexts/EditorContext';
 
-
-// Reusable Case Study Template Component
 export const CaseStudyTemplate = ({ project }) => {
+  const { getValue } = useEditor();
+  const e = getValue || ((_, fb) => fb);
+
   if (!project) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -16,19 +18,32 @@ export const CaseStudyTemplate = ({ project }) => {
     );
   }
 
-  const projectImg = getProjectImage(project.slug);
-  const galleryImages = getProjectGallery(project.slug);
+  const slug = project.slug;
+  const projectImg = getProjectImage(slug);
+  const heroImgSrc = e(`images.projects.${slug}.thumbnail`, projectImg?.src);
+  const galleryImages = getProjectGallery(slug);
+
+  const title = e(`projects.${slug}.title`, project.title);
+  const shortDesc = e(`projects.${slug}.shortDesc`, project.shortDesc);
+  const category = e(`projects.${slug}.category`, project.category);
+  const client = e(`projects.${slug}.client`, project.client);
+  const scope = e(`projects.${slug}.scope`, project.scope);
+  const location = e(`projects.${slug}.location`, project.location);
+  const year = e(`projects.${slug}.year`, project.year);
+  const challenge = e(`projects.${slug}.challenge`, project.challenge);
+  const solution = e(`projects.${slug}.solution`, project.solution);
+  const result = e(`projects.${slug}.result`, project.result);
 
   return (
     <div data-testid="case-study-page" className="overflow-hidden">
       {/* Hero Section */}
       <section className="relative min-h-[60vh] flex items-end pb-16">
         <div className="absolute inset-0 overflow-hidden">
-          {projectImg ? (
+          {heroImgSrc ? (
             <>
               <img
-                src={projectImg.src}
-                alt={projectImg.alt || project.title}
+                src={heroImgSrc}
+                alt={projectImg?.alt || title}
                 className="absolute inset-0 w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#070910] via-[#070910]/70 to-[#070910]/40" />
@@ -42,7 +57,6 @@ export const CaseStudyTemplate = ({ project }) => {
         </div>
 
         <div className="relative max-w-[1200px] mx-auto px-6 md:px-12 w-full">
-          {/* Back Link */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -55,20 +69,19 @@ export const CaseStudyTemplate = ({ project }) => {
             </Link>
           </motion.div>
 
-          {/* Hero Content */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
             <span className="inline-block px-4 py-1.5 text-xs font-medium text-indigo-300/80 uppercase tracking-wider bg-indigo-500/10 rounded-full mb-6">
-              {project.category}
+              {category}
             </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] mb-6">
-              {project.title}
+            <h1 data-testid="case-study-title" className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] mb-6">
+              {title}
             </h1>
             <p className="text-xl text-white/70 max-w-2xl">
-              {project.shortDesc}
+              {shortDesc}
             </p>
           </motion.div>
         </div>
@@ -86,22 +99,22 @@ export const CaseStudyTemplate = ({ project }) => {
             <div className="p-6 rounded-[20px] bg-white/[0.02] border border-white/10">
               <Building2 className="w-5 h-5 text-white/40 mb-3" />
               <p className="text-xs text-white/40 uppercase tracking-wider mb-1">Kunde</p>
-              <p className="font-medium">{project.client}</p>
+              <p data-testid="case-study-client" className="font-medium">{client}</p>
             </div>
             <div className="p-6 rounded-[20px] bg-white/[0.02] border border-white/10">
               <Layers className="w-5 h-5 text-white/40 mb-3" />
               <p className="text-xs text-white/40 uppercase tracking-wider mb-1">Umfang</p>
-              <p className="font-medium">{project.scope}</p>
+              <p data-testid="case-study-scope" className="font-medium">{scope}</p>
             </div>
             <div className="p-6 rounded-[20px] bg-white/[0.02] border border-white/10">
               <MapPin className="w-5 h-5 text-white/40 mb-3" />
               <p className="text-xs text-white/40 uppercase tracking-wider mb-1">Standort</p>
-              <p className="font-medium">{project.location}</p>
+              <p className="font-medium">{location}</p>
             </div>
             <div className="p-6 rounded-[20px] bg-white/[0.02] border border-white/10">
               <Calendar className="w-5 h-5 text-white/40 mb-3" />
               <p className="text-xs text-white/40 uppercase tracking-wider mb-1">Jahr</p>
-              <p className="font-medium">{project.year}</p>
+              <p className="font-medium">{year}</p>
             </div>
           </motion.div>
         </div>
@@ -119,7 +132,7 @@ export const CaseStudyTemplate = ({ project }) => {
             <div className="h-full flex items-center justify-center">
               <div className="text-center">
                 <p className="text-white/30 text-sm">Projekt-Hauptbild</p>
-                <p className="text-white/20 text-xs mt-1">{project.title}</p>
+                <p className="text-white/20 text-xs mt-1">{title}</p>
               </div>
             </div>
           </motion.div>
@@ -137,7 +150,7 @@ export const CaseStudyTemplate = ({ project }) => {
             >
               <p className="text-sm font-medium text-white/40 uppercase tracking-wider mb-4">Herausforderung</p>
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">Die Aufgabe</h2>
-              <p className="text-lg text-white/70 leading-relaxed">{project.challenge}</p>
+              <p data-testid="case-study-challenge" className="text-lg text-white/70 leading-relaxed">{challenge}</p>
             </motion.div>
 
             <motion.div
@@ -148,7 +161,7 @@ export const CaseStudyTemplate = ({ project }) => {
             >
               <p className="text-sm font-medium text-white/40 uppercase tracking-wider mb-4">Lösung</p>
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">Unser Ansatz</h2>
-              <p className="text-lg text-white/70 leading-relaxed">{project.solution}</p>
+              <p data-testid="case-study-solution" className="text-lg text-white/70 leading-relaxed">{solution}</p>
             </motion.div>
           </div>
         </div>
@@ -218,7 +231,7 @@ export const CaseStudyTemplate = ({ project }) => {
           >
             <p className="text-sm font-medium text-white/40 uppercase tracking-wider mb-4">Ergebnis</p>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">Das Resultat</h2>
-            <p className="text-lg text-white/70 leading-relaxed">{project.result}</p>
+            <p data-testid="case-study-result" className="text-lg text-white/70 leading-relaxed">{result}</p>
           </motion.div>
         </div>
       </section>

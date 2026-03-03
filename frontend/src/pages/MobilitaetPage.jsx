@@ -7,7 +7,7 @@ import { SEOHead } from '../components/SEOHead';
 import { Card, CardContent } from '../components/ui/card';
 import { servicePages } from '../content/services';
 import { processSteps } from '../content/site';
-
+import { useEditor } from '../contexts/EditorContext';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -23,10 +23,12 @@ const faqs = pageContent.faqs;
 const serviceIcons = [Shield, Users, Car, Palette];
 
 export default function MobilitaetPage() {
+  const { getValue } = useEditor();
+  const e = getValue || ((_, fb) => fb);
+
   return (
     <div data-testid="mobilitaet-page" className="overflow-hidden">
       <SEOHead page="mobilitaet" />
-      
       
       {/* Hero Section */}
       <section className="relative min-h-[65vh] md:min-h-[70vh] flex items-center" aria-label="Hero">
@@ -40,12 +42,12 @@ export default function MobilitaetPage() {
             <motion.div initial="initial" animate="animate" className="space-y-8">
               <motion.div variants={fadeInUp}>
                 <p className="text-sm font-medium text-indigo-300/80 uppercase tracking-wider mb-4">Mobilität</p>
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1]">
-                  Fahrzeugveredelung & Schutz
+                <h1 data-testid="mobilitaet-hero-title" className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1]">
+                  {e('service.mobilitaet.heroTitle', 'Fahrzeugveredelung & Schutz')}
                 </h1>
               </motion.div>
               <motion.p variants={fadeInUp} className="text-lg md:text-xl text-white/70 max-w-xl leading-relaxed">
-                Von der Lackschutzfolie bis zum kompletten Flottenbranding – wir realisieren Ihre Fahrzeugprojekte mit Präzision und Premium-Qualität.
+                {e('service.mobilitaet.heroDesc', 'Von der Lackschutzfolie bis zum kompletten Flottenbranding – wir realisieren Ihre Fahrzeugprojekte mit Präzision und Premium-Qualität.')}
               </motion.p>
               <motion.div variants={fadeInUp}>
                 <Link to="/kontakt">
@@ -101,8 +103,8 @@ export default function MobilitaetPage() {
                     <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
                       {React.createElement(serviceIcons[index] || Shield, { className: 'w-7 h-7 text-white/70' })}
                     </div>
-                    <h3 className="text-xl font-bold">{service.title}</h3>
-                    <p className="text-white/60">{service.desc}</p>
+                    <h3 className="text-xl font-bold">{e(`service.mobilitaet.services.${index}.title`, service.title)}</h3>
+                    <p className="text-white/60">{e(`service.mobilitaet.services.${index}.desc`, service.desc)}</p>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -215,9 +217,9 @@ export default function MobilitaetPage() {
                   <CardContent className="p-0 space-y-3">
                     <div className="flex items-start gap-3">
                       <HelpCircle className="w-5 h-5 text-indigo-300/80 flex-shrink-0 mt-0.5" />
-                      <h3 className="font-bold">{faq.q}</h3>
+                      <h3 className="font-bold">{e(`service.mobilitaet.faqs.${index}.q`, faq.q)}</h3>
                     </div>
-                    <p className="text-sm text-white/60 pl-8">{faq.a}</p>
+                    <p className="text-sm text-white/60 pl-8">{e(`service.mobilitaet.faqs.${index}.a`, faq.a)}</p>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -237,9 +239,9 @@ export default function MobilitaetPage() {
           >
             <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-indigo-500/10 rounded-full blur-[100px]" />
             <div className="relative text-center max-w-2xl mx-auto">
-              <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">Ihr Fahrzeugprojekt</h2>
+              <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">{e('service.mobilitaet.ctaTitle', 'Ihr Fahrzeugprojekt')}</h2>
               <p className="text-lg text-white/60 mb-10">
-                Ob Einzelfahrzeug oder Flotte – wir beraten Sie gerne zu den Möglichkeiten.
+                {e('service.mobilitaet.ctaDesc', 'Ob Einzelfahrzeug oder Flotte – wir beraten Sie gerne zu den Möglichkeiten.')}
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link to="/kontakt"><Button size="lg">Projekt besprechen</Button></Link>
