@@ -97,7 +97,7 @@ export const Navbar = () => {
                   aria-expanded={isMegaOpen}
                   aria-haspopup="true"
                 >
-                  Leistungen
+                  {isDE ? t.nav.leistungen.de : t.nav.leistungen.en}
                   <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isMegaOpen ? 'rotate-180' : ''}`} />
                   {isLeistungenActive && <span className="nav-accent" />}
                 </button>
