@@ -20,7 +20,7 @@ Build a fully designed, premium, multi-page website for a European visual brandi
 
 ## What's Implemented
 
-### Contact Form with IONOS SMTP (NEW - December 2025)
+### Contact Form with IONOS SMTP (December 2025)
 - Production-ready email sending via IONOS SMTP server
 - STARTTLS (port 587) with SSL fallback (port 465)
 - Professional HTML email template with VISUWORKS branding
