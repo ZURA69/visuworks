@@ -304,7 +304,7 @@ export const Navbar = () => {
                                             location.pathname === pillar.href ? 'text-white bg-white/[0.05]' : 'text-white/40 hover:text-white/70'
                                           }`}
                                         >
-                                          Übersicht {pillar.label}
+                                          {isDE ? t.nav.uebersicht.de : t.nav.uebersicht.en} {pillar.label}
                                         </Link>
                                         {pillar.subItems.map((sub) => (
                                           <Link
