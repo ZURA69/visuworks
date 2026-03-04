@@ -2,16 +2,16 @@
 export const seoConfig = {
   siteName: 'VISUWORKS',
   siteUrl: 'https://visuworks.de',
-  defaultTitle: 'VISUWORKS | Visuelle Marken- und Oberflächenlösungen',
-  defaultDescription: 'Premium visuelle Marken- und Oberflächenlösungen für Mobilität, Architektur und Kommunikation. Fahrzeugfolierung, Raumgestaltung, Großformat – europaweit umgesetzt.',
+  defaultTitle: 'VISUWORKS | Fahrzeugfolierung, Raumbranding & Kommunikationsmedien',
+  defaultDescription: 'Spezialist für visuelle Oberflächenlösungen: Fahrzeugfolierung, Interior Branding, Großformat-Medien. Für Unternehmen mit hohem Qualitätsanspruch – europaweit umgesetzt.',
   defaultImage: '/og-image.jpg',
   twitterHandle: '@visuworks',
   locale: 'de_DE',
   
   pages: {
     home: {
-      title: 'VISUWORKS | Visuelle Marken- und Oberflächenlösungen',
-      description: 'Premium visuelle Marken- und Oberflächenlösungen für Mobilität, Architektur und Kommunikation. Fahrzeugfolierung, Interior Branding, Großformat – europaweit umgesetzt.',
+      title: 'VISUWORKS | Fahrzeugfolierung, Raumbranding & Kommunikationsmedien für B2B',
+      description: 'Spezialist für visuelle Oberflächenlösungen: Fahrzeugfolierung, Flottenbranding, Interior Branding, Messegrafik. Für Unternehmen mit hohem Qualitätsanspruch – termingerecht und europaweit.',
       canonical: '/'
     },
     mobilitaet: {
