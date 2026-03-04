@@ -41,6 +41,9 @@ export default function KontaktPage() {
   const ctaText = useEditable('kontakt.sidebar.cta', 'Projekt anfragen');
   const ctaUrl = useEditable('kontakt.sidebar.ctaUrl', '/kontakt#form');
 
+  // Safe phone number for tel: link
+  const phoneClean = (contactPhone || '').replace(/\s/g, '');
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
