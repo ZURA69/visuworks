@@ -6,7 +6,7 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
 import { SEOHead } from '../components/SEOHead';
-import { useEditable } from '../hooks/useEditable';
+import { useEditable } from '../contexts/EditorContext';
 
 import { ContactService } from '../services/contactService';
 import { toast } from 'sonner';
