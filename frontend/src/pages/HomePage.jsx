@@ -37,28 +37,32 @@ const services = [
     title: 'Mobilität',
     description: 'Fahrzeugveredelung & Schutz',
     features: ['PPF & Schutzfolien', 'Flottenbranding', 'Teil-/Vollfolierung', 'Designentwicklung'],
-    href: '/mobilitaet'
+    href: '/mobilitaet',
+    bgImage: '/images/porsche-gt3-cup-race.webp',
   },
   {
     icon: 'Building2',
     title: 'Raum & Architektur',
     description: 'Markenräume und Oberflächen',
     features: ['Raumgestaltung', 'Architekturfolierung', 'Glas- & Sichtschutzfolien', 'Interior Branding'],
-    href: '/architektur-raum'
+    href: '/architektur-raum',
+    bgImage: '/images/IMG_5646.webp',
   },
   {
     icon: 'Megaphone',
     title: 'Markenkommunikation',
     description: 'Großformat, Systeme, Event',
     features: ['Großformatmedien', 'Werbesysteme', 'Event- & Messegrafik', 'POS-Systeme'],
-    href: '/markenkommunikation'
+    href: '/markenkommunikation',
+    bgImage: '/images/IMG_7190.webp',
   },
   {
     icon: 'Palette',
     title: 'Design & Konzeption',
     description: 'Leitlinien, die sich umsetzen lassen',
     features: ['Designkonzepte', 'Visuelle Leitlinien', 'Produktionsvorbereitung', 'Markenbegleitung'],
-    href: '/design-konzepte'
+    href: '/design-konzepte',
+    bgImage: '/images/IMG_7057.webp',
   }
 ];
 
