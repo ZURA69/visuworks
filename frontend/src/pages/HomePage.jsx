@@ -174,25 +174,39 @@ export default function HomePage() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
                 <Link to={service.href}>
-                  <Card data-testid={`service-card-${service.title.toLowerCase().replace(/\s+/g, '-')}`} className="h-full p-8">
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <CardContent className="relative p-0 space-y-6">
-                      <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
-                        {React.createElement(serviceIcons[service.icon], { className: 'w-7 h-7 text-white/70' })}
+                  <Card 
+                    data-testid={`service-card-${service.title.toLowerCase().replace(/\s+/g, '-')}`} 
+                    className="relative h-full overflow-hidden"
+                    style={{
+                      backgroundImage: `url(${service.bgImage})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      backgroundRepeat: 'no-repeat',
+                    }}
+                  >
+                    {/* Dark Overlay - stronger on mobile */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#070910]/80 via-[#070910]/70 to-[#070910]/60 md:from-[#070910]/70 md:via-[#070910]/55 md:to-[#070910]/45 z-[1]" />
+                    
+                    {/* Hover gradient effect */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-[1]" />
+                    
+                    <CardContent className="relative p-8 space-y-6 z-[2]">
+                      <div className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center">
+                        {React.createElement(serviceIcons[service.icon], { className: 'w-7 h-7 text-white' })}
                       </div>
                       <div>
                         <h3 className="text-2xl font-bold mb-2">{service.title}</h3>
-                        <p className="text-white/60">{service.description}</p>
+                        <p className="text-white/70">{service.description}</p>
                       </div>
                       <ul className="space-y-2">
                         {service.features.map((feature) => (
-                          <li key={feature} className="flex items-center gap-3 text-sm text-white/50">
-                            <CheckCircle2 className="w-4 h-4 text-indigo-400/70" />
+                          <li key={feature} className="flex items-center gap-3 text-sm text-white/60">
+                            <CheckCircle2 className="w-4 h-4 text-indigo-400/80" />
                             {feature}
                           </li>
                         ))}
                       </ul>
-                      <div className="flex items-center gap-2 text-sm font-medium text-white/70 group-hover:text-white transition-colors">
+                      <div className="flex items-center gap-2 text-sm font-medium text-white/80 group-hover:text-white transition-colors">
                         Mehr erfahren
                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                       </div>
