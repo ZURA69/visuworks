@@ -27,11 +27,11 @@ export const company = {
 
 // ── Hero Section (Homepage) ──
 export const hero = {
-  headline: 'Präsenz in ihrer stärksten Form.',
+  headline: 'Visuelle Oberflächen. Präzise umgesetzt.',
   subline:
-    'Visuelle Marken- und Oberflächenlösungen für Mobilität, Architektur und Kommunikation – europaweit umgesetzt.',
-  ctaPrimary: { label: 'Projekt starten', href: '/kontakt' },
-  ctaSecondary: { label: 'Referenzen ansehen', href: '/projekte' },
+    'Wir realisieren Fahrzeugfolierungen, Raumbranding und Kommunikationsmedien für Unternehmen mit hohem Qualitätsanspruch – termingerecht und europaweit.',
+  ctaPrimary: { label: 'Projekt anfragen', href: '/kontakt' },
+  ctaSecondary: { label: 'Projekte entdecken', href: '/projekte' },
   tags: [
     { label: 'B2B', href: '/projektmanagement' },
     { label: 'Flotten', href: '/mobilitaet' },
