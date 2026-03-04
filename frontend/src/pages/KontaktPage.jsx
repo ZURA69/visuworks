@@ -232,32 +232,44 @@ export default function KontaktPage() {
             >
               <div className="rounded-[22px] bg-[#0A0C14] border border-white/10 p-8 space-y-8">
                 <div>
-                  <h2 className="text-lg font-bold mb-6">Direkt erreichen</h2>
+                  <h2 {...sectionTitle.props} className="text-lg font-bold mb-6">{sectionTitle.value}</h2>
                   <address className="not-italic space-y-4">
-                    <a href="mailto:info@visuworks.de" className="flex items-center gap-4 text-white/70 hover:text-white transition-colors group">
+                    <a href={`mailto:${contactEmail.value}`} className="flex items-center gap-4 text-white/70 hover:text-white transition-colors group">
                       <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-white/20 transition-colors">
                         <Mail className="w-5 h-5" aria-hidden="true" />
                       </div>
-                      <span>info@visuworks.de</span>
+                      <span {...contactEmail.props}>{contactEmail.value}</span>
                     </a>
-                    <a href="tel:+4921112345678" className="flex items-center gap-4 text-white/70 hover:text-white transition-colors group">
+                    <a href={`tel:${contactPhone.value.replace(/\s/g, '')}`} className="flex items-center gap-4 text-white/70 hover:text-white transition-colors group">
                       <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-white/20 transition-colors">
                         <Phone className="w-5 h-5" aria-hidden="true" />
                       </div>
-                      <span>+49 211 123 456 78</span>
+                      <span {...contactPhone.props}>{contactPhone.value}</span>
                     </a>
                     <div className="flex items-center gap-4 text-white/70">
                       <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
                         <MapPin className="w-5 h-5" aria-hidden="true" />
                       </div>
-                      <span>Düsseldorf</span>
+                      <span {...contactLocation.props}>{contactLocation.value}</span>
                     </div>
                   </address>
                 </div>
 
+                {/* CTA Button */}
+                <div>
+                  <Link 
+                    to={ctaUrl.value}
+                    className="group flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-xl bg-white/[0.08] border border-white/15 text-white font-medium hover:bg-white/[0.12] hover:border-white/25 hover:-translate-y-0.5 transition-all duration-200"
+                    data-testid="sidebar-cta-button"
+                  >
+                    <span {...ctaText.props}>{ctaText.value}</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                  </Link>
+                </div>
+
                 <div className="pt-6 border-t border-white/10">
-                  <p className="text-sm text-white/50">
-                    Projekte europaweit · Standort Düsseldorf
+                  <p {...footerText.props} className="text-sm text-white/50">
+                    {footerText.value}
                   </p>
                 </div>
               </div>
