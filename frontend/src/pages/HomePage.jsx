@@ -143,6 +143,62 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Value Proposition Section */}
+      <section data-testid="value-proposition-section" className="py-20 md:py-28 bg-gradient-to-b from-[#070910] to-[#0A0C14]">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-14"
+          >
+            <h2 className="text-2xl md:text-4xl font-bold tracking-tight mb-4">
+              {valueProposition.headline}
+            </h2>
+            <p className="text-base md:text-lg text-white/60 max-w-2xl mx-auto">
+              {valueProposition.subline}
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-6 mb-10">
+            {valueProposition.benefits.map((benefit, index) => (
+              <motion.div
+                key={benefit.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="flex gap-4 p-6 rounded-2xl bg-white/[0.03] border border-white/[0.06] hover:border-white/10 transition-colors"
+              >
+                <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center">
+                  <CheckCircle2 className="w-5 h-5 text-indigo-400" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-white mb-1">{benefit.title}</h3>
+                  <p className="text-sm text-white/50 leading-relaxed">{benefit.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="text-center"
+          >
+            <Link to={valueProposition.cta.href}>
+              <Button variant="secondary" size="lg">
+                {valueProposition.cta.label}
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </Button>
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Client Logos */}
       <section className="py-16 bg-white/[0.01] border-y border-white/5">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
