@@ -199,6 +199,19 @@ export function getFieldsForPage(pathname) {
     });
   }
 
+  // ── Kontakt-Seite ──
+  if (pathname === '/kontakt') {
+    fields.push(
+      f('kontakt.sidebar.title', 'Sidebar – Überschrift', 'text', 'Kontakt Sidebar', '/kontakt', 'Direkt erreichen'),
+      f('kontakt.sidebar.email', 'Sidebar – E-Mail', 'text', 'Kontakt Sidebar', '/kontakt', 'info@visuworks.de'),
+      f('kontakt.sidebar.phone', 'Sidebar – Telefon', 'text', 'Kontakt Sidebar', '/kontakt', '+49 211 123 456 78'),
+      f('kontakt.sidebar.location', 'Sidebar – Standort', 'text', 'Kontakt Sidebar', '/kontakt', 'Düsseldorf'),
+      f('kontakt.sidebar.footer', 'Sidebar – Footer-Text', 'text', 'Kontakt Sidebar', '/kontakt', 'Projekte europaweit · Standort Düsseldorf'),
+      f('kontakt.sidebar.cta', 'Sidebar – CTA Button Text', 'text', 'Kontakt Sidebar', '/kontakt', 'Projekt anfragen'),
+      f('kontakt.sidebar.ctaUrl', 'Sidebar – CTA Button URL', 'text', 'Kontakt Sidebar', '/kontakt', '/kontakt#form'),
+    );
+  }
+
   // ── Service Pages ──
   const serviceFields = getServiceFields(pathname);
   if (serviceFields.length > 0) {
