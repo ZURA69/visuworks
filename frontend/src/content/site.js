@@ -43,13 +43,38 @@ export const hero = {
 
 // ── CTA Section (Homepage bottom) ──
 export const ctaSection = {
-  headline: 'Projekt besprechen?',
-  subline: 'Lassen Sie uns über Ihr Projekt sprechen – unverbindlich und persönlich.',
+  headline: 'Bereit für Ihr nächstes Projekt?',
+  subline: 'Sprechen Sie mit uns über Ihre Anforderungen – unverbindlich, persönlich und lösungsorientiert.',
   buttons: [
     { label: 'Projekt besprechen', href: '/kontakt', variant: 'default' },
     { label: 'Angebot anfordern', href: '/kontakt', variant: 'secondary' },
     { label: 'Beratung vereinbaren', href: '/kontakt', variant: 'secondary' },
   ],
+};
+
+// ── Value Proposition Section (Homepage) ──
+export const valueProposition = {
+  headline: 'Für Unternehmen, die keine Kompromisse machen.',
+  subline: 'Wir sind spezialisiert auf visuelle Oberflächen- und Kommunikationslösungen für anspruchsvolle B2B-Projekte.',
+  benefits: [
+    {
+      title: 'Komplettlösungen aus einer Hand',
+      description: 'Von der Konzeption über Produktion bis zur Montage – alles intern koordiniert.',
+    },
+    {
+      title: 'Europaweit einsatzbereit',
+      description: 'Projekte in 12+ Ländern realisiert. Mobile Teams für Vor-Ort-Montagen.',
+    },
+    {
+      title: 'Termintreue & Planungssicherheit',
+      description: 'Strukturierte Abläufe, klare Meilensteine, verlässliche Deadlines.',
+    },
+    {
+      title: 'Premium-Qualität im Detail',
+      description: 'Hochwertige Materialien, präzise Verarbeitung, langlebige Ergebnisse.',
+    },
+  ],
+  cta: { label: 'Mehr über unseren Prozess', href: '/projektmanagement' },
 };
 
 // ── Process Steps (Homepage + Process Subpages) ──
