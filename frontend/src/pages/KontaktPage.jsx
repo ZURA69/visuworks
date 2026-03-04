@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Send, Phone, Mail, MapPin } from 'lucide-react';
+import { Send, Phone, Mail, MapPin, ArrowRight } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
 import { SEOHead } from '../components/SEOHead';
+import { useEditable } from '../hooks/useEditable';
 
 import { ContactService } from '../services/contactService';
 import { toast } from 'sonner';
