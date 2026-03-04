@@ -205,6 +205,14 @@ const images = {
     projektmanagement: '/images/IMG_5386.webp',
   },
 
+  // ── Service Card Background images (Homepage) ──
+  serviceCards: {
+    mobilitaet: '/images/porsche-gt3-cup-race.webp',
+    architektur: '/images/IMG_5646.webp',
+    kommunikation: '/images/IMG_7190.webp',
+    design: '/images/IMG_7057.webp',
+  },
+
   // ── Additional / Unused images for future assignment ──
   // /images/IMG_6953.webp — Race car detail
   // /images/IMG_7102.jpg — Trade show
