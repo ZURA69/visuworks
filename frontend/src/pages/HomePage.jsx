@@ -10,7 +10,7 @@ import { Statistics } from '../components/Statistics';
 import { Testimonials } from '../components/Testimonials';
 import { NewsletterSignup } from '../components/NewsletterSignup';
 import { SEOHead } from '../components/SEOHead';
-import { hero, ctaSection, processSteps, targetAudiences } from '../content/site';
+import { hero, ctaSection, processSteps, targetAudiences, valueProposition } from '../content/site';
 import images, { getProjectImage } from '../content/images';
 import { useEditable } from '../contexts/EditorContext';
 import { EditableImage } from '../components/EditableImage';
