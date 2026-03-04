@@ -32,6 +32,15 @@ export default function KontaktPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
 
+  // Editable content
+  const sectionTitle = useEditable('kontakt.sidebar.title', 'Direkt erreichen');
+  const contactEmail = useEditable('kontakt.sidebar.email', 'info@visuworks.de');
+  const contactPhone = useEditable('kontakt.sidebar.phone', '+49 211 123 456 78');
+  const contactLocation = useEditable('kontakt.sidebar.location', 'Düsseldorf');
+  const footerText = useEditable('kontakt.sidebar.footer', 'Projekte europaweit · Standort Düsseldorf');
+  const ctaText = useEditable('kontakt.sidebar.cta', 'Projekt anfragen');
+  const ctaUrl = useEditable('kontakt.sidebar.ctaUrl', '/kontakt#form');
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
