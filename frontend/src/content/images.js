@@ -83,7 +83,7 @@ const images = {
     // 8 — Showroom Premium-Autohaus (Architektur) — Racing Team Booth
     'showroom-premium-autohaus': {
       thumbnail: '/images/IMG_6845.webp',
-      alt: 'Haupt Racing Team Showroom-Gestaltung',
+      alt: 'Showroom Design Autohaus – Interior Branding und Raumgestaltung Motorsport',
       gallery: [
         '/images/IMG_6846.webp',
         '/images/IMG_6848.webp',
@@ -93,7 +93,7 @@ const images = {
     // 9 — Messestand 800m² (Kommunikation) — Pfizer Medical Booth
     'messestand': {
       thumbnail: '/images/IMG_7190.webp',
-      alt: 'Pfizer Medical Messestand',
+      alt: 'Messestand Grafik Pharma – Großformat Messegrafik und Event Branding',
       gallery: [
         '/images/IMG_7193.webp',
         '/images/IMG_5386.webp',
@@ -103,7 +103,7 @@ const images = {
     // 10 — Produktlaunch Automobil (Kommunikation) — Racing Event
     'produktlaunch-automobil': {
       thumbnail: '/images/IMG_6851.webp',
-      alt: 'Produktlaunch Event-Grafik',
+      alt: 'Produktlaunch Event Branding – Hospitality und Motorsport Eventgrafik',
       gallery: [
         '/images/IMG_6854.webp',
         '/images/IMG_6858.webp',
@@ -114,7 +114,7 @@ const images = {
     // 11 — Fassadenwerbung Innenstadt (Kommunikation) — Paper & Tea
     'fassadenwerbung-innenstadt': {
       thumbnail: '/images/IMG_2918.webp',
-      alt: 'Paper & Tea Schaufensterbeklebung',
+      alt: 'Fassadenwerbung und Schaufensterbeklebung – Außenwerbung Retail Store',
       gallery: [
         '/images/IMG_2919.webp',
         '/images/IMG_2921.webp',
@@ -125,21 +125,21 @@ const images = {
     // 12 — POS-Systeme Retail-Kette (Kommunikation) — Ritter Sport
     'pos-systeme-retail-kette': {
       thumbnail: '/images/IMG_5035.webp',
-      alt: 'Ritter Sport Großformat POS-Werbung',
+      alt: 'POS Werbung Großformat – Point of Sale System und Retail Display',
       gallery: ['/images/ritter-sport-grossformat.webp'],
     },
 
     // 13 — CI-Entwicklung Startup (Design)
     'ci-entwicklung-startup': {
       thumbnail: null,
-      alt: '',
+      alt: 'Corporate Design Entwicklung – CI und Brand Guidelines',
       gallery: [],
     },
 
     // 14 — 3D-Rendering Messestand (Design) — Holz-Her Booth
     '3d-rendering-messestand': {
       thumbnail: '/images/IMG_7057.webp',
-      alt: 'Holz-Her Messestand Gestaltung',
+      alt: 'Messestand 3D Visualisierung – Designkonzept und Messebau Planung',
       gallery: [
         '/images/IMG_7059.webp',
         '/images/IMG_7060.webp',
