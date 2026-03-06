@@ -123,7 +123,7 @@ export const SEOHead = ({ page = 'home', customTitle, customDescription, showFaq
       const scripts = document.querySelectorAll('script[data-seo-jsonld]');
       scripts.forEach(s => s.remove());
     };
-  }, [title, description, canonical, page, showFaq]);
+  }, [page, customTitle, customDescription, showFaq]);
 
   return null;
 };
