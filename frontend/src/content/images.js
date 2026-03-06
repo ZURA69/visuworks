@@ -8,9 +8,9 @@
 const images = {
   // ── Hero ──
   hero: {
-    src: '/images/Header_Porsche_HD.webp',
-    alt: 'Porsche Carwrapping und Fahrzeugfolierung – VISUWORKS Premium Motorsport Design NRW',
-    aspectRatio: '4/3',
+    src: '/images/hero_motorsport.webp',
+    alt: 'VISUWORKS Motorsport Boxengasse – Porsche GT3 Cup Fahrzeugfolierung NRW',
+    aspectRatio: '16/9',
   },
 
   // ── Project Gallery (keyed by project slug from projects.js) ──
