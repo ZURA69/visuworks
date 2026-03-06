@@ -2,29 +2,31 @@
 // VISUWORKS — Centralized Image Map
 // Replace URLs/paths here to update all images site-wide.
 // All images live in /public/images/
+// SEO: Alt texts are keyword-optimized for German search market
 // ─────────────────────────────────────────────
 
 const images = {
   // ── Hero ──
   hero: {
     src: '/images/Header_Porsche_HD.webp',
-    alt: 'VISUWORKS Projektarbeit – Porsche Fahrzeugveredelung',
+    alt: 'Porsche Carwrapping und Fahrzeugfolierung – VISUWORKS Premium Motorsport Design NRW',
     aspectRatio: '4/3',
   },
 
   // ── Project Gallery (keyed by project slug from projects.js) ──
+  // SEO: Alt texts include primary keywords + location/brand context
   projects: {
     // 1 — Flottenbranding (Mobilität) — Nissan Icon League vehicle wrapping
     'Flottenbranding': {
       thumbnail: '/images/IMG_4931.webp',
-      alt: 'Nissan Icon League Flottenbranding',
+      alt: 'Flottenbranding Nissan Icon League – Fahrzeugbeschriftung und Vollfolierung NRW',
       gallery: ['/images/IMG_4932.webp'],
     },
 
     // 2 — Lackschutz PPF Porsche 911 (Mobilität)
     'Lackschutz': {
       thumbnail: '/images/IMG_6836.webp',
-      alt: 'PPF Lackschutzfolie Verarbeitung',
+      alt: 'PPF Lackschutzfolie Porsche 911 – Steinschlagschutz und Paint Protection Film',
       gallery: [
         '/images/IMG_6900.webp',
         '/images/IMG_6928.webp',
@@ -35,7 +37,7 @@ const images = {
     // 3 — Designfolierung (Mobilität) — Porsche Sprint Challenge
     'designfolierung': {
       thumbnail: '/images/IMG_6556 2.webp',
-      alt: 'Porsche Sprint Challenge Designfolierung',
+      alt: 'Porsche GT3 Cup Motorsport Folierung – Designfolierung für Rennfahrzeuge',
       gallery: [
         '/images/IMG_6588 2.webp',
         '/images/porsche-gt3-cup-909.webp',
@@ -46,7 +48,7 @@ const images = {
     // 4 — Flottenbranding Logistik (Mobilität) — Another Cotton & diverse
     'flottenbranding': {
       thumbnail: '/images/IMG_7329.webp',
-      alt: 'Fahrzeugbeschriftung Another Cotton',
+      alt: 'Flottenbranding und Fahrzeugbeschriftung für Unternehmen – Transporter Folierung',
       gallery: [
         '/images/IMG_7330.webp',
         '/images/IMG_6250 2.webp',
@@ -57,14 +59,14 @@ const images = {
     // 5 — Headquarters Tech-Konzern (Architektur) — Santander Interior
     'headquarters-tech-konzern': {
       thumbnail: '/images/IMG_5646.webp',
-      alt: 'Santander Interior Branding Büro',
+      alt: 'Interior Branding Büro – Glasfolierung und Raumgestaltung für Unternehmen',
       gallery: [],
     },
 
     // 6 — Flagship Store Modemarke (Architektur) — Gazelle Storefront
     'flagship-store-modemarke': {
       thumbnail: '/images/IMG_7228.webp',
-      alt: 'Gazelle Flagship Store Schaufenstergestaltung',
+      alt: 'Retail Design und Store Branding – Schaufenstergestaltung Flagship Store',
       gallery: [
         '/images/IMG_7235.webp',
         '/images/IMG_7236.webp',
@@ -74,7 +76,7 @@ const images = {
     // 7 — Dental-Zentrum München (Architektur)
     'dental-zentrum-muenchen': {
       thumbnail: '/images/IMG_5675.webp',
-      alt: 'Sichtschutzfolien und Storefront-Branding',
+      alt: 'Sichtschutzfolie Arztpraxis – Glasfolierung und Interior Branding Praxisgestaltung',
       gallery: ['/images/IMG_5732.webp'],
     },
 
