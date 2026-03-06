@@ -96,8 +96,8 @@ export default function DesignKonzeptePage() {
               <div className="aspect-[4/3] rounded-[28px] overflow-hidden bg-gradient-to-br from-white/5 to-white/0 border border-white/10 relative">
                 <EditableImage
                   contentKey="images.service.design.hero"
-                  fallbackSrc={getServiceImage('design-konzepte')}
-                  alt="Design & Konzeption"
+                  fallbackSrc={getServiceImage('design-konzepte')?.src}
+                  alt={getServiceImage('design-konzepte')?.alt || "Design & Konzeption"}
                   className="absolute inset-0 w-full h-full"
                   priority
                 />
