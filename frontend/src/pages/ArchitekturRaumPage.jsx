@@ -98,8 +98,8 @@ export default function ArchitekturRaumPage() {
               <div className="aspect-[4/3] rounded-[28px] overflow-hidden bg-gradient-to-br from-white/5 to-white/0 border border-white/10 relative">
                 <EditableImage
                   contentKey="images.service.architektur.hero"
-                  fallbackSrc={getServiceImage('architektur-raum')}
-                  alt="Raum & Architektur"
+                  fallbackSrc={getServiceImage('architektur-raum')?.src}
+                  alt={getServiceImage('architektur-raum')?.alt || "Raum & Architektur"}
                   className="absolute inset-0 w-full h-full"
                   priority
                 />

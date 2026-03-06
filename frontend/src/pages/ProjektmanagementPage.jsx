@@ -84,8 +84,8 @@ export default function ProjektmanagementPage() {
               <div className="aspect-[4/3] rounded-[28px] overflow-hidden bg-gradient-to-br from-white/5 to-white/0 border border-white/10 relative">
                 <EditableImage
                   contentKey="images.service.projektmanagement.hero"
-                  fallbackSrc={getServiceImage('projektmanagement')}
-                  alt="Projektmanagement"
+                  fallbackSrc={getServiceImage('projektmanagement')?.src}
+                  alt={getServiceImage('projektmanagement')?.alt || "Projektmanagement"}
                   className="absolute inset-0 w-full h-full"
                   priority
                 />
