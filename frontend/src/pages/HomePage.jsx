@@ -83,24 +83,27 @@ export default function HomePage() {
       <SEOHead page="home" />
       {/* Hero Section */}
       <section data-testid="hero-section" className="relative min-h-[85vh] md:min-h-[90vh] flex items-center" aria-label="Hero">
-        {/* Background Image */}
-        <EditableImage
-          contentKey="images.hero.src"
-          fallbackSrc={images.hero.src}
-          alt={images.hero.alt}
-          className="absolute inset-0 w-full h-full"
-          priority
-        />
+        {/* Full-width Background Image */}
+        <div className="absolute inset-0 w-full h-full overflow-hidden">
+          <EditableImage
+            contentKey="images.hero.src"
+            fallbackSrc={images.hero.src}
+            alt={images.hero.alt}
+            className="w-full h-full object-cover object-center"
+            style={{ objectPosition: 'center center' }}
+            priority
+          />
+        </div>
         {/* Dark Overlay for readability */}
-        <div className="absolute inset-0 bg-[#070910]/70" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#070910] via-[#070910]/40 to-[#070910]/60" />
+        <div className="absolute inset-0 bg-[#070910]/60" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#070910] via-transparent to-[#070910]/40" />
 
-        <div className="relative max-w-[1200px] mx-auto px-6 md:px-12 py-24 md:py-32">
+        <div className="relative max-w-[1200px] mx-auto px-6 md:px-12 py-24 md:py-32 w-full">
           <motion.div
             initial="initial"
             animate="animate"
             variants={staggerContainer}
-            className="max-w-3xl space-y-8"
+            className="max-w-3xl mx-auto text-center space-y-8"
           >
             <motion.h1
               variants={fadeInUp}
@@ -110,11 +113,11 @@ export default function HomePage() {
             </motion.h1>
             <motion.p
               variants={fadeInUp}
-              className="text-lg md:text-xl text-white/80 max-w-xl leading-relaxed"
+              className="text-lg md:text-xl text-white/80 max-w-xl mx-auto leading-relaxed"
             >
               {heroSubline}
             </motion.p>
-            <motion.div variants={fadeInUp} className="flex flex-wrap gap-4">
+            <motion.div variants={fadeInUp} className="flex flex-wrap justify-center gap-4">
               <Link to={hero.ctaPrimary.href}>
                 <Button data-testid="hero-cta-primary" size="lg">
                   {heroCta1}
@@ -128,7 +131,7 @@ export default function HomePage() {
               </Link>
             </motion.div>
             {/* Tags */}
-            <motion.div variants={fadeInUp} className="flex flex-wrap gap-3 pt-4">
+            <motion.div variants={fadeInUp} className="flex flex-wrap justify-center gap-3 pt-4">
               {hero.tags.map((tag) => (
                 <Link
                   key={tag.label}
