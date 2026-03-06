@@ -199,20 +199,49 @@ const images = {
   },
 
   // ── Service Page Hero images (keyed by page slug) ──
+  // SEO: Alt texts with primary service keywords + location
   servicePages: {
-    mobilitaet: '/images/porsche-gt3-cup-race.webp',
-    'architektur-raum': '/images/IMG_5646.webp',
-    markenkommunikation: '/images/IMG_7190.webp',
-    'design-konzepte': '/images/IMG_7057.webp',
-    projektmanagement: '/images/IMG_5386.webp',
+    mobilitaet: {
+      src: '/images/porsche-gt3-cup-race.webp',
+      alt: 'Fahrzeugfolierung und Carwrapping Porsche Motorsport – Premium Folierung NRW'
+    },
+    'architektur-raum': {
+      src: '/images/IMG_5646.webp',
+      alt: 'Interior Branding Büro – Glasfolierung und Raumgestaltung für Unternehmen'
+    },
+    markenkommunikation: {
+      src: '/images/IMG_7190.webp',
+      alt: 'Messegrafik und Großformatdruck – Event Branding Messestand'
+    },
+    'design-konzepte': {
+      src: '/images/IMG_7057.webp',
+      alt: 'Designkonzept und 3D Visualisierung – Corporate Design Messestand'
+    },
+    projektmanagement: {
+      src: '/images/IMG_5386.webp',
+      alt: 'Projektmanagement Flotten und Events – Koordination europaweit'
+    },
   },
 
   // ── Service Card Background images (Homepage) ──
+  // SEO: Alt texts for service overview cards
   serviceCards: {
-    mobilitaet: '/images/porsche-gt3-cup-race.webp',
-    architektur: '/images/IMG_5646.webp',
-    kommunikation: '/images/IMG_7190.webp',
-    design: '/images/IMG_7057.webp',
+    mobilitaet: {
+      src: '/images/porsche-gt3-cup-race.webp',
+      alt: 'Fahrzeugfolierung Service – Carwrapping und Flottenbranding NRW'
+    },
+    architektur: {
+      src: '/images/IMG_5646.webp',
+      alt: 'Interior Branding Service – Raumgestaltung und Glasfolierung'
+    },
+    kommunikation: {
+      src: '/images/IMG_7190.webp',
+      alt: 'Markenkommunikation Service – Großformatdruck und Messegrafik'
+    },
+    design: {
+      src: '/images/IMG_7057.webp',
+      alt: 'Design Service – Designkonzept und visuelle Leitlinien'
+    },
   },
 
   // ── Additional / Unused images for future assignment ──
