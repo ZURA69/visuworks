@@ -10,13 +10,12 @@ import {
 } from '../config/seo';
 
 export const SEOHead = ({ page = 'home', customTitle, customDescription, showFaq = false }) => {
-  const pageConfig = seoConfig.pages[page] || {};
-  const title = customTitle || pageConfig.title || seoConfig.defaultTitle;
-  const description = customDescription || pageConfig.description || seoConfig.defaultDescription;
-  const canonical = pageConfig.canonical || '/';
-
   useEffect(() => {
-    // Get keywords inside effect to avoid dependency issues
+    // Get page config inside effect to avoid dependency issues
+    const pageConfig = seoConfig.pages[page] || {};
+    const title = customTitle || pageConfig.title || seoConfig.defaultTitle;
+    const description = customDescription || pageConfig.description || seoConfig.defaultDescription;
+    const canonical = pageConfig.canonical || '/';
     const keywords = pageConfig.keywords || [];
     
     // Set document title
