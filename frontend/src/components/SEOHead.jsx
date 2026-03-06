@@ -14,9 +14,11 @@ export const SEOHead = ({ page = 'home', customTitle, customDescription, showFaq
   const title = customTitle || pageConfig.title || seoConfig.defaultTitle;
   const description = customDescription || pageConfig.description || seoConfig.defaultDescription;
   const canonical = pageConfig.canonical || '/';
-  const keywords = pageConfig.keywords || [];
 
   useEffect(() => {
+    // Get keywords inside effect to avoid dependency issues
+    const keywords = pageConfig.keywords || [];
+    
     // Set document title
     document.title = title;
 
