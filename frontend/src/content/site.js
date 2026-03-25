@@ -1,16 +1,15 @@
 // ─────────────────────────────────────────────
 // VISUWORKS — Global Site Content
-// Edit this file to change text, labels, and data across the site.
-// Layout components will not need changes.
+// Premium Design Studio — Refined Copy
 // ─────────────────────────────────────────────
 
 // ── Company Info ──
 export const company = {
   name: 'VISUWORKS',
   legalName: 'Visuworks visual work labs GmbH',
-  tagline: 'Visuelle Marken- und Oberflächenlösungen',
+  tagline: 'Oberfläche. Raum. Bewegung.',
   description:
-    'Premium visuelle Marken- und Oberflächenlösungen für Mobilität, Architektur und Kommunikation – europaweit umgesetzt.',
+    'Wir gestalten visuelle Präsenz auf Fahrzeugen, in Räumen und auf Oberflächen.',
   address: {
     street: 'Verbindungsstraße 19c',
     zip: '40723',
@@ -27,54 +26,49 @@ export const company = {
 
 // ── Hero Section (Homepage) ──
 export const hero = {
-  headline: 'Visuelle Oberflächen. Präzise umgesetzt.',
-  subline:
-    'Wir realisieren Fahrzeugfolierungen, Raumbranding und Kommunikationsmedien für Unternehmen mit hohem Qualitätsanspruch – termingerecht und europaweit.',
+  headline: 'Markenpräsenz.\nIn Bewegung.',
+  subline: 'Fahrzeug. Oberfläche. Raum.',
   ctaPrimary: { label: 'Projekt anfragen', href: '/kontakt' },
-  ctaSecondary: { label: 'Projekte entdecken', href: '/projekte' },
+  ctaSecondary: { label: 'Arbeiten ansehen', href: '/projekte' },
   tags: [
-    { label: 'B2B', href: '/projektmanagement' },
-    { label: 'Flotten', href: '/mobilitaet' },
-    { label: 'Messe/Event', href: '/markenkommunikation' },
-    { label: 'Architektur', href: '/architektur-raum' },
-    { label: 'Design', href: '/design-konzepte' },
+    { label: 'Fahrzeug', href: '/mobilitaet' },
+    { label: 'Raum', href: '/architektur-raum' },
+    { label: 'Oberfläche', href: '/markenkommunikation' },
   ],
 };
 
 // ── CTA Section (Homepage bottom) ──
 export const ctaSection = {
-  headline: 'Bereit für Ihr nächstes Projekt?',
-  subline: 'Sprechen Sie mit uns über Ihre Anforderungen – unverbindlich, persönlich und lösungsorientiert.',
+  headline: 'Nächstes Projekt?',
+  subline: 'Sprechen Sie mit uns.',
   buttons: [
-    { label: 'Projekt besprechen', href: '/kontakt', variant: 'default' },
-    { label: 'Angebot anfordern', href: '/kontakt', variant: 'secondary' },
-    { label: 'Beratung vereinbaren', href: '/kontakt', variant: 'secondary' },
+    { label: 'Kontakt aufnehmen', href: '/kontakt', variant: 'default' },
   ],
 };
 
 // ── Value Proposition Section (Homepage) ──
 export const valueProposition = {
-  headline: 'Für Unternehmen, die keine Kompromisse machen.',
-  subline: 'Wir sind spezialisiert auf visuelle Oberflächen- und Kommunikationslösungen für anspruchsvolle B2B-Projekte.',
+  headline: 'Präzision in jedem Detail.',
+  subline: 'Gestaltung, die wirkt. Material, das bleibt.',
   benefits: [
     {
-      title: 'Komplettlösungen aus einer Hand',
-      description: 'Von der Konzeption über Produktion bis zur Montage – alles intern koordiniert.',
+      title: 'Konzept bis Montage',
+      description: 'Alles aus einer Hand.',
     },
     {
-      title: 'Europaweit einsatzbereit',
-      description: 'Projekte in 12+ Ländern realisiert. Mobile Teams für Vor-Ort-Montagen.',
+      title: 'Europaweit',
+      description: 'Mobile Teams vor Ort.',
     },
     {
-      title: 'Termintreue & Planungssicherheit',
-      description: 'Strukturierte Abläufe, klare Meilensteine, verlässliche Deadlines.',
+      title: 'Termingerecht',
+      description: 'Klare Prozesse.',
     },
     {
-      title: 'Premium-Qualität im Detail',
-      description: 'Hochwertige Materialien, präzise Verarbeitung, langlebige Ergebnisse.',
+      title: 'Premium',
+      description: 'Kompromisslose Qualität.',
     },
   ],
-  cta: { label: 'Mehr über unseren Prozess', href: '/projektmanagement' },
+  cta: { label: 'Unser Prozess', href: '/projektmanagement' },
 };
 
 // ── Process Steps (Homepage + Process Subpages) ──
