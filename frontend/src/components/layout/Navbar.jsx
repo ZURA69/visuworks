@@ -387,56 +387,56 @@ export const Navbar = () => {
           display: flex;
           align-items: center;
           padding: 6px 14px;
-          border-radius: 10px;
-          font-size: 14px;
+          border-radius: 0;
+          font-size: 12px;
           font-weight: 500;
-          color: rgba(255,255,255,0.55);
-          border: 1px solid transparent;
-          transition: color 200ms ease-out, background-color 200ms ease-out, border-color 200ms ease-out;
+          letter-spacing: 0.04em;
+          text-transform: uppercase;
+          color: rgba(255,255,255,0.45);
+          border: none;
+          transition: color 400ms cubic-bezier(0.16, 1, 0.3, 1);
           cursor: pointer;
           background: none;
         }
         .nav-link-base:hover {
           color: rgba(255,255,255,0.9);
-          background-color: rgba(255,255,255,0.04);
-          border-color: rgba(255,255,255,0.10);
+          background-color: transparent;
         }
         .nav-link-active {
           color: #fff !important;
-          background-color: rgba(255,255,255,0.06) !important;
-          border-color: rgba(255,255,255,0.12) !important;
+          background-color: transparent !important;
         }
         .nav-accent {
           position: absolute;
-          bottom: -2px;
+          bottom: -4px;
           left: 50%;
           transform: translateX(-50%);
-          width: 16px;
-          height: 2px;
-          border-radius: 1px;
-          background: linear-gradient(90deg, rgba(129,140,248,0.6), rgba(167,139,250,0.6));
+          width: 4px;
+          height: 4px;
+          border-radius: 50%;
+          background: rgba(255,255,255,0.6);
         }
         .mega-panel {
-          background: rgba(10,12,20,0.92);
-          backdrop-filter: blur(24px);
-          -webkit-backdrop-filter: blur(24px);
-          border: 1px solid rgba(255,255,255,0.08);
-          border-radius: 18px;
+          background: rgba(5,5,7,0.95);
+          backdrop-filter: blur(40px);
+          -webkit-backdrop-filter: blur(40px);
+          border: 1px solid rgba(255,255,255,0.06);
+          border-radius: 12px;
           overflow: hidden;
-          box-shadow: 0 24px 48px rgba(0,0,0,0.4);
+          box-shadow: 0 40px 80px rgba(0,0,0,0.5);
         }
         .mega-sub-link {
           display: flex;
           flex-direction: column;
-          gap: 1px;
-          padding: 7px 10px;
-          border-radius: 8px;
-          color: rgba(255,255,255,0.55);
-          transition: color 180ms ease-out, background-color 180ms ease-out;
+          gap: 2px;
+          padding: 10px 14px;
+          border-radius: 6px;
+          color: rgba(255,255,255,0.5);
+          transition: color 300ms cubic-bezier(0.16, 1, 0.3, 1);
         }
         .mega-sub-link:hover {
           color: #fff;
-          background-color: rgba(255,255,255,0.05);
+          background-color: rgba(255,255,255,0.03);
         }
       `}</style>
     </>
