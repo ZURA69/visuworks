@@ -1,114 +1,68 @@
-# VISUWORKS Website — PRD
+# VISUWORKS — Product Requirements Document
 
 ## Original Problem Statement
-Build a fully designed, premium, multi-page website for a European visual branding company called VISUWORKS. German language, dark theme, with a visual content editor for live content management.
+Build a fully designed, premium, multi-page website for VISUWORKS (European visual branding company). The website must achieve a "High-End Automotive Design Studio / Architectural Portfolio" aesthetic with maximum calmness, precision, and value.
+
+## User Personas
+- **Potential B2B Clients**: Marketing/Brand managers from automotive, architecture, retail, and manufacturing sectors looking for visual branding services.
+- **Design Partners**: Interior architects and agencies looking for a production partner.
+- **VISUWORKS Admin**: Content editors who use the visual editor to update text/images.
+
+## Core Requirements
+- **Pages**: Home, Mobilität, Raum & Architektur, Markenkommunikation, Design & Konzeption, Projektmanagement, Projekte, Kontakt, Impressum, Datenschutz, AGB
+- **Vibe/Design**: Maximum calmness, precision, value. Large typography (font-light), excessive whitespace (py-28/py-40), removal of unnecessary boxes/borders/lines, subtle micro-animations (fade-ins), large high-quality images
+- **Content**: German (Primary) and English (Secondary)
+- **Features**: Visual Content Editor (MongoDB persistence), Functional Contact Form (IONOS SMTP), Fully responsive, SEO + DSGVO compliant
 
 ## Architecture
-```
-/app/backend/server.py     -> FastAPI (contact form with IONOS SMTP, admin, editor APIs, health, image upload+Pillow optimization)
-/app/frontend/src/
-  ├── components/
-  │   ├── EditableImage.jsx       -> Image component with zoom/offset, drag-to-reposition
-  │   └── editor/EditorSidebar.jsx -> Admin sidebar with zoom slider, alt text, reset
-  ├── content/
-  │   ├── registry.js             -> ALL editable fields (text + images) per page
-  │   └── images.js               -> Static image map (all .webp)
-  ├── contexts/
-  │   ├── EditorContext.jsx       -> Editor state, getValue, setValue, save (supports objects)
-  │   └── LanguageContext.jsx     -> DE/EN language switching
-  ├── config/
-  │   ├── seo.js                  -> SEO config, structured data schemas
-  │   └── keywords.js             -> Keyword strategy for German market
-  ├── i18n/translations.js        -> All UI text translations DE/EN
-  ├── services/contactService.js  -> Contact form API integration
-  └── pages/                      -> All pages using useEditor() + EditableImage
-```
+- **Frontend**: React + TailwindCSS + Framer Motion + Shadcn UI
+- **Backend**: FastAPI + MongoDB + IONOS SMTP
+- **Design System**: Sharp edges (no rounded corners), neutral white/dark palette (#050507 base), font-light typography, minimal borders (white/[0.06]), gap-px grid patterns
 
-## What's Implemented
+## What's Been Implemented
 
-### Pre-Deployment Audit Completed (March 2026)
-- ✅ 100% Backend tests passed (14/14)
-- ✅ 100% Frontend functionality verified
-- ✅ All navigation and routing working
-- ✅ Mobile responsive (375px, 768px, 1920px)
-- ✅ Legal compliance (Impressum, Datenschutz, AGB)
-- ✅ SEO configured with structured data
+### Completed Features
+- Full multi-page website with all 11 pages
+- Visual Content Editor with MongoDB persistence (zoom/pan support)
+- IONOS SMTP Contact Form with rate limiting
+- Language Switcher (DE/EN) via Context API
+- Comprehensive SEO (meta tags, JSON-LD schemas, keywords strategy)
+- Mobile responsiveness
+- Cookie Consent Banner (DSGVO)
+- Pre-Deployment Audit (Production Ready)
 
-### Contact Form with IONOS SMTP
-- Production-ready email sending via IONOS SMTP server
-- STARTTLS (port 587) with SSL fallback (port 465)
-- Professional HTML email template with VISUWORKS branding
-- Rate limiting: max 5 requests per IP in 10 minutes
-- Honeypot field for bot protection
-
-### Visual Content Editor
-- ALL text and images editable via admin UI
-- Image zoom/pan controls with MongoDB persistence
-- Password-protected admin access
-
-### Language Switcher (DE/EN)
-- Toggle button in header
-- All navigation and UI text translated
-- Language saved in localStorage
-
-### SEO Implementation
-- Keyword-optimized meta titles and descriptions
-- 6 JSON-LD structured data schemas
-- Sitemap.xml and robots.txt
-- Geo tags for local SEO (Hilden, NRW)
-
-### Image Optimization
-- 57 WebP images (18MB total)
-- Lazy loading implemented
-- Server-side Pillow optimization
-
-## Key API Endpoints
-- `GET /api/health`
-- `POST /api/contact` (IONOS SMTP)
-- `GET /api/content/overrides`
-- `POST /api/admin/overrides`
-- `POST /api/admin/upload`
-- `POST /api/admin/login`
-
-## Company Information
-```
-Name: visuworks visual work labs GmbH
-Location: Hilden, NRW, Germany
-Email: info@visuworks.de
-Phone: +49 151 72615378
-```
-
-## Environment Variables
-```
-# backend/.env
-MONGO_URL, DB_NAME, CORS_ORIGINS, ADMIN_PASSWORD
-IONOS_SMTP_HOST, IONOS_SMTP_PORT, IONOS_SMTP_USER, IONOS_SMTP_PASS
-CONTACT_TO_EMAIL, CONTACT_FROM_EMAIL
-
-# frontend/.env
-REACT_APP_BACKEND_URL
-```
-
-## Deployment Status
-**PRODUCTION READY** ✅
-
-See `/app/DEPLOYMENT_AUDIT_REPORT.md` for full audit details.
+### Premium Design Refinement (P0) — COMPLETED 2025-03-25
+- **HomePage**: Hero with full-width BG image, font-light h1 (text-7xl), left-aligned layout, gap-px grid sections, neutral white accents
+- **All Service Pages** (Mobilität, Raum & Architektur, Markenkommunikation, Design & Konzeption, Projektmanagement): Full-width hero with BG images, consistent grid layouts (gap-px), unified section spacing (py-28/py-40)
+- **ProjektePage**: Sharp-edge project cards, premium filter tabs
+- **KontaktPage**: Clean form layout with thin borders, premium sidebar
+- **Shared Components**: Statistics (grid), Testimonials (line-style nav dots), ClientLogos (clean badges), Newsletter (split layout), Footer (consistent spacing)
+- **UI Components**: Button (sharp edges, tracking, uppercase), Card (no rounded, subtle borders), Input/Textarea (clean borders), Tabs (sharp-edge triggers)
+- **Navbar**: Sharp CTA button, neutral mega-menu link colors, no indigo accents
+- **Database**: Test data pollution cleaned
 
 ## Prioritized Backlog
 
-### Completed ✅
-- [x] IONOS SMTP Integration
-- [x] Language Switcher (DE/EN)
-- [x] SEO Keyword Implementation
-- [x] Mobile Responsiveness Optimization
-- [x] Pre-Deployment Audit
+### P1 — Hero Video Integration
+- Cinematisch, langsam, loopfähig — nicht werblich
+- Only if it supports the calm, premium aesthetic
+- User confirmation required before implementation
 
-### P1 — Next Up
-- Hero video integration (user to provide video file)
-- Google Analytics 4 + DSGVO cookie consent optimization
+### P2 — Cookie Consent Logic Enhancement
+- DSGVO-compliant banner (already exists visually)
+- Gate analytics/tracking scripts based on consent
 
-### P2 — Future
-- Blog/News section
-- Advanced analytics tracking
+### P2 — Content Expansion
+- Blog/News page
 - Careers page
 - Partners page
+
+## Key Technical Details
+- **Content Editor**: Overrides from MongoDB `content_overrides` collection take precedence over `site.js` / `images.js`
+- **Admin Panel**: Path `/admin`, Password: `visuworks2026`
+- **DB Schema**: `content_overrides` — `key` (string), `type` ("text"|"image"), `value` (string|object)
+- **Background Color**: `#050507` (not `#070910`)
+- **Border Style**: `border-white/[0.06]` (6% opacity white)
+- **Typography**: `font-light tracking-[-0.04em]` for headlines, `text-white/45` for body
+- **Section Spacing**: `py-28 md:py-40` standard
+- **Label Style**: `text-[11px] font-medium text-white/30 uppercase tracking-[0.15em]`
