@@ -16,9 +16,9 @@ import { useEditable } from '../contexts/EditorContext';
 import { EditableImage } from '../components/EditableImage';
 
 const fadeInUp = {
-  initial: { opacity: 0, y: 30 },
+  initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+  transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
 };
 
 const staggerContainer = {
@@ -82,7 +82,7 @@ export default function HomePage() {
     <div data-testid="home-page" className="overflow-hidden">
       <SEOHead page="home" />
       {/* Hero Section */}
-      <section data-testid="hero-section" className="relative min-h-[85vh] md:min-h-[90vh] flex items-center" aria-label="Hero">
+      <section data-testid="hero-section" className="relative min-h-[90vh] md:min-h-screen flex items-center" aria-label="Hero">
         {/* Full-width Background Image */}
         <div className="absolute inset-0 w-full h-full overflow-hidden">
           <EditableImage
@@ -95,33 +95,33 @@ export default function HomePage() {
           />
         </div>
         {/* Dark Overlay for readability */}
-        <div className="absolute inset-0 bg-[#070910]/60" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#070910] via-transparent to-[#070910]/40" />
+        <div className="absolute inset-0 bg-[#050507]/65" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#050507] via-transparent to-[#050507]/30" />
 
-        <div className="relative max-w-[1200px] mx-auto px-6 md:px-12 py-24 md:py-32 w-full">
+        <div className="relative max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16 py-32 md:py-40 w-full">
           <motion.div
             initial="initial"
             animate="animate"
             variants={staggerContainer}
-            className="max-w-3xl mx-auto text-center space-y-8"
+            className="max-w-4xl"
           >
             <motion.h1
               variants={fadeInUp}
-              className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1]"
+              className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-light tracking-[-0.04em] leading-[0.95]"
             >
               {heroHeadline}
             </motion.h1>
             <motion.p
               variants={fadeInUp}
-              className="text-lg md:text-xl text-white/80 max-w-xl mx-auto leading-relaxed"
+              className="mt-8 text-base md:text-lg text-white/55 max-w-lg leading-relaxed font-light"
             >
               {heroSubline}
             </motion.p>
-            <motion.div variants={fadeInUp} className="flex flex-wrap justify-center gap-4">
+            <motion.div variants={fadeInUp} className="mt-10 flex flex-wrap gap-4">
               <Link to={hero.ctaPrimary.href}>
                 <Button data-testid="hero-cta-primary" size="lg">
                   {heroCta1}
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                  <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
               <Link to={hero.ctaSecondary.href}>
@@ -131,12 +131,12 @@ export default function HomePage() {
               </Link>
             </motion.div>
             {/* Tags */}
-            <motion.div variants={fadeInUp} className="flex flex-wrap justify-center gap-3 pt-4">
+            <motion.div variants={fadeInUp} className="mt-12 flex flex-wrap gap-3">
               {hero.tags.map((tag) => (
                 <Link
                   key={tag.label}
                   to={tag.href}
-                  className="px-4 py-1.5 text-xs font-medium text-white/70 bg-white/10 border border-white/15 rounded-full hover:text-white hover:bg-white/15 hover:border-white/25 transition-all duration-200 backdrop-blur-sm"
+                  className="px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.05em] text-white/40 border border-white/10 hover:text-white/70 hover:border-white/20 transition-all duration-300"
                 >
                   {tag.label}
                 </Link>
@@ -147,39 +147,39 @@ export default function HomePage() {
       </section>
 
       {/* Value Proposition Section */}
-      <section data-testid="value-proposition-section" className="py-20 md:py-28 bg-gradient-to-b from-[#070910] to-[#0A0C14]">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+      <section data-testid="value-proposition-section" className="py-28 md:py-40">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-14"
+            transition={{ duration: 0.8 }}
+            className="mb-20"
           >
-            <h2 className="text-2xl md:text-4xl font-bold tracking-tight mb-4">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-[-0.03em] leading-[1.1] mb-6">
               {valueProposition.headline}
             </h2>
-            <p className="text-base md:text-lg text-white/60 max-w-2xl mx-auto">
+            <p className="text-base text-white/45 max-w-xl leading-relaxed font-light">
               {valueProposition.subline}
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-6 mb-10">
+          <div className="grid md:grid-cols-2 gap-px bg-white/[0.06] mb-16">
             {valueProposition.benefits.map((benefit, index) => (
               <motion.div
                 key={benefit.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="flex gap-4 p-6 rounded-2xl bg-white/[0.03] border border-white/[0.06] hover:border-white/10 transition-colors"
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="flex gap-5 p-8 md:p-10 bg-[#050507] hover:bg-white/[0.02] transition-colors duration-500"
               >
-                <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center">
-                  <CheckCircle2 className="w-5 h-5 text-indigo-400" />
+                <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center">
+                  <CheckCircle2 className="w-4 h-4 text-white/30" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-white mb-1">{benefit.title}</h3>
-                  <p className="text-sm text-white/50 leading-relaxed">{benefit.description}</p>
+                  <h3 className="font-medium text-white/90 mb-2 tracking-[-0.01em]">{benefit.title}</h3>
+                  <p className="text-sm text-white/40 leading-relaxed">{benefit.description}</p>
                 </div>
               </motion.div>
             ))}
@@ -190,10 +190,9 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="text-center"
           >
             <Link to={valueProposition.cta.href}>
-              <Button variant="secondary" size="lg">
+              <Button variant="secondary">
                 {valueProposition.cta.label}
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
@@ -203,39 +202,39 @@ export default function HomePage() {
       </section>
 
       {/* Client Logos */}
-      <section className="py-16 bg-white/[0.01] border-y border-white/5">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+      <section className="py-20 md:py-28 border-y border-white/[0.06]">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
           <ClientLogos />
         </div>
       </section>
 
       {/* Services Section */}
-      <section data-testid="services-section" className="py-24 md:py-32">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+      <section data-testid="services-section" className="py-28 md:py-40">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="mb-16"
+            transition={{ duration: 0.8 }}
+            className="mb-20"
           >
-            <p className="text-sm font-medium text-white/40 uppercase tracking-wider mb-4">Leistungen</p>
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tight">Klar strukturiert</h2>
+            <p className="text-[11px] font-medium text-white/30 uppercase tracking-[0.15em] mb-5">Leistungen</p>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-[-0.03em]">Klar strukturiert</h2>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 gap-4">
             {services.map((service, index) => (
               <motion.div
                 key={service.title}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
               >
                 <Link to={service.href}>
                   <Card 
                     data-testid={`service-card-${service.title.toLowerCase().replace(/\s+/g, '-')}`} 
-                    className="relative h-full overflow-hidden"
+                    className="group relative h-full overflow-hidden border-white/[0.06] hover:border-white/15 transition-all duration-500"
                     style={{
                       backgroundImage: `url(${service.bgImage})`,
                       backgroundSize: 'cover',
@@ -243,31 +242,28 @@ export default function HomePage() {
                       backgroundRepeat: 'no-repeat',
                     }}
                   >
-                    {/* Dark Overlay - stronger on mobile */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#070910]/80 via-[#070910]/70 to-[#070910]/60 md:from-[#070910]/70 md:via-[#070910]/55 md:to-[#070910]/45 z-[1]" />
+                    {/* Dark Overlay */}
+                    <div className="absolute inset-0 bg-[#050507]/75 group-hover:bg-[#050507]/65 transition-all duration-700 z-[1]" />
                     
-                    {/* Hover gradient effect */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-[1]" />
-                    
-                    <CardContent className="relative p-8 space-y-6 z-[2]">
-                      <div className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center">
-                        {React.createElement(serviceIcons[service.icon], { className: 'w-7 h-7 text-white' })}
+                    <CardContent className="relative p-8 md:p-10 space-y-6 z-[2]">
+                      <div className="w-10 h-10 flex items-center justify-center border border-white/15 group-hover:border-white/25 transition-colors duration-500">
+                        {React.createElement(serviceIcons[service.icon], { className: 'w-5 h-5 text-white/60' })}
                       </div>
                       <div>
-                        <h3 className="text-2xl font-bold mb-2">{service.title}</h3>
-                        <p className="text-white/70">{service.description}</p>
+                        <h3 className="text-xl md:text-2xl font-light tracking-[-0.02em] mb-2">{service.title}</h3>
+                        <p className="text-sm text-white/40 font-light">{service.description}</p>
                       </div>
-                      <ul className="space-y-2">
+                      <ul className="space-y-2.5">
                         {service.features.map((feature) => (
-                          <li key={feature} className="flex items-center gap-3 text-sm text-white/60">
-                            <CheckCircle2 className="w-4 h-4 text-indigo-400/80" />
+                          <li key={feature} className="flex items-center gap-3 text-[13px] text-white/45">
+                            <div className="w-1 h-1 bg-white/30 flex-shrink-0" />
                             {feature}
                           </li>
                         ))}
                       </ul>
-                      <div className="flex items-center gap-2 text-sm font-medium text-white/80 group-hover:text-white transition-colors">
+                      <div className="flex items-center gap-2 text-[12px] font-medium uppercase tracking-[0.05em] text-white/40 group-hover:text-white/70 transition-colors duration-500">
                         Mehr erfahren
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-500" />
                       </div>
                     </CardContent>
                   </Card>
@@ -279,18 +275,18 @@ export default function HomePage() {
       </section>
 
       {/* Projects Preview Section */}
-      <section data-testid="projects-preview-section" className="py-24 md:py-32 bg-white/[0.02]">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+      <section data-testid="projects-preview-section" className="py-28 md:py-40 border-t border-white/[0.06]">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16"
+            transition={{ duration: 0.8 }}
+            className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20"
           >
             <div>
-              <p className="text-sm font-medium text-white/40 uppercase tracking-wider mb-4">Portfolio</p>
-              <h2 className="text-3xl md:text-5xl font-bold tracking-tight">Ausgewählte Projekte</h2>
+              <p className="text-[11px] font-medium text-white/30 uppercase tracking-[0.15em] mb-5">Portfolio</p>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-[-0.03em]">Ausgewählte Projekte</h2>
             </div>
             <Link to="/projekte">
               <Button variant="secondary">
@@ -300,17 +296,17 @@ export default function HomePage() {
             </Link>
           </motion.div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {featuredProjects.map((project, index) => (
               <motion.div
                 key={project.id}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.08 }}
+                transition={{ duration: 0.6, delay: index * 0.08 }}
               >
                 <Link to={`/projekte/${project.slug}`}>
-                  <div data-testid={`project-tile-${project.id}`} className="group relative aspect-[4/3] rounded-[20px] overflow-hidden bg-[#0A0C14] border border-white/10 hover:border-white/20 hover:-translate-y-1 transition-all duration-300">
+                  <div data-testid={`project-tile-${project.id}`} className="group relative aspect-[4/3] overflow-hidden bg-[#0A0C14] border border-white/[0.06] hover:border-white/15 transition-all duration-500">
                     {/* Project Image */}
                     {(() => {
                       const img = getProjectImage(project.slug);
@@ -320,17 +316,17 @@ export default function HomePage() {
                           fallbackSrc={img.src}
                           alt={img.alt || project.title}
                           className="absolute inset-0 w-full h-full"
-                          imgClassName="transition-transform duration-500 group-hover:scale-105"
+                          imgClassName="transition-transform duration-700 group-hover:scale-[1.03]"
                         />
                       ) : null;
                     })()}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#070910] via-[#070910]/60 to-transparent group-hover:via-[#070910]/50 transition-all duration-500" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#050507] via-[#050507]/50 to-transparent group-hover:via-[#050507]/40 transition-all duration-700" />
                     <div className="absolute inset-0 flex flex-col justify-end p-6 relative z-10">
-                      <span className="text-xs font-medium text-indigo-300/80 uppercase tracking-wider mb-2">{project.category}</span>
-                      <h3 className="text-lg font-bold mb-3">{project.title}</h3>
+                      <span className="text-[11px] font-medium text-white/35 uppercase tracking-[0.1em] mb-2">{project.category}</span>
+                      <h3 className="text-lg font-light tracking-[-0.01em] mb-3">{project.title}</h3>
                       <div className="flex flex-wrap gap-2">
                         {project.tags.slice(0, 2).map((tag) => (
-                          <span key={tag} className="px-2.5 py-1 text-xs text-white/50 bg-white/5 rounded-full">
+                          <span key={tag} className="px-2.5 py-1 text-[11px] text-white/35 border border-white/[0.08]">
                             {tag}
                           </span>
                         ))}
@@ -345,43 +341,35 @@ export default function HomePage() {
       </section>
 
       {/* Process Section */}
-      <section data-testid="process-section" className="py-24 md:py-32">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+      <section data-testid="process-section" className="py-28 md:py-40">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="mb-16"
+            transition={{ duration: 0.8 }}
+            className="mb-20"
           >
-            <p className="text-sm font-medium text-white/40 uppercase tracking-wider mb-4">Ablauf</p>
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tight">Unser Prozess</h2>
+            <p className="text-[11px] font-medium text-white/30 uppercase tracking-[0.15em] mb-5">Ablauf</p>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-[-0.03em]">Unser Prozess</h2>
           </motion.div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-px bg-white/[0.06]">
             {processSteps.map((step, index) => (
               <motion.div
                 key={step.num}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="relative"
+                transition={{ duration: 0.6, delay: index * 0.1 }}
               >
                 <Link to={`/prozess/${step.slug}`}>
-                  <div className="p-6 rounded-[20px] bg-white/[0.02] border border-white/10 h-full hover:border-white/20 hover:-translate-y-1 transition-all duration-300 group cursor-pointer">
-                    <span className="text-4xl font-bold text-white/10">{step.num}</span>
-                    <h3 className="text-lg font-bold mt-4 mb-2 group-hover:text-white transition-colors">{step.title}</h3>
-                    <p className="text-sm text-white/50">{step.desc}</p>
-                    <div className="mt-3 flex items-center gap-1 text-xs font-medium text-indigo-400/70 group-hover:text-indigo-400 transition-colors">
-                      Mehr erfahren
-                      <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
-                    </div>
+                  <div className="p-8 bg-[#050507] h-full hover:bg-white/[0.02] transition-all duration-500 group cursor-pointer">
+                    <span className="text-4xl font-extralight text-white/[0.08] tracking-[-0.04em]">{step.num}</span>
+                    <h3 className="text-base font-medium mt-5 mb-2 group-hover:text-white transition-colors duration-500">{step.title}</h3>
+                    <p className="text-[13px] text-white/35 leading-relaxed">{step.desc}</p>
                   </div>
                 </Link>
-                {index < processSteps.length - 1 && (
-                  <div className="hidden lg:block absolute top-1/2 -right-3 w-6 h-px bg-white/10" />
-                )}
               </motion.div>
             ))}
           </div>
@@ -389,44 +377,42 @@ export default function HomePage() {
       </section>
 
       {/* Target Audiences Section */}
-      <section data-testid="audiences-section" className="py-24 md:py-32 bg-white/[0.02]">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+      <section data-testid="audiences-section" className="py-28 md:py-40 border-t border-white/[0.06]">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="mb-16"
+            transition={{ duration: 0.8 }}
+            className="mb-20"
           >
-            <p className="text-sm font-medium text-white/40 uppercase tracking-wider mb-4">Zielgruppen</p>
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tight">Für wen wir arbeiten</h2>
+            <p className="text-[11px] font-medium text-white/30 uppercase tracking-[0.15em] mb-5">Zielgruppen</p>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-[-0.03em]">Für wen wir arbeiten</h2>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-px bg-white/[0.06]">
             {targetAudiences.map((audience, index) => (
               <motion.div
                 key={audience.title}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
               >
-                <Card className="h-full p-8">
-                  <CardContent className="p-0 space-y-4">
-                    <div>
-                      <h3 className="text-xl font-bold mb-1">{audience.title}</h3>
-                      <p className="text-sm text-indigo-300/80">{audience.focus}</p>
-                    </div>
-                    <ul className="space-y-2">
-                      {audience.items.map((item) => (
-                        <li key={item} className="flex items-center gap-3 text-sm text-white/60">
-                          <div className="w-1.5 h-1.5 rounded-full bg-white/30" />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </CardContent>
-                </Card>
+                <div className="h-full p-8 md:p-10 bg-[#050507] hover:bg-white/[0.02] transition-colors duration-500">
+                  <div className="mb-6">
+                    <h3 className="text-lg font-medium tracking-[-0.01em] mb-1">{audience.title}</h3>
+                    <p className="text-[13px] text-white/35">{audience.focus}</p>
+                  </div>
+                  <ul className="space-y-3">
+                    {audience.items.map((item) => (
+                      <li key={item} className="flex items-center gap-3 text-[13px] text-white/45">
+                        <div className="w-1 h-1 bg-white/25 flex-shrink-0" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -443,30 +429,26 @@ export default function HomePage() {
       <NewsletterSignup />
 
       {/* CTA Section */}
-      <section data-testid="cta-section" className="py-24 md:py-32 bg-white/[0.02]">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+      <section data-testid="cta-section" className="py-28 md:py-40">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="relative rounded-[28px] overflow-hidden bg-gradient-to-br from-white/[0.03] to-white/[0.01] border border-white/10 p-12 md:p-20"
+            transition={{ duration: 0.8 }}
+            className="relative overflow-hidden border border-white/[0.06] p-12 md:p-20 lg:p-28"
           >
-            {/* Background Glow */}
-            <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-indigo-500/10 rounded-full blur-[100px]" />
-            <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] bg-purple-500/10 rounded-full blur-[80px]" />
-
-            <div className="relative text-center max-w-2xl mx-auto">
-              <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">
+            <div className="relative max-w-2xl">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-[-0.03em] leading-[1.1] mb-8">
                 {ctaHeadline}
               </h2>
-              <p className="text-lg text-white/60 mb-10">
+              <p className="text-base text-white/40 mb-12 leading-relaxed font-light max-w-lg">
                 {ctaSubline}
               </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <div className="flex flex-col sm:flex-row gap-4">
                 {ctaSection.buttons.map((btn, i) => (
                   <Link key={i} to={btn.href}>
-                    <Button data-testid={`cta-btn-${i}`} size="lg" variant={btn.variant}>
+                    <Button data-testid={`cta-btn-${i}`} variant={btn.variant}>
                       {btn.label}
                     </Button>
                   </Link>

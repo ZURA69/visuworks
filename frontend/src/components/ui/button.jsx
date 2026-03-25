@@ -4,21 +4,21 @@ import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center whitespace-nowrap text-[13px] font-medium tracking-[0.02em] uppercase focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/20 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
         default:
-          "bg-white text-[#070910] rounded-full shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_30px_rgba(255,255,255,0.25)] hover:scale-[1.02] active:scale-[0.98] transition-[transform,box-shadow] duration-200 ease-out",
+          "bg-white text-[#050507] border border-white hover:bg-white/90 active:bg-white/80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
         secondary:
-          "border border-white/20 text-white rounded-full backdrop-blur-sm hover:bg-white/10 hover:border-white/30 active:bg-white/5 transition-[background-color,border-color] duration-200 ease-out",
-        ghost: "text-white/70 hover:text-white hover:bg-white/5 rounded-xl transition-[color,background-color] duration-200",
-        link: "text-white underline-offset-4 hover:underline transition-opacity duration-200",
+          "border border-white/15 text-white/80 hover:text-white hover:border-white/30 hover:bg-white/[0.04] active:bg-white/[0.02] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
+        ghost: "text-white/60 hover:text-white hover:bg-white/[0.04] transition-all duration-300",
+        link: "text-white/70 hover:text-white underline-offset-4 hover:underline transition-colors duration-300",
       },
       size: {
-        default: "h-12 px-8",
-        sm: "h-9 px-5 text-xs",
-        lg: "h-14 px-10 text-base",
+        default: "h-11 px-7",
+        sm: "h-9 px-5 text-[11px]",
+        lg: "h-12 px-9 text-[13px]",
         icon: "h-10 w-10",
       },
     },

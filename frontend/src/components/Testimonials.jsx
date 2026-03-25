@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Quote, ChevronLeft, ChevronRight, Star } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { testimonials } from '../content/site';
 
 export const Testimonials = ({ className = '' }) => {
@@ -15,16 +15,16 @@ export const Testimonials = ({ className = '' }) => {
   };
 
   return (
-    <section className={`py-24 md:py-32 ${className}`} data-testid="testimonials-section">
-      <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+    <section className={`py-28 md:py-40 ${className}`} data-testid="testimonials-section">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="mb-20"
         >
-          <p className="text-sm font-medium text-white/40 uppercase tracking-wider mb-4">Kundenstimmen</p>
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight">Was unsere Kunden sagen</h2>
+          <p className="text-[11px] font-medium text-white/30 uppercase tracking-[0.15em] mb-5">Kundenstimmen</p>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-[-0.03em]">Was unsere Kunden sagen</h2>
         </motion.div>
 
         <div className="relative">
@@ -33,38 +33,26 @@ export const Testimonials = ({ className = '' }) => {
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentIndex}
-                initial={{ opacity: 0, x: 100 }}
+                initial={{ opacity: 0, x: 60 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -100 }}
-                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                exit={{ opacity: 0, x: -60 }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 className="relative"
               >
                 <div className="max-w-4xl mx-auto">
-                  <div className="relative p-8 md:p-12 rounded-[28px] bg-gradient-to-br from-white/[0.04] to-white/[0.01] border border-white/10">
-                    {/* Quote Icon */}
-                    <div className="absolute -top-4 left-8 w-12 h-12 rounded-xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center">
-                      <Quote className="w-6 h-6 text-indigo-400" />
-                    </div>
-
-                    {/* Rating */}
-                    <div className="flex items-center gap-1 mb-6 justify-center">
-                      {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
-                        <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                      ))}
-                    </div>
-
+                  <div className="relative p-10 md:p-16 border border-white/[0.06]">
                     {/* Quote Text */}
-                    <blockquote className="text-xl md:text-2xl text-white/90 leading-relaxed text-center mb-8">
-                      „{testimonials[currentIndex].quote}"
+                    <blockquote className="text-xl md:text-2xl lg:text-3xl font-light text-white/85 leading-relaxed tracking-[-0.02em] mb-10">
+                      &bdquo;{testimonials[currentIndex].quote}&ldquo;
                     </blockquote>
 
                     {/* Author */}
-                    <div className="text-center">
-                      <p className="font-semibold text-lg">{testimonials[currentIndex].author}</p>
-                      <p className="text-white/60">
+                    <div>
+                      <p className="font-medium text-base tracking-[-0.01em]">{testimonials[currentIndex].author}</p>
+                      <p className="text-sm text-white/40 mt-1">
                         {testimonials[currentIndex].position}, {testimonials[currentIndex].company}
                       </p>
-                      <p className="text-sm text-indigo-300/70 mt-2">
+                      <p className="text-[13px] text-white/25 mt-2">
                         Projekt: {testimonials[currentIndex].project}
                       </p>
                     </div>
@@ -75,14 +63,14 @@ export const Testimonials = ({ className = '' }) => {
           </div>
 
           {/* Navigation Buttons */}
-          <div className="flex items-center justify-center gap-4 mt-8">
+          <div className="flex items-center gap-4 mt-10">
             <button
               onClick={prev}
-              className="p-3 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-200"
+              className="p-3 border border-white/[0.08] hover:border-white/20 hover:bg-white/[0.03] transition-all duration-300"
               aria-label="Vorheriges Testimonial"
               data-testid="testimonial-prev"
             >
-              <ChevronLeft className="w-5 h-5" />
+              <ChevronLeft className="w-4 h-4 text-white/50" />
             </button>
             
             {/* Dots */}
@@ -91,10 +79,10 @@ export const Testimonials = ({ className = '' }) => {
                 <button
                   key={index}
                   onClick={() => setCurrentIndex(index)}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  className={`h-px transition-all duration-500 ${
                     index === currentIndex 
-                      ? 'w-8 bg-indigo-500' 
-                      : 'bg-white/20 hover:bg-white/40'
+                      ? 'w-8 bg-white/70' 
+                      : 'w-4 bg-white/15 hover:bg-white/30'
                   }`}
                   aria-label={`Testimonial ${index + 1}`}
                 />
@@ -103,11 +91,11 @@ export const Testimonials = ({ className = '' }) => {
 
             <button
               onClick={next}
-              className="p-3 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-200"
+              className="p-3 border border-white/[0.08] hover:border-white/20 hover:bg-white/[0.03] transition-all duration-300"
               aria-label="Nächstes Testimonial"
               data-testid="testimonial-next"
             >
-              <ChevronRight className="w-5 h-5" />
+              <ChevronRight className="w-4 h-4 text-white/50" />
             </button>
           </div>
         </div>

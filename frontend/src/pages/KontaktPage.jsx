@@ -84,32 +84,27 @@ export default function KontaktPage() {
       <SEOHead page="kontakt" />
 
       {/* Hero Section */}
-      <section className="relative py-24 md:py-32">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[120px]" />
-          <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-[100px]" />
-        </div>
-
-        <div className="relative max-w-[1200px] mx-auto px-6 md:px-12">
+      <section className="relative py-32 md:py-40">
+        <div className="relative max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
           <motion.header
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center max-w-3xl mx-auto mb-16"
+            transition={{ duration: 0.8 }}
+            className="max-w-3xl mb-20"
           >
-            <p className="text-sm font-medium text-indigo-300/80 uppercase tracking-wider mb-4">Kontakt</p>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] mb-6">
+            <p className="text-[11px] font-medium text-white/30 uppercase tracking-[0.15em] mb-6">Kontakt</p>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-light tracking-[-0.04em] leading-[0.95] mb-6">
               Projekt anfragen
             </h1>
-            <p className="text-lg md:text-xl text-white/70">
+            <p className="text-base md:text-lg text-white/45 font-light">
               Kurze Infos reichen – wir melden uns mit Rückfragen oder einem konkreten Vorschlag.
             </p>
           </motion.header>
 
-          <div className="grid lg:grid-cols-5 gap-12">
+          <div className="grid lg:grid-cols-5 gap-12 lg:gap-16">
             {/* Contact Form */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
               className="lg:col-span-3"
@@ -129,7 +124,7 @@ export default function KontaktPage() {
 
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-white/70 mb-2">Name *</label>
+                    <label htmlFor="name" className="block text-[13px] font-medium text-white/50 mb-2.5">Name *</label>
                     <Input
                       id="name"
                       name="name"
@@ -145,7 +140,7 @@ export default function KontaktPage() {
                     {errors.name && <p id="name-error" className="text-red-400 text-xs mt-1" role="alert">{errors.name}</p>}
                   </div>
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-white/70 mb-2">E-Mail *</label>
+                    <label htmlFor="email" className="block text-[13px] font-medium text-white/50 mb-2.5">E-Mail *</label>
                     <Input
                       id="email"
                       name="email"
@@ -165,7 +160,7 @@ export default function KontaktPage() {
 
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-white/70 mb-2">Telefon</label>
+                    <label htmlFor="phone" className="block text-[13px] font-medium text-white/50 mb-2.5">Telefon</label>
                     <Input
                       id="phone"
                       name="phone"
@@ -176,18 +171,18 @@ export default function KontaktPage() {
                     />
                   </div>
                   <div>
-                    <label htmlFor="service" className="block text-sm font-medium text-white/70 mb-2">Welche Leistung?</label>
+                    <label htmlFor="service" className="block text-[13px] font-medium text-white/50 mb-2.5">Welche Leistung?</label>
                     <select
                       id="service"
                       name="service"
                       value={formData.service}
                       onChange={handleChange}
                       data-testid="input-service"
-                      className="flex h-12 w-full rounded-xl bg-white/5 border border-white/10 px-4 py-2 text-white text-base focus:border-white/30 focus:ring-1 focus:ring-white/30 focus:outline-none transition-all duration-200"
+                      className="flex h-12 w-full bg-white/[0.03] border border-white/[0.08] px-4 py-2 text-white text-sm focus:border-white/20 focus:ring-1 focus:ring-white/20 focus:outline-none transition-all duration-300"
                     >
-                      <option value="" className="bg-[#0A0C14]">Bitte wählen...</option>
+                      <option value="" className="bg-[#050507]">Bitte wählen...</option>
                       {serviceOptions.map((opt) => (
-                        <option key={opt.value} value={opt.value} className="bg-[#0A0C14]">
+                        <option key={opt.value} value={opt.value} className="bg-[#050507]">
                           {opt.label}
                         </option>
                       ))}
@@ -196,7 +191,7 @@ export default function KontaktPage() {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-white/70 mb-2">Ihre Nachricht *</label>
+                  <label htmlFor="message" className="block text-[13px] font-medium text-white/50 mb-2.5">Ihre Nachricht *</label>
                   <Textarea
                     id="message"
                     name="message"
@@ -215,45 +210,44 @@ export default function KontaktPage() {
 
                 <Button 
                   type="submit" 
-                  size="lg" 
                   disabled={isSubmitting}
                   data-testid="submit-button"
                   className="w-full sm:w-auto"
                 >
                   {isSubmitting ? 'Wird gesendet...' : 'Anfrage senden'}
-                  <Send className="ml-2 h-5 w-5" />
+                  <Send className="ml-2 h-4 w-4" />
                 </Button>
               </form>
             </motion.div>
 
             {/* Contact Info */}
             <motion.aside
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               className="lg:col-span-2"
             >
-              <div className="rounded-[22px] bg-[#0A0C14] border border-white/10 p-8 space-y-8">
+              <div className="border border-white/[0.06] p-8 space-y-8">
                 <div>
-                  <h2 className="text-lg font-bold mb-6">{sectionTitle}</h2>
-                  <address className="not-italic space-y-4">
-                    <a href={`mailto:${contactEmail}`} className="flex items-center gap-4 text-white/70 hover:text-white transition-colors group">
-                      <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-white/20 transition-colors">
-                        <Mail className="w-5 h-5" aria-hidden="true" />
+                  <h2 className="text-base font-medium mb-6 tracking-[-0.01em]">{sectionTitle}</h2>
+                  <address className="not-italic space-y-5">
+                    <a href={`mailto:${contactEmail}`} className="flex items-center gap-4 text-white/50 hover:text-white/80 transition-colors duration-300 group">
+                      <div className="w-10 h-10 flex items-center justify-center border border-white/[0.08] group-hover:border-white/15 transition-colors duration-300">
+                        <Mail className="w-4 h-4" aria-hidden="true" />
                       </div>
-                      <span>{contactEmail}</span>
+                      <span className="text-sm">{contactEmail}</span>
                     </a>
-                    <a href={`tel:${phoneClean}`} className="flex items-center gap-4 text-white/70 hover:text-white transition-colors group">
-                      <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-white/20 transition-colors">
-                        <Phone className="w-5 h-5" aria-hidden="true" />
+                    <a href={`tel:${phoneClean}`} className="flex items-center gap-4 text-white/50 hover:text-white/80 transition-colors duration-300 group">
+                      <div className="w-10 h-10 flex items-center justify-center border border-white/[0.08] group-hover:border-white/15 transition-colors duration-300">
+                        <Phone className="w-4 h-4" aria-hidden="true" />
                       </div>
-                      <span>{contactPhone}</span>
+                      <span className="text-sm">{contactPhone}</span>
                     </a>
-                    <div className="flex items-center gap-4 text-white/70">
-                      <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
-                        <MapPin className="w-5 h-5" aria-hidden="true" />
+                    <div className="flex items-center gap-4 text-white/50">
+                      <div className="w-10 h-10 flex items-center justify-center border border-white/[0.08]">
+                        <MapPin className="w-4 h-4" aria-hidden="true" />
                       </div>
-                      <span>{contactLocation}</span>
+                      <span className="text-sm">{contactLocation}</span>
                     </div>
                   </address>
                 </div>
@@ -262,16 +256,16 @@ export default function KontaktPage() {
                 <div>
                   <Link 
                     to={ctaUrl || '/kontakt'}
-                    className="group flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-xl bg-white/[0.08] border border-white/15 text-white font-medium hover:bg-white/[0.12] hover:border-white/25 hover:-translate-y-0.5 transition-all duration-200"
+                    className="group flex items-center justify-center gap-2 w-full py-3 px-5 border border-white/[0.1] text-[13px] font-medium text-white/60 hover:text-white/80 hover:border-white/20 hover:bg-white/[0.03] transition-all duration-300"
                     data-testid="sidebar-cta-button"
                   >
                     <span>{ctaText}</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-300" />
                   </Link>
                 </div>
 
-                <div className="pt-6 border-t border-white/10">
-                  <p className="text-sm text-white/50">
+                <div className="pt-6 border-t border-white/[0.06]">
+                  <p className="text-[13px] text-white/30">
                     {footerText}
                   </p>
                 </div>

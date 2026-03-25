@@ -20,27 +20,27 @@ export const Footer = () => {
   const isDE = language === 'de';
 
   return (
-    <footer data-testid="footer" className="border-t border-white/5 bg-[#070910]">
+    <footer data-testid="footer" className="border-t border-white/[0.06] bg-[#050507]">
       {/* Main Footer */}
-      <div className="max-w-[1200px] mx-auto px-6 md:px-12 py-16 md:py-20">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16 py-20 md:py-28">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-10 lg:gap-12">
           {/* Brand & Newsletter */}
           <div className="col-span-2 lg:col-span-2">
             <Link to="/" className="inline-block mb-6">
-              <span className="text-2xl font-bold tracking-tight">{company.name}</span>
+              <span className="text-xl font-light tracking-[-0.03em]">{company.name}</span>
             </Link>
-            <p className="text-sm text-white/50 mb-6 max-w-sm">
+            <p className="text-sm text-white/30 mb-8 max-w-sm leading-relaxed font-light">
               {company.description}
             </p>
             
             {/* Newsletter Compact */}
-            <div className="mb-6">
-              <p className="text-sm font-medium text-white/70 mb-3">Newsletter</p>
+            <div className="mb-8">
+              <p className="text-[13px] font-medium text-white/40 mb-3">Newsletter</p>
               <NewsletterSignup variant="minimal" />
             </div>
 
             {/* Social Links */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               {company.socialLinks.map((social) => {
                 const IconComponent = socialIcons[social.name];
                 return (
@@ -49,11 +49,11 @@ export const Footer = () => {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-200"
+                    className="w-9 h-9 flex items-center justify-center border border-white/[0.06] text-white/35 hover:text-white/60 hover:border-white/15 transition-all duration-300"
                     aria-label={social.name}
                     data-testid={`social-${social.name.toLowerCase()}`}
                   >
-                    {IconComponent && <IconComponent className="w-5 h-5" />}
+                    {IconComponent && <IconComponent className="w-4 h-4" />}
                   </a>
                 );
               })}
@@ -62,7 +62,7 @@ export const Footer = () => {
 
           {/* Services */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white/40 mb-4">
+            <h3 className="text-[11px] font-medium uppercase tracking-[0.15em] text-white/25 mb-5">
               {isDE ? t.footer.leistungen.de : t.footer.leistungen.en}
             </h3>
             <ul className="space-y-3">
@@ -70,7 +70,7 @@ export const Footer = () => {
                 <li key={item.name}>
                   <Link
                     to={item.href}
-                    className="text-sm text-white/60 hover:text-white transition-colors duration-200"
+                    className="text-[13px] text-white/40 hover:text-white/70 transition-colors duration-300"
                   >
                     {item.name}
                   </Link>
@@ -81,7 +81,7 @@ export const Footer = () => {
 
           {/* Company */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white/40 mb-4">
+            <h3 className="text-[11px] font-medium uppercase tracking-[0.15em] text-white/25 mb-5">
               {isDE ? t.footer.unternehmen.de : t.footer.unternehmen.en}
             </h3>
             <ul className="space-y-3">
@@ -89,7 +89,7 @@ export const Footer = () => {
                 <li key={item.name}>
                   <Link
                     to={item.href}
-                    className="text-sm text-white/60 hover:text-white transition-colors duration-200"
+                    className="text-[13px] text-white/40 hover:text-white/70 transition-colors duration-300"
                   >
                     {item.name}
                   </Link>
@@ -98,20 +98,20 @@ export const Footer = () => {
             </ul>
 
             {/* CTA */}
-            <div className="mt-6 pt-6 border-t border-white/5">
+            <div className="mt-6 pt-6 border-t border-white/[0.06]">
               <Link
                 to="/kontakt"
-                className="inline-flex items-center gap-2 text-sm font-medium text-indigo-400 hover:text-indigo-300 transition-colors"
+                className="inline-flex items-center gap-2 text-[13px] font-medium text-white/45 hover:text-white/70 transition-colors duration-300"
               >
                 {isDE ? t.nav.projektStarten.de : t.nav.projektStarten.en}
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
           </div>
 
           {/* Legal */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white/40 mb-4">
+            <h3 className="text-[11px] font-medium uppercase tracking-[0.15em] text-white/25 mb-5">
               {isDE ? t.footer.rechtliches.de : t.footer.rechtliches.en}
             </h3>
             <ul className="space-y-3">
@@ -120,7 +120,7 @@ export const Footer = () => {
                   <Link
                     to={item.href}
                     data-testid={`footer-${item.name.toLowerCase()}`}
-                    className="text-sm text-white/60 hover:text-white transition-colors duration-200"
+                    className="text-[13px] text-white/40 hover:text-white/70 transition-colors duration-300"
                   >
                     {item.name}
                   </Link>
@@ -129,26 +129,26 @@ export const Footer = () => {
             </ul>
 
             {/* Contact Info */}
-            <div className="mt-6 pt-6 border-t border-white/5 space-y-2">
-              <p className="text-xs text-white/40">{isDE ? 'Standort' : 'Location'} {company.address.city}</p>
-              <p className="text-xs text-white/40">{isDE ? 'Projekte europaweit' : 'Projects Europe-wide'}</p>
+            <div className="mt-6 pt-6 border-t border-white/[0.06] space-y-2">
+              <p className="text-[11px] text-white/25">{isDE ? 'Standort' : 'Location'} {company.address.city}</p>
+              <p className="text-[11px] text-white/25">{isDE ? 'Projekte europaweit' : 'Projects Europe-wide'}</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-white/5">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-12 py-6">
+      <div className="border-t border-white/[0.06]">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-white/30">
+            <p className="text-[11px] text-white/20">
               © {currentYear} {company.legalName || company.name}. {isDE ? t.footer.copyright.de : t.footer.copyright.en}
             </p>
             <div className="flex items-center gap-6">
-              <a href={`tel:${company.phone.replace(/\s/g, '')}`} className="text-xs text-white/40 hover:text-white/60 transition-colors">
+              <a href={`tel:${company.phone.replace(/\s/g, '')}`} className="text-[11px] text-white/25 hover:text-white/50 transition-colors duration-300">
                 {company.phone}
               </a>
-              <a href={`mailto:${company.email}`} className="text-xs text-white/40 hover:text-white/60 transition-colors">
+              <a href={`mailto:${company.email}`} className="text-[11px] text-white/25 hover:text-white/50 transition-colors duration-300">
                 {company.email}
               </a>
             </div>

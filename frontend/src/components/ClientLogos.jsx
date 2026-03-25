@@ -36,27 +36,27 @@ export const ClientLogos = ({ className = '' }) => {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-center mb-10"
+        className="text-center mb-12"
       >
-        <h2 className="text-2xl md:text-3xl font-bold mb-4">
+        <h2 className="text-2xl md:text-3xl font-light tracking-[-0.02em] mb-4">
           {isDE ? content.title.de : content.title.en}
         </h2>
-        <p className="text-base text-white/50 max-w-2xl mx-auto">
+        <p className="text-sm text-white/35 max-w-xl mx-auto leading-relaxed font-light">
           {isDE ? content.subtitle.de : content.subtitle.en}
         </p>
       </motion.div>
 
-      <div className="flex flex-wrap justify-center items-center gap-3 md:gap-4 mb-6">
+      <div className="flex flex-wrap justify-center items-center gap-3 md:gap-3 mb-6">
         {categories.map((category, index) => (
           <motion.div
             key={category.de}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: index * 0.05 }}
+            transition={{ delay: index * 0.05, duration: 0.5 }}
           >
-            <div className="px-5 py-2.5 rounded-full bg-white/[0.04] border border-white/10 hover:border-white/20 hover:bg-white/[0.06] transition-all duration-300">
-              <span className="text-sm font-medium text-white/70">
+            <div className="px-5 py-2 border border-white/[0.08] hover:border-white/15 hover:bg-white/[0.03] transition-all duration-300">
+              <span className="text-[13px] font-light text-white/50">
                 {isDE ? category.de : category.en}
               </span>
             </div>
@@ -69,7 +69,7 @@ export const ClientLogos = ({ className = '' }) => {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ delay: 0.3 }}
-        className="text-center text-sm text-white/40"
+        className="text-center text-[13px] text-white/25"
       >
         {isDE ? content.supporting.de : content.supporting.en}
       </motion.p>

@@ -35,34 +35,29 @@ export default function ProjektePage() {
       <SEOHead page="projekte" />
 
       {/* Hero Section */}
-      <section className="relative py-24 md:py-32">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[120px]" />
-          <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-[100px]" />
-        </div>
-
-        <div className="relative max-w-[1200px] mx-auto px-6 md:px-12">
+      <section className="relative py-32 md:py-40">
+        <div className="relative max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
           <motion.header
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center max-w-3xl mx-auto mb-16"
+            transition={{ duration: 0.8 }}
+            className="max-w-3xl mb-20"
           >
-            <p className="text-sm font-medium text-indigo-300/80 uppercase tracking-wider mb-4">Portfolio</p>
-            <h1 data-testid="projekte-hero-title" className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] mb-6">
+            <p className="text-[11px] font-medium text-white/30 uppercase tracking-[0.15em] mb-6">Portfolio</p>
+            <h1 data-testid="projekte-hero-title" className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-light tracking-[-0.04em] leading-[0.95] mb-6">
               {e('projekte.heroTitle', 'Projekte & Referenzen')}
             </h1>
-            <p className="text-lg md:text-xl text-white/70">
+            <p className="text-base md:text-lg text-white/45 font-light">
               {e('projekte.heroSubline', 'Kuratiert. Präzise. Umgesetzt.')}
             </p>
           </motion.header>
 
           {/* Filter Tabs */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex justify-center mb-12"
+            className="mb-16"
           >
             <Tabs value={activeCategory} onValueChange={setActiveCategory} className="w-full max-w-2xl">
               <TabsList className="w-full flex-wrap h-auto gap-2 p-2">
@@ -98,7 +93,7 @@ export default function ProjektePage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
-                className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+                className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"
                 role="list"
                 aria-label="Projektliste"
               >
@@ -113,7 +108,7 @@ export default function ProjektePage() {
                     <Link to={`/projekte/${project.slug}`}>
                       <div 
                         data-testid={`project-card-${project.id}`}
-                        className="group relative aspect-[4/3] rounded-[20px] overflow-hidden bg-[#0A0C14] border border-white/10 hover:border-white/20 hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+                        className="group relative aspect-[4/3] overflow-hidden bg-[#0A0C14] border border-white/[0.06] hover:border-white/15 transition-all duration-500 cursor-pointer"
                       >
                         {/* Project Image */}
                         {(() => {
@@ -129,16 +124,16 @@ export default function ProjektePage() {
                           ) : null;
                         })()}
                         {/* Overlay gradient */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#070910] via-[#070910]/60 to-transparent group-hover:via-[#070910]/50 transition-all duration-500" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#050507] via-[#050507]/50 to-transparent group-hover:via-[#050507]/40 transition-all duration-700" />
                         <div className="absolute inset-0 flex flex-col justify-end p-6 relative z-10">
-                          <span className="text-xs font-medium text-indigo-300/80 uppercase tracking-wider mb-2">
+                          <span className="text-[11px] font-medium text-white/35 uppercase tracking-[0.1em] mb-2">
                             {project.category}
                           </span>
-                          <h2 className="text-lg font-bold mb-2">{e(`projects.${project.slug}.title`, project.title)}</h2>
-                          <p className="text-sm text-white/50 mb-3 line-clamp-2">{e(`projects.${project.slug}.shortDesc`, project.shortDesc)}</p>
+                          <h2 className="text-lg font-light tracking-[-0.01em] mb-2">{e(`projects.${project.slug}.title`, project.title)}</h2>
+                          <p className="text-[13px] text-white/35 mb-3 line-clamp-2">{e(`projects.${project.slug}.shortDesc`, project.shortDesc)}</p>
                           <div className="flex flex-wrap gap-2">
                             {project.tags.slice(0, 3).map((tag) => (
-                              <span key={tag} className="px-2.5 py-1 text-xs text-white/50 bg-white/5 rounded-full">
+                              <span key={tag} className="px-2.5 py-1 text-[11px] text-white/35 border border-white/[0.08]">
                                 {tag}
                               </span>
                             ))}
@@ -159,29 +154,28 @@ export default function ProjektePage() {
       </section>
 
       {/* CTA */}
-      <section className="py-24 md:py-32">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+      <section className="py-28 md:py-40">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="relative rounded-[28px] overflow-hidden bg-gradient-to-br from-white/[0.03] to-white/[0.01] border border-white/10 p-12 md:p-20"
+            className="relative overflow-hidden border border-white/[0.06] p-12 md:p-20 lg:p-28"
           >
-            <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-indigo-500/10 rounded-full blur-[100px]" />
-            <div className="relative text-center max-w-2xl mx-auto">
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">Ihr Projekt als nächstes?</h2>
-              <p className="text-lg text-white/60 mb-10">
+            <div className="relative max-w-2xl">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-[-0.03em] leading-[1.1] mb-8">Ihr Projekt als nächstes?</h2>
+              <p className="text-base text-white/40 mb-12 leading-relaxed font-light max-w-lg">
                 Lassen Sie uns über Ihre Anforderungen sprechen – unverbindlich und persönlich.
               </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <div className="flex flex-col sm:flex-row gap-4">
                 <Link to="/kontakt">
-                  <Button size="lg">
+                  <Button>
                     Projekt besprechen
-                    <ArrowRight className="ml-2 h-5 w-5" />
+                    <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
                 <Link to="/kontakt">
-                  <Button variant="secondary" size="lg">
+                  <Button variant="secondary">
                     Angebot anfordern
                   </Button>
                 </Link>

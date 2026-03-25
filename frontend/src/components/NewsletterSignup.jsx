@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, ArrowRight, Check, Loader2 } from 'lucide-react';
+import { ArrowRight, Check, Loader2 } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 
@@ -80,30 +80,23 @@ export const NewsletterSignup = ({ variant = 'default' }) => {
   }
 
   return (
-    <section className="py-20 md:py-24" data-testid="newsletter-signup">
-      <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+    <section className="py-28 md:py-36" data-testid="newsletter-signup">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="relative rounded-[28px] overflow-hidden bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border border-white/10 p-10 md:p-16"
+          className="relative overflow-hidden border border-white/[0.06] p-10 md:p-16 lg:p-20"
         >
-          {/* Background Elements */}
-          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-indigo-500/10 rounded-full blur-[100px]" />
-          <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-purple-500/10 rounded-full blur-[80px]" />
-
-          <div className="relative grid md:grid-cols-2 gap-10 items-center">
+          <div className="relative grid md:grid-cols-2 gap-12 items-center">
             {/* Content */}
             <div>
-              <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6">
-                <Mail className="w-7 h-7 text-indigo-400" />
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-light tracking-[-0.03em] mb-5">
                 Bleiben Sie informiert
               </h2>
-              <p className="text-lg text-white/60 max-w-md">
+              <p className="text-sm text-white/40 max-w-md leading-relaxed font-light">
                 Erhalten Sie Updates zu neuen Projekten, Trends und exklusive Einblicke 
-                in unsere Arbeit. Kein Spam – versprochen.
+                in unsere Arbeit. Kein Spam.
               </p>
             </div>
 
@@ -111,15 +104,15 @@ export const NewsletterSignup = ({ variant = 'default' }) => {
             <div>
               {status === 'success' ? (
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
+                  initial={{ opacity: 0, scale: 0.98 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="text-center p-8 rounded-2xl bg-white/5 border border-green-500/20"
+                  className="text-center p-8 border border-white/[0.08]"
                 >
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-green-500/20 flex items-center justify-center">
-                    <Check className="w-8 h-8 text-green-400" />
+                  <div className="w-12 h-12 mx-auto mb-4 flex items-center justify-center border border-white/15">
+                    <Check className="w-5 h-5 text-white/60" />
                   </div>
-                  <h3 className="text-xl font-bold mb-2">Vielen Dank!</h3>
-                  <p className="text-white/60">Sie wurden erfolgreich angemeldet.</p>
+                  <h3 className="text-lg font-light mb-2">Vielen Dank</h3>
+                  <p className="text-sm text-white/40">Sie wurden erfolgreich angemeldet.</p>
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -132,36 +125,35 @@ export const NewsletterSignup = ({ variant = 'default' }) => {
                         if (status === 'error') setStatus('idle');
                       }}
                       placeholder="Ihre E-Mail-Adresse"
-                      className={`h-14 text-base ${status === 'error' ? 'border-red-500/50' : ''}`}
+                      className={`h-12 text-sm ${status === 'error' ? 'border-red-500/30' : ''}`}
                       disabled={status === 'loading'}
                       data-testid="newsletter-email-input-full"
                     />
                     {status === 'error' && (
-                      <p className="text-sm text-red-400 mt-2">{errorMessage}</p>
+                      <p className="text-[13px] text-red-400/80 mt-2">{errorMessage}</p>
                     )}
                   </div>
                   <Button
                     type="submit"
-                    size="lg"
                     disabled={status === 'loading'}
                     className="w-full"
                     data-testid="newsletter-submit-button-full"
                   >
                     {status === 'loading' ? (
                       <>
-                        <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                         Wird angemeldet...
                       </>
                     ) : (
                       <>
                         Newsletter abonnieren
-                        <ArrowRight className="w-5 h-5 ml-2" />
+                        <ArrowRight className="w-4 h-4 ml-2" />
                       </>
                     )}
                   </Button>
-                  <p className="text-xs text-white/40 text-center">
+                  <p className="text-[11px] text-white/25 text-center">
                     Mit der Anmeldung stimmen Sie unserer{' '}
-                    <a href="/datenschutz" className="underline hover:text-white/60">
+                    <a href="/datenschutz" className="underline hover:text-white/40 transition-colors">
                       Datenschutzerklärung
                     </a>{' '}
                     zu.

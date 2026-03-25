@@ -1,9 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { TrendingUp, Users, Award, Globe } from 'lucide-react';
 import { statistics } from '../content/site';
-
-const statIcons = [TrendingUp, Users, Award, Globe];
 
 const CountUp = ({ end, duration = 2, suffix = '' }) => {
   const [count, setCount] = useState(0);
@@ -35,32 +32,26 @@ const CountUp = ({ end, duration = 2, suffix = '' }) => {
 
 export const Statistics = ({ className = '' }) => {
   return (
-    <section className={`py-20 md:py-28 ${className}`} data-testid="statistics-section">
-      <div className="max-w-[1200px] mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+    <section className={`py-28 md:py-40 ${className}`} data-testid="statistics-section">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/[0.06]">
           {statistics.map((stat, index) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="relative group"
+              transition={{ delay: index * 0.1, duration: 0.6 }}
             >
-              <div className="p-6 md:p-8 rounded-[24px] bg-gradient-to-br from-white/[0.04] to-white/[0.01] border border-white/10 hover:border-white/20 transition-all duration-300 text-center">
-                {/* Icon */}
-                <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center">
-                  {React.createElement(statIcons[index] || TrendingUp, { className: 'w-6 h-6 text-indigo-400' })}
-                </div>
-                
+              <div className="p-8 md:p-10 bg-[#050507] hover:bg-white/[0.02] transition-colors duration-500 text-center">
                 {/* Number */}
-                <div className="text-4xl md:text-5xl font-extrabold mb-2 bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
+                <div className="text-4xl md:text-5xl font-extralight tracking-[-0.04em] mb-3 text-white/90">
                   <CountUp end={stat.value} suffix={stat.suffix} />
                 </div>
                 
                 {/* Label */}
-                <p className="text-lg font-semibold mb-1">{stat.label}</p>
-                <p className="text-sm text-white/50">{stat.description}</p>
+                <p className="text-sm font-medium mb-1 tracking-[-0.01em]">{stat.label}</p>
+                <p className="text-[13px] text-white/35">{stat.description}</p>
               </div>
             </motion.div>
           ))}
