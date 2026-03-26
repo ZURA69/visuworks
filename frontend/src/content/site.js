@@ -27,7 +27,7 @@ export const company = {
 // ── Hero Section (Homepage) ──
 export const hero = {
   headline: 'Markenpräsenz.\nIn Bewegung.',
-  subline: 'Fahrzeug. Oberfläche. Raum.',
+  subline: 'Wir gestalten visuelle Identität auf Fahrzeugen, in Räumen und auf Oberflächen — europaweit, mit Präzision.',
   ctaPrimary: { label: 'Projekt anfragen', href: '/kontakt' },
   ctaSecondary: { label: 'Arbeiten ansehen', href: '/projekte' },
   tags: [

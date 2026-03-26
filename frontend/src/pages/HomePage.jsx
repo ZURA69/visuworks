@@ -1,313 +1,375 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ArrowRight, Car, Building2, Megaphone, Palette, CheckCircle2 } from 'lucide-react';
-import { Button } from '../components/ui/button';
-import { Card, CardContent } from '../components/ui/card';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { ArrowRight, ChevronDown, Plus, Minus } from 'lucide-react';
 import { getFeaturedProjects } from '../content/projects';
-import { ClientLogos } from '../components/ClientLogos';
-import { Statistics } from '../components/Statistics';
-import { Testimonials } from '../components/Testimonials';
-import { NewsletterSignup } from '../components/NewsletterSignup';
 import { SEOHead } from '../components/SEOHead';
-import { hero, ctaSection, processSteps, targetAudiences, valueProposition } from '../content/site';
+import { hero, ctaSection, processSteps, statistics, testimonials } from '../content/site';
 import images, { getProjectImage } from '../content/images';
 import { useEditable } from '../contexts/EditorContext';
 import { EditableImage } from '../components/EditableImage';
+import { useLanguage } from '../contexts/LanguageContext';
 
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
+/* ─── Palette ─── */
+const C = {
+  bg: '#F5F2ED',
+  card: '#FFFFFF',
+  text: '#1A1A1A',
+  muted: '#6B6B6B',
+  light: '#9A9A9A',
+  border: 'rgba(0,0,0,0.07)',
+  accent: '#1A1A1A',
 };
 
-const staggerContainer = {
-  animate: {
-    transition: {
-      staggerChildren: 0.1
-    }
-  }
+/* ─── Shared animation presets ─── */
+const reveal = {
+  initial: { opacity: 0, y: 32 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: '-60px' },
+  transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
 };
 
-const serviceIcons = { Car, Building2, Megaphone, Palette };
+const revealSlow = {
+  ...reveal,
+  transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] },
+};
 
+/* ─── Services data ─── */
 const services = [
   {
-    icon: 'Car',
-    title: 'Mobilität',
-    description: 'Fahrzeugveredelung & Schutz',
-    features: ['PPF & Schutzfolien', 'Flottenbranding', 'Teil-/Vollfolierung', 'Designentwicklung'],
+    label: 'Mobilität',
+    title: 'Fahrzeuge, die auffallen.',
+    desc: 'Von der Lackschutzfolie bis zum kompletten Flottenbranding — wir realisieren Ihre Fahrzeugprojekte mit Präzision und Premium-Qualität.',
+    image: '/images/porsche-gt3-cup-race.webp',
     href: '/mobilitaet',
-    bgImage: '/images/porsche-gt3-cup-race.webp',
+    features: ['PPF & Lackschutz', 'Flottenbranding', 'Teil- & Vollfolierung', 'Designkonzepte'],
   },
   {
-    icon: 'Building2',
-    title: 'Raum & Architektur',
-    description: 'Markenräume und Oberflächen',
-    features: ['Raumgestaltung', 'Architekturfolierung', 'Glas- & Sichtschutzfolien', 'Interior Branding'],
+    label: 'Raum & Architektur',
+    title: 'Räume, die wirken.',
+    desc: 'Wir transformieren Räume in Markenerlebnisse — durch Architekturfolierung, Glasgestaltung und Interior Branding.',
+    image: '/images/IMG_5646.webp',
     href: '/architektur-raum',
-    bgImage: '/images/IMG_5646.webp',
+    features: ['Raumgestaltung', 'Architekturfolierung', 'Glas- & Sichtschutzfolien', 'Interior Branding'],
   },
   {
-    icon: 'Megaphone',
-    title: 'Markenkommunikation',
-    description: 'Großformat, Systeme, Event',
-    features: ['Großformatmedien', 'Werbesysteme', 'Event- & Messegrafik', 'POS-Systeme'],
+    label: 'Markenkommunikation',
+    title: 'Botschaften, die ankommen.',
+    desc: 'Von der Messewand bis zur Fassadenwerbung — wir produzieren und installieren Ihre Markenkommunikation in jeder Größe.',
+    image: '/images/IMG_7190.webp',
     href: '/markenkommunikation',
-    bgImage: '/images/IMG_7190.webp',
+    features: ['Großformatmedien', 'Werbesysteme', 'Event- & Messegrafik', 'POS-Systeme'],
   },
-  {
-    icon: 'Palette',
-    title: 'Design & Konzeption',
-    description: 'Leitlinien, die sich umsetzen lassen',
-    features: ['Designkonzepte', 'Visuelle Leitlinien', 'Produktionsvorbereitung', 'Markenbegleitung'],
-    href: '/design-konzepte',
-    bgImage: '/images/IMG_7057.webp',
-  }
 ];
 
+/* ─── FAQ data ─── */
+const faqs = [
+  { q: 'Was kostet eine Fahrzeugfolierung?', a: 'Die Kosten variieren je nach Fahrzeugtyp und Umfang. Eine Teilfolierung beginnt bei ca. 800 €, eine Vollfolierung ab ca. 2.500 €. Wir erstellen Ihnen gerne ein individuelles Angebot.' },
+  { q: 'Wie lange dauert ein typisches Projekt?', a: 'Fahrzeugprojekte dauern in der Regel 3–7 Werktage. Raum- und Architekturprojekte planen wir mit 2–8 Wochen. Express-Optionen sind bei Bedarf verfügbar.' },
+  { q: 'Arbeiten Sie auch außerhalb von NRW?', a: 'Ja, unsere mobilen Teams sind europaweit im Einsatz. Wir realisieren Projekte in ganz Deutschland und im angrenzenden Ausland.' },
+  { q: 'Bieten Sie auch Designleistungen an?', a: 'Absolut. Von der Konzeptentwicklung über Visualisierungen bis zur produktionsreifen Reinzeichnung — alles aus einer Hand.' },
+  { q: 'Wie läuft die Zusammenarbeit ab?', a: 'Nach einem kurzen Briefing erstellen wir ein Konzept und Angebot. Nach Freigabe starten wir mit Produktion und termingerechter Montage. Qualitätskontrolle inklusive.' },
+];
+
+/* ─── FAQ Accordion Item ─── */
+function FAQItem({ q, a, isOpen, onToggle }) {
+  return (
+    <div style={{ borderBottom: `1px solid ${C.border}` }}>
+      <button
+        onClick={onToggle}
+        className="w-full flex items-center justify-between py-6 md:py-7 text-left cursor-pointer group"
+        data-testid={`faq-toggle-${q.slice(0, 20).replace(/\s/g, '-')}`}
+      >
+        <span className="text-base md:text-lg font-medium pr-8" style={{ color: C.text }}>
+          {q}
+        </span>
+        <span className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-300"
+          style={{ background: isOpen ? C.accent : 'transparent', border: `1.5px solid ${isOpen ? C.accent : C.border}` }}
+        >
+          {isOpen 
+            ? <Minus className="w-3.5 h-3.5" style={{ color: '#fff' }} /> 
+            : <Plus className="w-3.5 h-3.5" style={{ color: C.muted }} />
+          }
+        </span>
+      </button>
+      <motion.div
+        initial={false}
+        animate={{ height: isOpen ? 'auto' : 0, opacity: isOpen ? 1 : 0 }}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+        className="overflow-hidden"
+      >
+        <p className="pb-7 pr-12 text-[15px] leading-relaxed" style={{ color: C.muted }}>
+          {a}
+        </p>
+      </motion.div>
+    </div>
+  );
+}
+
+/* ─── Parallax Image Wrapper ─── */
+function ParallaxImage({ src, alt, className = '', contentKey, aspectClass = 'aspect-[4/3]' }) {
+  const { scrollYProgress } = useScroll();
+  const y = useTransform(scrollYProgress, [0, 1], [0, -40]);
+
+  return (
+    <div className={`overflow-hidden rounded-2xl ${aspectClass} ${className}`}>
+      <motion.div style={{ y }} className="w-full h-[115%] -mt-[7.5%]">
+        {contentKey ? (
+          <EditableImage
+            contentKey={contentKey}
+            fallbackSrc={src}
+            alt={alt}
+            className="w-full h-full"
+            imgClassName="object-cover"
+          />
+        ) : (
+          <img src={src} alt={alt} className="w-full h-full object-cover" loading="lazy" />
+        )}
+      </motion.div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════ */
+/*                 HOME PAGE                   */
+/* ═══════════════════════════════════════════ */
 export default function HomePage() {
-  const featuredProjects = getFeaturedProjects().slice(0, 6);
-  
-  // Editable content (falls back to content files when editor is not active)
+  const featuredProjects = getFeaturedProjects().slice(0, 4);
+  const [openFaq, setOpenFaq] = useState(null);
+
   const heroHeadline = useEditable('hero.headline', hero.headline);
   const heroSubline = useEditable('hero.subline', hero.subline);
   const heroCta1 = useEditable('hero.ctaPrimary.label', hero.ctaPrimary.label);
-  const heroCta2 = useEditable('hero.ctaSecondary.label', hero.ctaSecondary.label);
-  const heroImg = useEditable('images.hero.src', images.hero.src);
   const ctaHeadline = useEditable('cta.headline', ctaSection.headline);
   const ctaSubline = useEditable('cta.subline', ctaSection.subline);
-  
+
   return (
-    <div data-testid="home-page" className="overflow-hidden">
+    <div data-testid="home-page" style={{ background: C.bg, color: C.text }}>
       <SEOHead page="home" />
-      {/* Hero Section */}
-      <section data-testid="hero-section" className="relative min-h-[90vh] md:min-h-screen flex items-center" aria-label="Hero">
-        {/* Full-width Background Image */}
-        <div className="absolute inset-0 w-full h-full overflow-hidden">
-          <EditableImage
-            contentKey="images.hero.src"
-            fallbackSrc={images.hero.src}
-            alt={images.hero.alt}
-            className="w-full h-full object-cover object-center"
-            style={{ objectPosition: 'center center' }}
-            priority
-          />
-        </div>
-        {/* Dark Overlay for readability */}
-        <div className="absolute inset-0 bg-[#050507]/65" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#050507] via-transparent to-[#050507]/30" />
 
-        <div className="relative max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16 py-32 md:py-40 w-full">
-          <motion.div
-            initial="initial"
-            animate="animate"
-            variants={staggerContainer}
-            className="max-w-4xl"
-          >
-            <motion.h1
-              variants={fadeInUp}
-              className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-light tracking-[-0.04em] leading-[0.95]"
+      {/* ═══ HERO ═══ */}
+      <section data-testid="hero-section" className="relative min-h-screen flex items-center" aria-label="Hero">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16 w-full pt-32 pb-20 md:pt-40 md:pb-28">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            {/* Left – Copy */}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
             >
-              {heroHeadline}
-            </motion.h1>
-            <motion.p
-              variants={fadeInUp}
-              className="mt-8 text-base md:text-lg text-white/55 max-w-lg leading-relaxed font-light"
-            >
-              {heroSubline}
-            </motion.p>
-            <motion.div variants={fadeInUp} className="mt-10 flex flex-wrap gap-4">
-              <Link to={hero.ctaPrimary.href}>
-                <Button data-testid="hero-cta-primary" size="lg">
-                  {heroCta1}
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-              <Link to={hero.ctaSecondary.href}>
-                <Button data-testid="hero-cta-secondary" variant="secondary" size="lg">
-                  {heroCta2}
-                </Button>
-              </Link>
-            </motion.div>
-            {/* Tags */}
-            <motion.div variants={fadeInUp} className="mt-12 flex flex-wrap gap-3">
-              {hero.tags.map((tag) => (
-                <Link
-                  key={tag.label}
-                  to={tag.href}
-                  className="px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.05em] text-white/40 border border-white/10 hover:text-white/70 hover:border-white/20 transition-all duration-300"
-                >
-                  {tag.label}
-                </Link>
-              ))}
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Value Proposition Section */}
-      <section data-testid="value-proposition-section" className="py-28 md:py-40">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="mb-20"
-          >
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-[-0.03em] leading-[1.1] mb-6">
-              {valueProposition.headline}
-            </h2>
-            <p className="text-base text-white/45 max-w-xl leading-relaxed font-light">
-              {valueProposition.subline}
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-px bg-white/[0.06] mb-16">
-            {valueProposition.benefits.map((benefit, index) => (
-              <motion.div
-                key={benefit.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="flex gap-5 p-8 md:p-10 bg-[#050507] hover:bg-white/[0.02] transition-colors duration-500"
+              <motion.h1
+                className="text-[clamp(2.8rem,6vw,5.5rem)] font-semibold leading-[1.05] tracking-[-0.035em]"
+                style={{ color: C.text }}
               >
-                <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center">
-                  <CheckCircle2 className="w-4 h-4 text-white/30" />
-                </div>
-                <div>
-                  <h3 className="font-medium text-white/90 mb-2 tracking-[-0.01em]">{benefit.title}</h3>
-                  <p className="text-sm text-white/40 leading-relaxed">{benefit.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
-            <Link to={valueProposition.cta.href}>
-              <Button variant="secondary">
-                {valueProposition.cta.label}
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-            </Link>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Client Logos */}
-      <section className="py-20 md:py-28 border-y border-white/[0.06]">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
-          <ClientLogos />
-        </div>
-      </section>
-
-      {/* Services Section */}
-      <section data-testid="services-section" className="py-28 md:py-40">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="mb-20"
-          >
-            <p className="text-[11px] font-medium text-white/30 uppercase tracking-[0.15em] mb-5">Leistungen</p>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-[-0.03em]">Klar strukturiert</h2>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-4">
-            {services.map((service, index) => (
-              <motion.div
-                key={service.title}
+                {heroHeadline}
+              </motion.h1>
+              <motion.p
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                className="mt-7 text-lg md:text-xl leading-relaxed max-w-md"
+                style={{ color: C.muted }}
               >
-                <Link to={service.href}>
-                  <Card 
-                    data-testid={`service-card-${service.title.toLowerCase().replace(/\s+/g, '-')}`} 
-                    className="group relative h-full overflow-hidden border-white/[0.06] hover:border-white/15 transition-all duration-500"
-                    style={{
-                      backgroundImage: `url(${service.bgImage})`,
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center',
-                      backgroundRepeat: 'no-repeat',
-                    }}
+                {heroSubline}
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.25, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                className="mt-10 flex flex-wrap gap-4"
+              >
+                <Link to={hero.ctaPrimary.href}>
+                  <button
+                    data-testid="hero-cta-primary"
+                    className="inline-flex items-center gap-2 px-8 py-3.5 text-[14px] font-medium rounded-full transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+                    style={{ background: C.accent, color: '#fff' }}
                   >
-                    {/* Dark Overlay */}
-                    <div className="absolute inset-0 bg-[#050507]/75 group-hover:bg-[#050507]/65 transition-all duration-700 z-[1]" />
-                    
-                    <CardContent className="relative p-8 md:p-10 space-y-6 z-[2]">
-                      <div className="w-10 h-10 flex items-center justify-center border border-white/15 group-hover:border-white/25 transition-colors duration-500">
-                        {React.createElement(serviceIcons[service.icon], { className: 'w-5 h-5 text-white/60' })}
-                      </div>
-                      <div>
-                        <h3 className="text-xl md:text-2xl font-light tracking-[-0.02em] mb-2">{service.title}</h3>
-                        <p className="text-sm text-white/40 font-light">{service.description}</p>
-                      </div>
-                      <ul className="space-y-2.5">
-                        {service.features.map((feature) => (
-                          <li key={feature} className="flex items-center gap-3 text-[13px] text-white/45">
-                            <div className="w-1 h-1 bg-white/30 flex-shrink-0" />
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
-                      <div className="flex items-center gap-2 text-[12px] font-medium uppercase tracking-[0.05em] text-white/40 group-hover:text-white/70 transition-colors duration-500">
-                        Mehr erfahren
-                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-500" />
-                      </div>
-                    </CardContent>
-                  </Card>
+                    {heroCta1}
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
                 </Link>
+                <Link to={hero.ctaSecondary.href}>
+                  <button
+                    data-testid="hero-cta-secondary"
+                    className="inline-flex items-center gap-2 px-8 py-3.5 text-[14px] font-medium rounded-full transition-all duration-300 hover:bg-black/[0.04]"
+                    style={{ border: `1.5px solid ${C.border}`, color: C.text }}
+                  >
+                    {hero.ctaSecondary.label}
+                  </button>
+                </Link>
+              </motion.div>
+            </motion.div>
+
+            {/* Right – Hero Image */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-[0_32px_64px_rgba(0,0,0,0.08)]">
+                <EditableImage
+                  contentKey="images.hero.src"
+                  fallbackSrc={images.hero.src}
+                  alt={images.hero.alt}
+                  className="w-full h-full"
+                  imgClassName="object-cover"
+                  priority
+                />
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Scroll indicator */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2, duration: 0.8 }}
+            className="hidden md:flex justify-center mt-20"
+          >
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <ChevronDown className="w-5 h-5" style={{ color: C.light }} />
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══ TRUST BAR ═══ */}
+      <section className="py-16 md:py-20" style={{ borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+            {statistics.map((stat, i) => (
+              <motion.div key={stat.label} {...reveal} transition={{ ...reveal.transition, delay: i * 0.08 }} className="text-center">
+                <div className="text-4xl md:text-5xl font-semibold tracking-[-0.03em]" style={{ color: C.text }}>
+                  {stat.value}{stat.suffix}
+                </div>
+                <div className="mt-2 text-[13px] font-medium" style={{ color: C.muted }}>{stat.label}</div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Projects Preview Section */}
-      <section data-testid="projects-preview-section" className="py-28 md:py-40 border-t border-white/[0.06]">
+      {/* ═══ SERVICES — Alternating Layout ═══ */}
+      <section data-testid="services-section" className="py-24 md:py-36">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20"
-          >
-            <div>
-              <p className="text-[11px] font-medium text-white/30 uppercase tracking-[0.15em] mb-5">Portfolio</p>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-[-0.03em]">Ausgewählte Projekte</h2>
+          <motion.div {...revealSlow} className="mb-20 md:mb-28">
+            <p className="text-[12px] font-semibold uppercase tracking-[0.15em] mb-4" style={{ color: C.light }}>
+              Leistungen
+            </p>
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-semibold tracking-[-0.03em] leading-[1.1]">
+              Was wir tun.
+            </h2>
+          </motion.div>
+
+          <div className="space-y-24 md:space-y-36">
+            {services.map((svc, i) => (
+              <motion.div key={svc.label} {...reveal} transition={{ ...reveal.transition, delay: 0.1 }}>
+                <div className={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${i % 2 === 1 ? 'lg:[direction:rtl]' : ''}`}>
+                  {/* Image */}
+                  <div className={i % 2 === 1 ? 'lg:[direction:ltr]' : ''}>
+                    <ParallaxImage
+                      src={svc.image}
+                      alt={svc.title}
+                      contentKey={`images.service.${svc.label.toLowerCase().replace(/[^a-z]/g, '')}.hero`}
+                    />
+                  </div>
+                  {/* Content */}
+                  <div className={`flex flex-col justify-center ${i % 2 === 1 ? 'lg:[direction:ltr]' : ''}`}>
+                    <p className="text-[12px] font-semibold uppercase tracking-[0.15em] mb-4" style={{ color: C.light }}>
+                      {svc.label}
+                    </p>
+                    <h3 className="text-2xl md:text-3xl lg:text-4xl font-semibold tracking-[-0.02em] leading-[1.15] mb-5">
+                      {svc.title}
+                    </h3>
+                    <p className="text-base leading-relaxed mb-8" style={{ color: C.muted }}>
+                      {svc.desc}
+                    </p>
+                    <ul className="space-y-3 mb-10">
+                      {svc.features.map((f) => (
+                        <li key={f} className="flex items-center gap-3">
+                          <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: C.light }} />
+                          <span className="text-[15px]" style={{ color: C.muted }}>{f}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <Link to={svc.href} className="inline-flex items-center gap-2 text-[14px] font-medium group" style={{ color: C.text }}>
+                      Mehr erfahren
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                    </Link>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ VISUAL SHOWCASE — Full-Width ═══ */}
+      <section className="py-8 md:py-12">
+        <div className="max-w-[1600px] mx-auto px-4 md:px-8">
+          <motion.div {...revealSlow}>
+            <div className="relative aspect-[21/9] rounded-3xl overflow-hidden shadow-[0_40px_80px_rgba(0,0,0,0.06)]">
+              <EditableImage
+                contentKey="images.hero.src"
+                fallbackSrc="/images/Header_Porsche_HD.webp"
+                alt="VISUWORKS Premium Qualität"
+                className="w-full h-full"
+                imgClassName="object-cover"
+              />
+              {/* Subtle gradient overlay for text legibility */}
+              <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent" />
+              <div className="absolute inset-0 flex items-end p-8 md:p-14">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3, duration: 0.7 }}
+                >
+                  <p className="text-white/70 text-[12px] font-semibold uppercase tracking-[0.15em] mb-2">Premium Qualität</p>
+                  <h3 className="text-2xl md:text-4xl font-semibold text-white tracking-[-0.02em]">
+                    Kompromisslos in jedem Detail.
+                  </h3>
+                </motion.div>
+              </div>
             </div>
-            <Link to="/projekte">
-              <Button variant="secondary">
-                Alle Projekte
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══ PROJECTS PREVIEW ═══ */}
+      <section data-testid="projects-preview-section" className="py-24 md:py-36">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
+          <motion.div {...revealSlow} className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 md:mb-20">
+            <div>
+              <p className="text-[12px] font-semibold uppercase tracking-[0.15em] mb-4" style={{ color: C.light }}>
+                Portfolio
+              </p>
+              <h2 className="text-3xl md:text-5xl lg:text-6xl font-semibold tracking-[-0.03em]">
+                Ausgewählte Projekte
+              </h2>
+            </div>
+            <Link to="/projekte" className="inline-flex items-center gap-2 text-[14px] font-medium group" style={{ color: C.text }}>
+              Alle Projekte
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
             </Link>
           </motion.div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid sm:grid-cols-2 gap-5">
             {featuredProjects.map((project, index) => (
               <motion.div
                 key={project.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.08 }}
+                {...reveal}
+                transition={{ ...reveal.transition, delay: index * 0.08 }}
               >
                 <Link to={`/projekte/${project.slug}`}>
-                  <div data-testid={`project-tile-${project.id}`} className="group relative aspect-[4/3] overflow-hidden bg-[#0A0C14] border border-white/[0.06] hover:border-white/15 transition-all duration-500">
-                    {/* Project Image */}
+                  <div
+                    data-testid={`project-tile-${project.id}`}
+                    className="group relative aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer"
+                    style={{ background: '#E8E4DD' }}
+                  >
                     {(() => {
                       const img = getProjectImage(project.slug);
                       return img ? (
@@ -316,21 +378,18 @@ export default function HomePage() {
                           fallbackSrc={img.src}
                           alt={img.alt || project.title}
                           className="absolute inset-0 w-full h-full"
-                          imgClassName="transition-transform duration-700 group-hover:scale-[1.03]"
+                          imgClassName="transition-transform duration-700 group-hover:scale-[1.04]"
                         />
                       ) : null;
                     })()}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#050507] via-[#050507]/50 to-transparent group-hover:via-[#050507]/40 transition-all duration-700" />
-                    <div className="absolute inset-0 flex flex-col justify-end p-6 relative z-10">
-                      <span className="text-[11px] font-medium text-white/35 uppercase tracking-[0.1em] mb-2">{project.category}</span>
-                      <h3 className="text-lg font-light tracking-[-0.01em] mb-3">{project.title}</h3>
-                      <div className="flex flex-wrap gap-2">
-                        {project.tags.slice(0, 2).map((tag) => (
-                          <span key={tag} className="px-2.5 py-1 text-[11px] text-white/35 border border-white/[0.08]">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
+                    <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
+                      <span className="text-[11px] font-semibold text-white/60 uppercase tracking-[0.12em] mb-2">
+                        {project.category}
+                      </span>
+                      <h3 className="text-lg md:text-xl font-semibold text-white tracking-[-0.01em]">
+                        {project.title}
+                      </h3>
                     </div>
                   </div>
                 </Link>
@@ -340,78 +399,31 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Process Section */}
-      <section data-testid="process-section" className="py-28 md:py-40">
+      {/* ═══ PROCESS ═══ */}
+      <section data-testid="process-section" className="py-24 md:py-36" style={{ borderTop: `1px solid ${C.border}` }}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="mb-20"
-          >
-            <p className="text-[11px] font-medium text-white/30 uppercase tracking-[0.15em] mb-5">Ablauf</p>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-[-0.03em]">Unser Prozess</h2>
+          <motion.div {...revealSlow} className="mb-16 md:mb-24">
+            <p className="text-[12px] font-semibold uppercase tracking-[0.15em] mb-4" style={{ color: C.light }}>
+              Ablauf
+            </p>
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-semibold tracking-[-0.03em]">
+              Unser Prozess
+            </h2>
           </motion.div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-px bg-white/[0.06]">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6 md:gap-8">
             {processSteps.map((step, index) => (
-              <motion.div
-                key={step.num}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-              >
-                <Link to={`/prozess/${step.slug}`}>
-                  <div className="p-8 bg-[#050507] h-full hover:bg-white/[0.02] transition-all duration-500 group cursor-pointer">
-                    <span className="text-4xl font-extralight text-white/[0.08] tracking-[-0.04em]">{step.num}</span>
-                    <h3 className="text-base font-medium mt-5 mb-2 group-hover:text-white transition-colors duration-500">{step.title}</h3>
-                    <p className="text-[13px] text-white/35 leading-relaxed">{step.desc}</p>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Target Audiences Section */}
-      <section data-testid="audiences-section" className="py-28 md:py-40 border-t border-white/[0.06]">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="mb-20"
-          >
-            <p className="text-[11px] font-medium text-white/30 uppercase tracking-[0.15em] mb-5">Zielgruppen</p>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-[-0.03em]">Für wen wir arbeiten</h2>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-px bg-white/[0.06]">
-            {targetAudiences.map((audience, index) => (
-              <motion.div
-                key={audience.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-              >
-                <div className="h-full p-8 md:p-10 bg-[#050507] hover:bg-white/[0.02] transition-colors duration-500">
-                  <div className="mb-6">
-                    <h3 className="text-lg font-medium tracking-[-0.01em] mb-1">{audience.title}</h3>
-                    <p className="text-[13px] text-white/35">{audience.focus}</p>
-                  </div>
-                  <ul className="space-y-3">
-                    {audience.items.map((item) => (
-                      <li key={item} className="flex items-center gap-3 text-[13px] text-white/45">
-                        <div className="w-1 h-1 bg-white/25 flex-shrink-0" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
+              <motion.div key={step.num} {...reveal} transition={{ ...reveal.transition, delay: index * 0.08 }}>
+                <div className="h-full p-6 rounded-2xl transition-colors duration-300 hover:bg-black/[0.02]">
+                  <span className="text-5xl font-semibold" style={{ color: 'rgba(0,0,0,0.06)' }}>
+                    {step.num}
+                  </span>
+                  <h3 className="text-base font-semibold mt-5 mb-2" style={{ color: C.text }}>
+                    {step.title}
+                  </h3>
+                  <p className="text-[14px] leading-relaxed" style={{ color: C.muted }}>
+                    {step.desc}
+                  </p>
                 </div>
               </motion.div>
             ))}
@@ -419,40 +431,88 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Statistics Section */}
-      <Statistics />
-
-      {/* Testimonials Section */}
-      <Testimonials className="bg-white/[0.02]" />
-
-      {/* Newsletter Section */}
-      <NewsletterSignup />
-
-      {/* CTA Section */}
-      <section data-testid="cta-section" className="py-28 md:py-40">
+      {/* ═══ TESTIMONIALS ═══ */}
+      <section data-testid="testimonials-section" className="py-24 md:py-36" style={{ background: '#EFECE6' }}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="relative overflow-hidden border border-white/[0.06] p-12 md:p-20 lg:p-28"
-          >
-            <div className="relative max-w-2xl">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-[-0.03em] leading-[1.1] mb-8">
+          <motion.div {...revealSlow} className="mb-16 md:mb-20">
+            <p className="text-[12px] font-semibold uppercase tracking-[0.15em] mb-4" style={{ color: C.light }}>
+              Kundenstimmen
+            </p>
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-semibold tracking-[-0.03em]">
+              Was unsere Kunden sagen
+            </h2>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {testimonials.slice(0, 4).map((t, i) => (
+              <motion.div key={t.id} {...reveal} transition={{ ...reveal.transition, delay: i * 0.1 }}>
+                <div className="h-full p-8 md:p-10 rounded-2xl" style={{ background: C.card, boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
+                  <blockquote className="text-base md:text-lg leading-relaxed mb-8" style={{ color: C.text }}>
+                    &bdquo;{t.quote}&ldquo;
+                  </blockquote>
+                  <div>
+                    <p className="text-[15px] font-semibold" style={{ color: C.text }}>{t.author}</p>
+                    <p className="text-[13px] mt-0.5" style={{ color: C.muted }}>
+                      {t.position}, {t.company}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ FAQ ═══ */}
+      <section data-testid="faq-section" className="py-24 md:py-36">
+        <div className="max-w-[900px] mx-auto px-6 md:px-12 lg:px-16">
+          <motion.div {...revealSlow} className="text-center mb-16 md:mb-20">
+            <p className="text-[12px] font-semibold uppercase tracking-[0.15em] mb-4" style={{ color: C.light }}>
+              FAQ
+            </p>
+            <h2 className="text-3xl md:text-5xl font-semibold tracking-[-0.03em]">
+              Häufige Fragen
+            </h2>
+          </motion.div>
+
+          <motion.div {...reveal}>
+            <div style={{ borderTop: `1px solid ${C.border}` }}>
+              {faqs.map((faq, i) => (
+                <FAQItem
+                  key={i}
+                  q={faq.q}
+                  a={faq.a}
+                  isOpen={openFaq === i}
+                  onToggle={() => setOpenFaq(openFaq === i ? null : i)}
+                />
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══ FINAL CTA ═══ */}
+      <section data-testid="cta-section" className="py-24 md:py-36">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
+          <motion.div {...revealSlow}>
+            <div className="relative overflow-hidden rounded-3xl p-12 md:p-20 lg:p-28 text-center" style={{ background: C.accent }}>
+              <h2 className="text-3xl md:text-5xl lg:text-6xl font-semibold tracking-[-0.03em] leading-[1.1] text-white mb-6">
                 {ctaHeadline}
               </h2>
-              <p className="text-base text-white/40 mb-12 leading-relaxed font-light max-w-lg">
+              <p className="text-base md:text-lg text-white/60 mb-10 max-w-lg mx-auto leading-relaxed">
                 {ctaSubline}
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                {ctaSection.buttons.map((btn, i) => (
-                  <Link key={i} to={btn.href}>
-                    <Button data-testid={`cta-btn-${i}`} variant={btn.variant}>
-                      {btn.label}
-                    </Button>
-                  </Link>
-                ))}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Link to="/kontakt">
+                  <button
+                    data-testid="cta-btn-0"
+                    className="inline-flex items-center gap-2 px-8 py-3.5 text-[14px] font-medium rounded-full transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+                    style={{ background: '#fff', color: C.accent }}
+                  >
+                    Kontakt aufnehmen
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </Link>
               </div>
             </div>
           </motion.div>

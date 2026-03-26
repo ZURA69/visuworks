@@ -19,6 +19,9 @@ export const Navbar = () => {
   const { language } = useLanguage();
   const isDE = language === 'de';
 
+  /* ─── Theme detection: light on homepage, dark everywhere else ─── */
+  const isLightPage = location.pathname === '/';
+
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -73,12 +76,18 @@ export const Navbar = () => {
     <>
       <header
         data-testid="main-navigation"
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? 'bg-[#070910]/90 backdrop-blur-xl border-b border-white/5' : 'bg-transparent'
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          isLightPage
+            ? isScrolled
+              ? 'bg-[#F5F2ED]/90 backdrop-blur-xl border-b border-black/[0.06]'
+              : 'bg-transparent'
+            : isScrolled
+              ? 'bg-[#070910]/90 backdrop-blur-xl border-b border-white/5'
+              : 'bg-transparent'
         }`}
         role="banner"
       >
-        <nav className="max-w-[1200px] mx-auto px-6 md:px-12" role="navigation" aria-label="Hauptnavigation">
+        <nav className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16" role="navigation" aria-label="Hauptnavigation">
           <div className="flex items-center justify-between h-20">
 
             {/* Left: Leistungen + Projekte */}
@@ -121,7 +130,7 @@ export const Navbar = () => {
               className="absolute left-1/2 -translate-x-1/2 lg:static lg:translate-x-0"
               aria-label="VISUWORKS - Zur Startseite"
             >
-              <span className="text-2xl font-bold tracking-tight">VISUWORKS</span>
+              <span className={`text-2xl font-bold tracking-tight transition-colors duration-300 ${isLightPage ? 'text-[#1A1A1A]' : 'text-white'}`}>VISUWORKS</span>
             </Link>
 
             {/* Right: Projektmanagement + Kontakt + Language + CTA */}
@@ -142,7 +151,11 @@ export const Navbar = () => {
               ))}
               <LanguageSwitcher className="ml-1" />
               <Link to="/kontakt" className="ml-2">
-                <button data-testid="nav-cta-button" className="px-5 py-2 text-[13px] font-medium tracking-[0.02em] uppercase bg-white text-[#050507] hover:bg-white/90 transition-all duration-300">
+                <button data-testid="nav-cta-button" className={`px-5 py-2 text-[13px] font-medium tracking-[0.02em] uppercase transition-all duration-300 rounded-full ${
+                  isLightPage
+                    ? 'bg-[#1A1A1A] text-white hover:bg-[#1A1A1A]/90'
+                    : 'bg-white text-[#050507] hover:bg-white/90'
+                }`}>
                   {isDE ? t.nav.projektStarten.de : t.nav.projektStarten.en}
                 </button>
               </Link>
@@ -152,7 +165,7 @@ export const Navbar = () => {
             <button
               data-testid="mobile-menu-toggle"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 text-white/70 hover:text-white transition-colors z-50"
+              className={`lg:hidden p-2 transition-colors z-50 ${isLightPage ? 'text-[#1A1A1A]/70 hover:text-[#1A1A1A]' : 'text-white/70 hover:text-white'}`}
               aria-expanded={isMobileMenuOpen}
               aria-label={isMobileMenuOpen ? 'Menü schließen' : 'Menü öffnen'}
             >
@@ -176,8 +189,8 @@ export const Navbar = () => {
               data-testid="mega-menu"
             >
               <div className="max-w-[1200px] mx-auto px-6 md:px-12">
-                <div className="mega-panel">
-                  <div className="grid grid-cols-4 gap-0 divide-x divide-white/[0.06]">
+                <div className={`mega-panel`}>
+                  <div className={`grid grid-cols-4 gap-0 divide-x ${isLightPage ? 'divide-black/[0.06]' : 'divide-white/[0.06]'}`}>
                     {leistungen.pillars.map((pillar) => (
                       <div key={pillar.href} className="p-5">
                         <Link
@@ -185,13 +198,15 @@ export const Navbar = () => {
                           className="group flex items-center gap-2 mb-3"
                         >
                           <span className={`text-sm font-semibold transition-colors duration-200 ${
-                            isLinkActive(pillar.href) ? 'text-white' : 'text-white/80 group-hover:text-white'
+                            isLinkActive(pillar.href)
+                              ? (isLightPage ? 'text-[#1A1A1A]' : 'text-white')
+                              : (isLightPage ? 'text-[#1A1A1A]/80 group-hover:text-[#1A1A1A]' : 'text-white/80 group-hover:text-white')
                           }`}>
                             {pillar.label}
                           </span>
-                          <ArrowRight className="w-3.5 h-3.5 text-white/30 group-hover:text-white/60 group-hover:translate-x-0.5 transition-all duration-200" />
+                          <ArrowRight className={`w-3.5 h-3.5 group-hover:translate-x-0.5 transition-all duration-200 ${isLightPage ? 'text-[#1A1A1A]/30 group-hover:text-[#1A1A1A]/60' : 'text-white/30 group-hover:text-white/60'}`} />
                         </Link>
-                        <p className="text-xs text-white/35 mb-4">{pillar.desc}</p>
+                        <p className={`text-xs mb-4 ${isLightPage ? 'text-[#1A1A1A]/35' : 'text-white/35'}`}>{pillar.desc}</p>
 
                         {pillar.subItems.length > 0 && (
                           <ul className="space-y-0.5">
@@ -201,11 +216,13 @@ export const Navbar = () => {
                                   to={sub.href}
                                   data-testid={`mega-link-${sub.href.split('/').pop()}`}
                                   className={`mega-sub-link ${
-                                    location.pathname === sub.href ? 'bg-white/[0.06] text-white' : ''
+                                    location.pathname === sub.href
+                                      ? (isLightPage ? 'bg-black/[0.04] !text-[#1A1A1A]' : 'bg-white/[0.06] !text-white')
+                                      : ''
                                   }`}
                                 >
                                   <span className="text-[13px] font-medium">{sub.label}</span>
-                                  <span className="text-[11px] text-white/30 leading-tight">{sub.desc}</span>
+                                  <span className={`text-[11px] leading-tight ${isLightPage ? 'text-[#1A1A1A]/30' : 'text-white/30'}`}>{sub.desc}</span>
                                 </Link>
                               </li>
                             ))}
@@ -216,9 +233,9 @@ export const Navbar = () => {
                   </div>
 
                   {/* CTA bar */}
-                  <div className="border-t border-white/[0.06] px-5 py-3 flex items-center justify-between">
-                    <p className="text-xs text-white/40">{isDE ? t.nav.alleLeistungen.de : t.nav.alleLeistungen.en}</p>
-                    <Link to="/kontakt" className="flex items-center gap-2 text-xs font-medium text-white/50 hover:text-white/80 transition-colors duration-300">
+                  <div className={`border-t px-5 py-3 flex items-center justify-between ${isLightPage ? 'border-black/[0.06]' : 'border-white/[0.06]'}`}>
+                    <p className={`text-xs ${isLightPage ? 'text-[#1A1A1A]/40' : 'text-white/40'}`}>{isDE ? t.nav.alleLeistungen.de : t.nav.alleLeistungen.en}</p>
+                    <Link to="/kontakt" className={`flex items-center gap-2 text-xs font-medium transition-colors duration-300 ${isLightPage ? 'text-[#1A1A1A]/50 hover:text-[#1A1A1A]/80' : 'text-white/50 hover:text-white/80'}`}>
                       {isDE ? t.nav.projektBesprechen.de : t.nav.projektBesprechen.en}
                       <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
@@ -392,18 +409,18 @@ export const Navbar = () => {
           font-weight: 500;
           letter-spacing: 0.04em;
           text-transform: uppercase;
-          color: rgba(255,255,255,0.45);
+          color: ${isLightPage ? 'rgba(26,26,26,0.5)' : 'rgba(255,255,255,0.45)'};
           border: none;
           transition: color 400ms cubic-bezier(0.16, 1, 0.3, 1);
           cursor: pointer;
           background: none;
         }
         .nav-link-base:hover {
-          color: rgba(255,255,255,0.9);
+          color: ${isLightPage ? 'rgba(26,26,26,0.9)' : 'rgba(255,255,255,0.9)'};
           background-color: transparent;
         }
         .nav-link-active {
-          color: #fff !important;
+          color: ${isLightPage ? '#1A1A1A' : '#fff'} !important;
           background-color: transparent !important;
         }
         .nav-accent {
@@ -414,29 +431,29 @@ export const Navbar = () => {
           width: 4px;
           height: 4px;
           border-radius: 50%;
-          background: rgba(255,255,255,0.6);
+          background: ${isLightPage ? 'rgba(26,26,26,0.5)' : 'rgba(255,255,255,0.6)'};
         }
         .mega-panel {
-          background: rgba(5,5,7,0.95);
+          background: ${isLightPage ? 'rgba(255,255,255,0.97)' : 'rgba(5,5,7,0.95)'};
           backdrop-filter: blur(40px);
           -webkit-backdrop-filter: blur(40px);
-          border: 1px solid rgba(255,255,255,0.06);
-          border-radius: 12px;
+          border: 1px solid ${isLightPage ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.06)'};
+          border-radius: 16px;
           overflow: hidden;
-          box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+          box-shadow: ${isLightPage ? '0 24px 48px rgba(0,0,0,0.08)' : '0 40px 80px rgba(0,0,0,0.5)'};
         }
         .mega-sub-link {
           display: flex;
           flex-direction: column;
           gap: 2px;
           padding: 10px 14px;
-          border-radius: 6px;
-          color: rgba(255,255,255,0.5);
+          border-radius: 8px;
+          color: ${isLightPage ? 'rgba(26,26,26,0.5)' : 'rgba(255,255,255,0.5)'};
           transition: color 300ms cubic-bezier(0.16, 1, 0.3, 1);
         }
         .mega-sub-link:hover {
-          color: #fff;
-          background-color: rgba(255,255,255,0.03);
+          color: ${isLightPage ? '#1A1A1A' : '#fff'};
+          background-color: ${isLightPage ? 'rgba(0,0,0,0.03)' : 'rgba(255,255,255,0.03)'};
         }
       `}</style>
     </>
