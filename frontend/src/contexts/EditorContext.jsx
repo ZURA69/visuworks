@@ -10,6 +10,7 @@ export function EditorProvider({ children }) {
   const [overrides, setOverrides] = useState({});
   const [pending, setPending] = useState({});
   const [isSaving, setIsSaving] = useState(false);
+  const [previewMode, setPreviewMode] = useState(true);
 
   useEffect(() => {
     try {
