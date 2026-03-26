@@ -32,6 +32,20 @@ export default function KontaktPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
 
+  // Hero Section CMS
+  const heroLabel = useEditable('kontakt.hero.label', 'Kontakt');
+  const heroTitle = useEditable('kontakt.hero.title', 'Projekt anfragen');
+  const heroDesc = useEditable('kontakt.hero.desc', 'Kurze Infos reichen – wir melden uns mit Rückfragen oder einem konkreten Vorschlag.');
+
+  // Form Labels CMS
+  const formNameLabel = useEditable('kontakt.form.nameLabel', 'Name *');
+  const formEmailLabel = useEditable('kontakt.form.emailLabel', 'E-Mail *');
+  const formPhoneLabel = useEditable('kontakt.form.phoneLabel', 'Telefon');
+  const formServiceLabel = useEditable('kontakt.form.serviceLabel', 'Welche Leistung?');
+  const formMessageLabel = useEditable('kontakt.form.messageLabel', 'Ihre Nachricht *');
+  const formSubmitLabel = useEditable('kontakt.form.submitLabel', 'Anfrage senden');
+
+  // Sidebar CMS
   const sectionTitle = useEditable('kontakt.sidebar.title', 'Direkt erreichen');
   const contactEmail = useEditable('kontakt.sidebar.email', 'info@visuworks.de');
   const contactPhone = useEditable('kontakt.sidebar.phone', '+49 211 123 456 78');
@@ -74,12 +88,12 @@ export default function KontaktPage() {
             transition={{ duration: 0.8 }}
             className="max-w-3xl mb-20"
           >
-            <p className="text-[11px] font-medium text-[#9A9A9A] uppercase tracking-[0.15em] mb-6">Kontakt</p>
+            <p className="text-[11px] font-medium text-[#9A9A9A] uppercase tracking-[0.15em] mb-6">{heroLabel}</p>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-light tracking-[-0.04em] leading-[0.95] mb-6 text-[#1A1A1A]">
-              Projekt anfragen
+              {heroTitle}
             </h1>
             <p className="text-base md:text-lg text-[#6B6B6B] font-light">
-              Kurze Infos reichen – wir melden uns mit Rückfragen oder einem konkreten Vorschlag.
+              {heroDesc}
             </p>
           </motion.header>
 
@@ -98,12 +112,12 @@ export default function KontaktPage() {
 
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="name" className="block text-[13px] font-medium text-[#6B6B6B] mb-2.5">Name *</label>
+                    <label htmlFor="name" className="block text-[13px] font-medium text-[#6B6B6B] mb-2.5">{formNameLabel}</label>
                     <Input id="name" name="name" value={formData.name} onChange={handleChange} placeholder="Ihr Name" data-testid="input-name" aria-required="true" aria-invalid={!!errors.name} aria-describedby={errors.name ? 'name-error' : undefined} className={errors.name ? 'border-red-500/50' : ''} />
                     {errors.name && <p id="name-error" className="text-red-500 text-xs mt-1" role="alert">{errors.name}</p>}
                   </div>
                   <div>
-                    <label htmlFor="email" className="block text-[13px] font-medium text-[#6B6B6B] mb-2.5">E-Mail *</label>
+                    <label htmlFor="email" className="block text-[13px] font-medium text-[#6B6B6B] mb-2.5">{formEmailLabel}</label>
                     <Input id="email" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="ihre@email.de" data-testid="input-email" aria-required="true" aria-invalid={!!errors.email} aria-describedby={errors.email ? 'email-error' : undefined} className={errors.email ? 'border-red-500/50' : ''} />
                     {errors.email && <p id="email-error" className="text-red-500 text-xs mt-1" role="alert">{errors.email}</p>}
                   </div>
@@ -111,11 +125,11 @@ export default function KontaktPage() {
 
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="phone" className="block text-[13px] font-medium text-[#6B6B6B] mb-2.5">Telefon</label>
+                    <label htmlFor="phone" className="block text-[13px] font-medium text-[#6B6B6B] mb-2.5">{formPhoneLabel}</label>
                     <Input id="phone" name="phone" value={formData.phone} onChange={handleChange} placeholder="+49 ..." data-testid="input-phone" />
                   </div>
                   <div>
-                    <label htmlFor="service" className="block text-[13px] font-medium text-[#6B6B6B] mb-2.5">Welche Leistung?</label>
+                    <label htmlFor="service" className="block text-[13px] font-medium text-[#6B6B6B] mb-2.5">{formServiceLabel}</label>
                     <select id="service" name="service" value={formData.service} onChange={handleChange} data-testid="input-service"
                       className="flex h-12 w-full bg-black/[0.02] border border-black/[0.08] px-4 py-2 text-[#1A1A1A] text-sm focus:border-black/20 focus:ring-1 focus:ring-black/20 focus:outline-none transition-all duration-300">
                       <option value="" className="bg-[#F5F2ED]">Bitte wählen...</option>
@@ -127,13 +141,13 @@ export default function KontaktPage() {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-[13px] font-medium text-[#6B6B6B] mb-2.5">Ihre Nachricht *</label>
+                  <label htmlFor="message" className="block text-[13px] font-medium text-[#6B6B6B] mb-2.5">{formMessageLabel}</label>
                   <Textarea id="message" name="message" value={formData.message} onChange={handleChange} placeholder="Beschreiben Sie kurz Ihr Projekt oder Ihre Anfrage..." rows={5} data-testid="input-message" aria-required="true" aria-invalid={!!errors.message} aria-describedby={errors.message ? 'message-error' : undefined} className={errors.message ? 'border-red-500/50' : ''} />
                   {errors.message && <p id="message-error" className="text-red-500 text-xs mt-1" role="alert">{errors.message}</p>}
                 </div>
 
                 <Button type="submit" disabled={isSubmitting} data-testid="submit-button" className="w-full sm:w-auto">
-                  {isSubmitting ? 'Wird gesendet...' : 'Anfrage senden'}
+                  {isSubmitting ? 'Wird gesendet...' : formSubmitLabel}
                   <Send className="ml-2 h-4 w-4" />
                 </Button>
               </form>

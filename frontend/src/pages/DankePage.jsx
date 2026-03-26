@@ -4,8 +4,16 @@ import { motion } from 'framer-motion';
 import { CheckCircle, ArrowRight, Home } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { SEOHead } from '../components/SEOHead';
+import { useEditable } from '../contexts/EditorContext';
 
 export default function DankePage() {
+  // CMS Bindungen
+  const title = useEditable('danke.title', 'Vielen Dank!');
+  const subtitle = useEditable('danke.subtitle', 'Ihre Projektanfrage ist bei uns eingegangen.');
+  const message = useEditable('danke.message', 'Wir melden uns in der Regel innerhalb von 24 Stunden bei Ihnen mit Rückfragen oder einem konkreten Vorschlag.');
+  const homeBtn = useEditable('danke.homeBtn', 'Zur Startseite');
+  const projekteBtn = useEditable('danke.projekteBtn', 'Projekte ansehen');
+
   return (
     <div data-testid="danke-page" className="min-h-[80vh] flex items-center justify-center px-6">
       <SEOHead page="home" customTitle="Vielen Dank | VISUWORKS" customDescription="Ihre Anfrage wurde erfolgreich gesendet." />
@@ -31,26 +39,25 @@ export default function DankePage() {
         </motion.div>
 
         <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4">
-          Vielen Dank!
+          {title}
         </h1>
         <p className="text-lg text-[#6B6B6B] mb-4">
-          Ihre Projektanfrage ist bei uns eingegangen.
+          {subtitle}
         </p>
         <p className="text-base text-[#6B6B6B] mb-10">
-          Wir melden uns in der Regel innerhalb von 24 Stunden bei Ihnen 
-          mit Rückfragen oder einem konkreten Vorschlag.
+          {message}
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link to="/">
             <Button size="lg" data-testid="danke-home-button">
               <Home className="mr-2 h-5 w-5" />
-              Zur Startseite
+              {homeBtn}
             </Button>
           </Link>
           <Link to="/projekte">
             <Button variant="secondary" size="lg" data-testid="danke-projekte-button">
-              Projekte ansehen
+              {projekteBtn}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>

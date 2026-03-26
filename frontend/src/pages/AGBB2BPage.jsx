@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { SEOHead } from '../components/SEOHead';
+import { useEditable } from '../contexts/EditorContext';
 
 const tocItems = [
   { id: 'geltungsbereich', label: '§1 Geltungsbereich' },
@@ -22,6 +23,14 @@ const tocItems = [
 ];
 
 export default function AGBB2BPage() {
+  // CMS Bindungen
+  const label = useEditable('agbb2b.label', 'Rechtliches');
+  const title = useEditable('agbb2b.title', 'Allgemeine Geschäftsbedingungen für Unternehmer (B2B)');
+  const subtitle = useEditable('agbb2b.subtitle', 'Diese AGB gelten ausschließlich gegenüber Unternehmern im Sinne des §14 BGB.');
+  const tocLabel = useEditable('agbb2b.tocLabel', 'Inhaltsverzeichnis');
+  const stand = useEditable('agbb2b.stand', 'Stand: März 2026');
+  const weitereTexte = useEditable('agbb2b.weitereTexte', 'Weitere Rechtstexte:');
+
   return (
     <div data-testid="agb-b2b-page" className="overflow-hidden">
       <SEOHead
@@ -41,18 +50,18 @@ export default function AGBB2BPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <p className="text-sm font-medium text-[#9A9A9A] uppercase tracking-wider mb-4">Rechtliches</p>
+            <p className="text-sm font-medium text-[#9A9A9A] uppercase tracking-wider mb-4">{label}</p>
             <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4">
-              Allgemeine Geschäftsbedingungen für Unternehmer (B2B)
+              {title}
             </h1>
             <p className="text-base text-[#6B6B6B] mb-12">
-              Diese AGB gelten ausschließlich gegenüber Unternehmern im Sinne des §14 BGB.
-              Für Verbraucher gelten unsere <Link to="/agb" className="text-[#1A1A1A] hover:text-[#9A9A9A] transition-colors underline underline-offset-2">AGB (B2C)</Link>.
+              {subtitle}
+              {' '}Für Verbraucher gelten unsere <Link to="/agb" className="text-[#1A1A1A] hover:text-[#9A9A9A] transition-colors underline underline-offset-2">AGB (B2C)</Link>.
             </p>
 
             {/* Anchor Navigation */}
             <nav className="mb-16 p-6 rounded-2xl bg-black/[0.02] border border-black/[0.07]" aria-label="Inhaltsverzeichnis">
-              <p className="text-sm font-semibold text-[#6B6B6B] uppercase tracking-wider mb-4">Inhaltsverzeichnis</p>
+              <p className="text-sm font-semibold text-[#6B6B6B] uppercase tracking-wider mb-4">{tocLabel}</p>
               <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-2">
                 {tocItems.map((item) => (
                   <li key={item.id}>
@@ -314,9 +323,9 @@ export default function AGBB2BPage() {
 
             {/* Footer Links & Date */}
             <div className="mt-16 pt-8 border-t border-black/[0.07]">
-              <p className="text-xs text-[#9A9A9A] mb-6">Stand: März 2026</p>
+              <p className="text-xs text-[#9A9A9A] mb-6">{stand}</p>
               <div className="flex flex-wrap gap-4 text-sm">
-                <span className="text-[#9A9A9A]">Weitere Rechtstexte:</span>
+                <span className="text-[#9A9A9A]">{weitereTexte}</span>
                 <Link to="/agb" className="text-[#6B6B6B] hover:text-[#1A1A1A] transition-colors">AGB (B2C)</Link>
                 <Link to="/datenschutz" className="text-[#6B6B6B] hover:text-[#1A1A1A] transition-colors">Datenschutzerklärung</Link>
                 <Link to="/impressum" className="text-[#6B6B6B] hover:text-[#1A1A1A] transition-colors">Impressum</Link>

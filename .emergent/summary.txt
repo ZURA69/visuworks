@@ -1,139 +1,126 @@
 <analysis>**original_problem_statement**: 
-The user wants to create a fully designed, premium, multi-page website for a European visual branding company called VISUWORKS. The website must be visually high-end and built on a consistent design system. Recently, the user refined the product vision: The website should shift from a standard service-provider look to a High-End Automotive Design Studio or Architectural Portfolio aesthetic. 
-
-**PRODUCT REQUIREMENTS**:
-- **Pages:** Home, Mobilität, Raum & Architektur, Markenkommunikation, Design & Konzeption, Projektmanagement, Projekte, Kontakt, Impressum, Datenschutz, AGB.
-- **Vibe/Design:** Maximum calmness, precision, and value. Large typography, excessive whitespace, removal of unnecessary boxes/borders/lines, subtle micro-animations (fade-ins), and a focus on large, high-quality images.
-- **Content:** German (Primary) and English (Secondary). Texts must be concise, confident, and direct—no marketing fluff.
-- **Features:** 
-    - Visual Content Editor (In-app live editing with MongoDB persistence).
-    - Functional Contact Form (IONOS SMTP).
-    - Fully responsive layout.
-    - Comprehensive SEO and DSGVO compliance.
+The user is building a fully CMS-driven, premium, high-end design website for a European visual branding company (VISUWORKS). The CMS must manage both content and layout parameters. 
+**PRODUCT REQUIREMENTS**: 
+- Ensure *every single visible element* on the site (text, images, links, buttons, lists, overlays) across all pages (Homepage, subpages, legal) is editable in the  panel using the existing  and  logic. 
+- No hardcoded content should override the CMS. 
+- If it is visible on the website, it must exist in the editor.
 
 **User's preferred language**: German
-*(INSTRUCT next agent to respond in the user's preferred language only)*
+*(INSTRUCT NEXT AGENT: You MUST respond to the user in German only. All user-facing text, confirmations, and plans must be in German.)*
 
 **what currently exists?** 
-A full-stack React/FastAPI application. It features a sophisticated visual content editor with advanced image manipulation (zoom/pan) persisted in MongoDB. The contact form is fully integrated with IONOS SMTP. Images are optimized on-the-fly to WebP. The site is fully mobile-responsive, SEO-optimized (with JSON-LD schemas and keyword strategies), and has successfully passed a pre-deployment audit. 
+A full-stack React/FastAPI application with a sophisticated MongoDB-backed custom CMS. The CMS handles content () and layout (). In this session, the agent audited all page components to find hardcoded values and successfully registered the new editable fields for Homepage, Kontakt, Projekte, Danke, and Legal pages in . 
 
 **Last working item**: 
-- **Last item agent was working**: Implementing the High-End Premium Veredelung (Premium Design Refinement). The user requested a visual refinement of the existing design to look like an international design studio (larger typography, more whitespace, reduced visual noise, finer lines, subtler buttons). The agent successfully updated , , and text contents in , and was just about to start refining .
-- **Status**: IN PROGRESS
-- **Agent Testing Done**: N
-- **Which testing method agent to use?**: Frontend testing agent / screenshot tool to verify the new aesthetic updates.
-- **User Testing Done**: N
+    - Last item agent was working: Full Site CMS Migration (Phase 1: Registry Updates). The agent successfully updated  to register all missing text/image fields for the Homepage, Kontakt, Projekte, Danke, and Legal pages. The next step is to bind these registered fields to the actual UI components using .
+    - Status: IN PROGRESS
+    - Agent Testing Done: N
+    - Which testing method agent to use? Frontend testing agent (testing_agent_v3_fork) after binding the newly registered fields to the page components to verify the CMS overrides work correctly without breaking the UI.
+    - User Testing Done: N
 
 **All Pending/In progress Issue list**: 
-There are no blocking bugs.
+  - Issue 1: Full Site CMS Integration (P0)
+     - Attempted fixes: The agent successfully registered fields in . The page components themselves still have hardcoded strings.
+     - Next debug checklist: Go through  (specifically , , , , , , , and remaining  sections) and replace hardcoded text/images with . Ensure fallbacks perfectly match the previous hardcoded text to prevent layout shifts.
+     - Why fix this issue and what will be achieved with the fix? Completes the user's core requirement: absolutely every visible element must be editable via the CMS.
+     - Status: IN PROGRESS
+     - Is recurring issue? N
+     - Should Test frontend/backend/both after fix? Frontend
+     - Blocked on other issue: None
 
 **In progress Task List**:
-- **Task 1**: High-End Premium Design Refinement (HomePage & Other Pages) (P0)
-   - **Where to resume**: The agent was about to modify  to apply the premium aesthetic. You need to adjust Tailwind classes for typography ( to , , ), increase section spacing ( or ), remove hard borders/boxes, soften button styles, and ensure large images take focus. Do the same for Service and Project pages.
-   - **What will be achieved with this?**: Transforming the site's look into a premium architectural/design studio portfolio as requested, *without* altering the underlying DOM structure or breaking the content editor.
-   - **Status**: IN PROGRESS
-   - **Should Test frontend/backend/both after fix?**: Frontend
+  - Task 1: Bind CMS Fields to UI Components (P0)
+     - Where to resume: Open the respective Page components (e.g., , , etc.) and implement  bindings corresponding to the keys just added in .
+     - What will be achieved with this? Allows the  panel to control texts, labels, and images dynamically on all subpages.
+     - Status: IN PROGRESS
+     - Should Test frontend/backend/both after fix? Frontend
+     - Blocked on something: None
 
 **Upcoming and Future Tasks**
-Upcoming Tasks:
-- **(P1) Apply Premium Refinement to Subpages**: Extend the design updates (typography, spacing, clean UI) to , , and all Service pages.
-- **(P2) Hero Video Integration**: User previously mentioned uploading a video for the hero section (before switching to the motorsport image). Follow up if they still want a looping background video.
-
-Future Tasks:
-- **(P2) Cookie Consent Logic**: Implement a DSGVO-compliant cookie consent banner (e.g., ) to gate analytics/tracking.
-- **(P2) Content Expansion**: Create pages for Blog/News, Careers, and Partners.
+    Upcoming Tasks:
+    - (P1) Apply Premium Refinement to Subpages: Verify that the high-end aesthetic (larger typography, whitespace) is consistently maintained while converting text to .
+    - (P2) Cookie Consent Logic: Implement a DSGVO-compliant cookie consent banner to gate analytics/tracking scripts.
+    
+    Future Tasks:
+    - (P2) Content Expansion: Create templates/pages for Blog/News, Careers, and Partners.
 
 **Completed work in this session**
-- IONOS SMTP integration for the Contact Form with error handling and rate limiting (DONE)
-- Language Switcher (DE/EN) in Header and Footer using Context API (DONE)
-- Updated Client Trust section to use category badges instead of logos (DONE)
-- Added CTA button to the Contact Page sidebar, linked to content editor (DONE)
-- Added background images with dark overlays to the Service Cards on the Homepage (DONE)
-- Comprehensive mobile responsiveness overhaul (fixed hero image scaling, container widths, vertical stacking) (DONE)
-- SEO Expansion: Keywords strategy, updated meta tags, alt attributes, and JSON-LD schemas added (DONE)
-- Fixed missing portfolio image and updated contact address to Hilden across site and structured data (DONE)
-- Changed Hero Image to  (DONE)
-- Executed Pre-Deployment Audit and achieved Production Ready status, documenting results in  (DONE)
+- Complete code audit of all subpages to identify hardcoded strings and images.
+- Edited  to register missing fields for Kontakt, Danke, Projekte, Homepage, and all Legal pages.
 
 **Earlier issues found/mentioned but not fixed**
-- **Issue 1**: Cookie Consent Logic
-  - **Debug checklist**: Implement a cookie consent banner. Gate the loading of analytics scripts based on user consent.
-  - **Why to solve this issue and what will be achieved with this?**: To comply with DSGVO/GDPR regulations, a strict legal requirement in Germany.
-  - **Should Test frontend/backend/both after fix**: Frontend
-  - **Is recurring issue?**: N
+   - Issue 1: Cookie Consent Logic
+     - Debug checklist: Gate tracking/analytics scripts behind the  acceptance state.
+     - Why to solve this issue and what will be achieved with this? Legal requirement (DSGVO/GDPR) in Germany.
+     - Should Test frontend/backend/both after fix: Frontend
+     - Is recurring issue? N
 
 **Known issue recurrence from previous fork**
-- Recurrence count: 0
-- Status: N/A
+  - Issue recurrence in previous fork: None
+  - Recurrence count: 0
+  - Status: NA
 
 **Code Architecture**
 
 
 **Key Technical Concepts**
-- **Visual Content Editor**: Overrides default text/image content with data from MongoDB (). Overrides always take precedence over files like  or .
-- **FastAPI SMTP**: Contact form sends emails via  and IONOS SMTP server, configured in .
-- **Tailwind Styling**: Core design uses TailwindCSS. The current objective relies heavily on refining these classes (spacing, typography, flex/grid layouts) without ripping out components.
+- **Two-Tier CMS**: Content managed via  collection + Layout managed via .
+- **Content Registry**: Every editable field must be defined in  using the standard format.
+- **Dynamic Binding**: Components retrieve values using .
 
 **key DB schema**
-- **collection**: 
-  -  (string),  (text | image),  (string or object with , , , , ).
+  - : 
+  - : 
 
 **changes in tech stack**
-- None in this session.
+  - None
 
 **All files of reference**
-- : Updated with base typography and global UI reduction classes.
-- : Reduced visual dominance.
-- : Updated text content for the premium aesthetic.
-- : *Target file for next agent.* Needs typography/spacing updates.
-- : Contains the newly written IONOS SMTP mail logic.
--  & : New SEO setup.
+-  (Updated with new fields)
+-  (Needs CMS binding updates)
+-  (Needs CMS binding updates)
+-  (Needs CMS binding updates)
+-  (Needs CMS binding updates)
+-  (Needs CMS binding updates)
+-  (Needs CMS binding updates)
 
 **Areas that need refactoring**:
-- None directly, but the agent must carefully adjust Tailwind classes in existing components to achieve the Premium Design Refinement without structurally destroying them.
+- Page components inside  currently rely on hardcoded strings. They must be refactored to use .
 
 **key api endpoints**
-- : Form submission handling via IONOS SMTP.
-- : Healthcheck.
+-  (Save texts/images)
+-  (Save section order/spacing)
 
 **Critical Info for New Agent**
-- **CRITICAL CONSTRAINT**: The user explicitly stated: Struktur, Inhalte und Layout bleiben grundsätzlich erhalten... Es geht ausschließlich um Veredelung, Präzision und Wirkung. **DO NOT** delete components, rewrite the DOM structure, or remove existing text blocks. Focus *strictly* on CSS/Tailwind tweaks: bigger text, more line-height, more whitespace (, ), finer borders, softer colors/transparency, and removing unnecessary boxes.
-- The texts in  were just updated to be more concise and architectural. Remember that if the  collection in MongoDB has old data, the old data will display. You may need to clear specific keys from the DB if you want the new  fallbacks to show up on the frontend.
+- The user's rule is absolute: **If it is visible on the website, it must exist in the editor.** 
+- Do not redesign the UI while making content editable. Maintain existing Tailwind classes, layouts, and structures. The goal is data binding, not redesign.
+- Keys registered in  must match exactly the keys requested in  on the frontend.
 
 **documents and test reports created in this job**
-- 
-- 
--  (Updated)
+  -  
+  - 
 
-**Last 10 User Messages and any pending HUMAN messages**
-1. **User**: Refine the existing design to a high-end level (Premium Design Studio / Architectural Portfolio). Crucial: Keep existing structure/components, focus entirely on visual precision, typography (larger), whitespace, micro-details (subtle buttons/lines), and concise text.
-2. **User**: Provided a prompt to completely redesign the aesthetic to a high-end automotive design studio (Agent paused to ask clarifying questions which led to the message above).
-3. **User**: Perform a complete pre-deployment audit of the website to verify it is technically functional, compliant, and ready.
-4. **User**: Sent a new image for the hero section ().
-5. **User**: Pointed out missing portfolio pictures and outdated phone number/address (Düsseldorf -> Hilden).
-6. **User**: Extend the SEO implementation with keywords for German and English.
-7. **User**: Improve mobile usability and responsiveness without changing the visual design or desktop layout. Make the Hero image a true background.
-8. **User**: Optimize homepage content (Value Proposition) without deleting existing code. SEO optimization via texts/headings only.
-9. **User**: Call Deployer Agent and Run Health Check.
-10. **User**: Add background images to the Service Cards with a dark overlay, keeping text readable.
+**Last 10 User Messages and any pending HUMAN messages** 
+1. **User**: Make the whole website fully CMS-driven. - every visible section must appear in /admin - every visible content element must be editable... Apply this to: homepage, landingpage, all other pages...
+2. **Agent**: Proposed a plan to audit and register remaining missing fields in CMS.
+3. **User**: p0 (Instructed to prioritize the P0 task: Full Site CMS Migration).
 
 **Project Health Check:**
-- **Broken**: None
-- **Mocked**: None (Contact form is now live).
+- Broken: None
+- Mocked: None
 
-**3rd Party Integrations**
-- IONOS SMTP (Email Sending) — Requires User API Key (Configured in )
+**3rd Party Integrations** 
+- IONOS SMTP (Email Sending) — Requires User API Key 
 - MongoDB (Database) — Emergent Managed
 
 **Testing status**
-- Testing agent used after significant changes: YES
-- Troubleshoot agent used after agent stuck in loop: NO
-- Test files created: 
-- Known regressions: None
+  - Testing agent used after significant changes: NO (Pending component refactoring before tests can be run)
+  - Troubleshoot agent used after agent stuck in loop: NO
+  - Test files created: None new in this immediate fork.
+  - Known regressions: None
 
 **Credentials to test flow:**
-- Admin Panel: Path . Password:  (in ).
-- Contact Form: Uses  in .
+- Admin Panel: Path . Password: 
 
 **What agent forgot to execute**
-- The agent properly planned the Premium Refinement task and began executing it, but ran out of context before editing  and subsequent pages. No tasks were forgotten.</analysis>
+- The agent successfully edited  to add the necessary fields for the subpages but context ended before the agent could apply the  refactoring to the individual React  files in the  directory. Next agent must pick this up.</analysis>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { SEOHead } from '../components/SEOHead';
+import { useEditable } from '../contexts/EditorContext';
 
 const tocItems = [
   { id: 'verantwortlicher', label: '1. Verantwortlicher' },
@@ -20,6 +21,13 @@ const tocItems = [
 ];
 
 export default function DatenschutzPage() {
+  // CMS Bindungen
+  const label = useEditable('datenschutz.label', 'Rechtliches');
+  const title = useEditable('datenschutz.title', 'Datenschutzerklärung');
+  const tocLabel = useEditable('datenschutz.tocLabel', 'Inhaltsverzeichnis');
+  const stand = useEditable('datenschutz.stand', 'Stand: März 2026');
+  const weitereTexte = useEditable('datenschutz.weitereTexte', 'Weitere Rechtstexte:');
+
   return (
     <div data-testid="datenschutz-page" className="overflow-hidden">
       <SEOHead
@@ -39,14 +47,14 @@ export default function DatenschutzPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <p className="text-sm font-medium text-[#9A9A9A] uppercase tracking-wider mb-4">Rechtliches</p>
+            <p className="text-sm font-medium text-[#9A9A9A] uppercase tracking-wider mb-4">{label}</p>
             <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-12">
-              Datenschutzerklärung
+              {title}
             </h1>
 
             {/* Anchor Navigation */}
             <nav className="mb-16 p-6 rounded-2xl bg-black/[0.02] border border-black/[0.07]" aria-label="Inhaltsverzeichnis">
-              <p className="text-sm font-semibold text-[#6B6B6B] uppercase tracking-wider mb-4">Inhaltsverzeichnis</p>
+              <p className="text-sm font-semibold text-[#6B6B6B] uppercase tracking-wider mb-4">{tocLabel}</p>
               <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-2">
                 {tocItems.map((item) => (
                   <li key={item.id}>
@@ -356,9 +364,9 @@ export default function DatenschutzPage() {
 
             {/* Footer Links & Date */}
             <div className="mt-16 pt-8 border-t border-black/[0.07]">
-              <p className="text-xs text-[#9A9A9A] mb-6">Stand: März 2026</p>
+              <p className="text-xs text-[#9A9A9A] mb-6">{stand}</p>
               <div className="flex flex-wrap gap-4 text-sm">
-                <span className="text-[#9A9A9A]">Weitere Rechtstexte:</span>
+                <span className="text-[#9A9A9A]">{weitereTexte}</span>
                 <Link to="/agb" className="text-[#6B6B6B] hover:text-[#1A1A1A] transition-colors">AGB (B2C)</Link>
                 <Link to="/agb-b2b" className="text-[#6B6B6B] hover:text-[#1A1A1A] transition-colors">AGB für Unternehmer</Link>
                 <Link to="/impressum" className="text-[#6B6B6B] hover:text-[#1A1A1A] transition-colors">Impressum</Link>

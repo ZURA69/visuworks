@@ -213,9 +213,23 @@ export function getFieldsForPage(pathname) {
       );
     });
 
+    /* ── Showcase ── */
     fields.push(
-      f('cta.headline', 'CTA Überschrift', 'text', 'CTA', '/', ctaSection.headline),
-      f('cta.subline', 'CTA Untertitel', 'textarea', 'CTA', '/', ctaSection.subline),
+      f('homepage.showcase.label', 'Showcase – Obertitel', 'text', 'Showcase', '/', 'Premium Qualität'),
+      f('homepage.showcase.title', 'Showcase – Überschrift', 'text', 'Showcase', '/', 'Kompromisslos in jedem Detail.'),
+    );
+
+    /* ── Projects ── */
+    fields.push(
+      f('homepage.projects.label', 'Projekte – Obertitel', 'text', 'Projekte', '/', 'Portfolio'),
+      f('homepage.projects.title', 'Projekte – Überschrift', 'text', 'Projekte', '/', 'Ausgewählte Projekte'),
+      f('homepage.projects.linkText', 'Projekte – Link-Text', 'text', 'Projekte', '/', 'Alle Projekte'),
+    );
+
+    /* ── Process ── */
+    fields.push(
+      f('homepage.process.label', 'Prozess – Obertitel', 'text', 'Prozess', '/', 'Ablauf'),
+      f('homepage.process.title', 'Prozess – Überschrift', 'text', 'Prozess', '/', 'Unser Prozess'),
     );
     processSteps.forEach((p, i) => {
       fields.push(
@@ -223,6 +237,12 @@ export function getFieldsForPage(pathname) {
         f(`process.${i}.desc`, `Schritt ${p.num} – Beschreibung`, 'text', 'Prozess', '/', p.desc),
       );
     });
+
+    /* ── Testimonials ── */
+    fields.push(
+      f('homepage.testimonials.label', 'Bewertungen – Obertitel', 'text', 'Bewertungen', '/', 'Kundenstimmen'),
+      f('homepage.testimonials.title', 'Bewertungen – Überschrift', 'text', 'Bewertungen', '/', 'Was unsere Kunden sagen'),
+    );
     testimonials.forEach((t, i) => {
       fields.push(
         f(`testimonials.${i}.quote`, `Bewertung ${i + 1} – Zitat`, 'textarea', 'Bewertungen', '/', t.quote),
@@ -231,11 +251,46 @@ export function getFieldsForPage(pathname) {
         f(`testimonials.${i}.company`, `Bewertung ${i + 1} – Firma`, 'text', 'Bewertungen', '/', t.company),
       );
     });
+
+    /* ── FAQ ── */
+    const defaultFaqs = [
+      { q: 'Was kostet eine Fahrzeugfolierung?', a: 'Die Kosten variieren je nach Fahrzeugtyp und Umfang. Eine Teilfolierung beginnt bei ca. 800 €, eine Vollfolierung ab ca. 2.500 €. Wir erstellen Ihnen gerne ein individuelles Angebot.' },
+      { q: 'Wie lange dauert ein typisches Projekt?', a: 'Fahrzeugprojekte dauern in der Regel 3–7 Werktage. Raum- und Architekturprojekte planen wir mit 2–8 Wochen. Express-Optionen sind bei Bedarf verfügbar.' },
+      { q: 'Arbeiten Sie auch außerhalb von NRW?', a: 'Ja, unsere mobilen Teams sind europaweit im Einsatz. Wir realisieren Projekte in ganz Deutschland und im angrenzenden Ausland.' },
+      { q: 'Bieten Sie auch Designleistungen an?', a: 'Absolut. Von der Konzeptentwicklung über Visualisierungen bis zur produktionsreifen Reinzeichnung — alles aus einer Hand.' },
+      { q: 'Wie läuft die Zusammenarbeit ab?', a: 'Nach einem kurzen Briefing erstellen wir ein Konzept und Angebot. Nach Freigabe starten wir mit Produktion und termingerechter Montage. Qualitätskontrolle inklusive.' },
+    ];
+    fields.push(
+      f('homepage.faq.label', 'FAQ – Obertitel', 'text', 'FAQ', '/', 'FAQ'),
+      f('homepage.faq.title', 'FAQ – Überschrift', 'text', 'FAQ', '/', 'Häufige Fragen'),
+    );
+    defaultFaqs.forEach((faq, i) => {
+      fields.push(
+        f(`homepage.faq.${i}.q`, `FAQ ${i + 1} – Frage`, 'text', 'FAQ', '/', faq.q),
+        f(`homepage.faq.${i}.a`, `FAQ ${i + 1} – Antwort`, 'textarea', 'FAQ', '/', faq.a),
+      );
+    });
+
+    /* ── CTA ── */
+    fields.push(
+      f('cta.headline', 'CTA Überschrift', 'text', 'CTA', '/', ctaSection.headline),
+      f('cta.subline', 'CTA Untertitel', 'textarea', 'CTA', '/', ctaSection.subline),
+      f('cta.btnLabel', 'CTA Button-Text', 'text', 'CTA', '/', 'Kontakt aufnehmen'),
+    );
   }
 
   // ── Kontakt-Seite ──
   if (pathname === '/kontakt') {
     fields.push(
+      f('kontakt.hero.label', 'Hero – Obertitel', 'text', 'Kontakt Hero', '/kontakt', 'Kontakt'),
+      f('kontakt.hero.title', 'Hero – Überschrift', 'text', 'Kontakt Hero', '/kontakt', 'Projekt anfragen'),
+      f('kontakt.hero.desc', 'Hero – Beschreibung', 'textarea', 'Kontakt Hero', '/kontakt', 'Kurze Infos reichen – wir melden uns mit Rückfragen oder einem konkreten Vorschlag.'),
+      f('kontakt.form.nameLabel', 'Formular – Name Label', 'text', 'Kontakt Formular', '/kontakt', 'Name *'),
+      f('kontakt.form.emailLabel', 'Formular – E-Mail Label', 'text', 'Kontakt Formular', '/kontakt', 'E-Mail *'),
+      f('kontakt.form.phoneLabel', 'Formular – Telefon Label', 'text', 'Kontakt Formular', '/kontakt', 'Telefon'),
+      f('kontakt.form.serviceLabel', 'Formular – Leistung Label', 'text', 'Kontakt Formular', '/kontakt', 'Welche Leistung?'),
+      f('kontakt.form.messageLabel', 'Formular – Nachricht Label', 'text', 'Kontakt Formular', '/kontakt', 'Ihre Nachricht *'),
+      f('kontakt.form.submitLabel', 'Formular – Submit Button', 'text', 'Kontakt Formular', '/kontakt', 'Anfrage senden'),
       f('kontakt.sidebar.title', 'Sidebar – Überschrift', 'text', 'Kontakt Sidebar', '/kontakt', 'Direkt erreichen'),
       f('kontakt.sidebar.email', 'Sidebar – E-Mail', 'text', 'Kontakt Sidebar', '/kontakt', 'info@visuworks.de'),
       f('kontakt.sidebar.phone', 'Sidebar – Telefon', 'text', 'Kontakt Sidebar', '/kontakt', '+49 211 123 456 78'),
@@ -243,6 +298,64 @@ export function getFieldsForPage(pathname) {
       f('kontakt.sidebar.footer', 'Sidebar – Footer-Text', 'text', 'Kontakt Sidebar', '/kontakt', 'Projekte europaweit · Standort Düsseldorf'),
       f('kontakt.sidebar.cta', 'Sidebar – CTA Button Text', 'text', 'Kontakt Sidebar', '/kontakt', 'Projekt anfragen'),
       f('kontakt.sidebar.ctaUrl', 'Sidebar – CTA Button URL', 'text', 'Kontakt Sidebar', '/kontakt', '/kontakt#form'),
+    );
+  }
+
+  // ── Danke-Seite ──
+  if (pathname === '/danke') {
+    fields.push(
+      f('danke.title', 'Überschrift', 'text', 'Danke', '/danke', 'Vielen Dank!'),
+      f('danke.subtitle', 'Untertitel', 'text', 'Danke', '/danke', 'Ihre Projektanfrage ist bei uns eingegangen.'),
+      f('danke.message', 'Nachricht', 'textarea', 'Danke', '/danke', 'Wir melden uns in der Regel innerhalb von 24 Stunden bei Ihnen mit Rückfragen oder einem konkreten Vorschlag.'),
+      f('danke.homeBtn', 'Startseite-Button', 'text', 'Danke', '/danke', 'Zur Startseite'),
+      f('danke.projekteBtn', 'Projekte-Button', 'text', 'Danke', '/danke', 'Projekte ansehen'),
+    );
+  }
+
+  // ── Impressum-Seite ──
+  if (pathname === '/impressum') {
+    fields.push(
+      f('impressum.label', 'Obertitel', 'text', 'Impressum', '/impressum', 'Rechtliches'),
+      f('impressum.title', 'Überschrift', 'text', 'Impressum', '/impressum', 'Impressum'),
+      f('impressum.subtitle', 'Untertitel', 'text', 'Impressum', '/impressum', 'gemäß § 5 TMG und § 18 Abs. 2 MStV'),
+      f('impressum.tocLabel', 'Inhaltsverzeichnis Label', 'text', 'Impressum', '/impressum', 'Inhaltsverzeichnis'),
+      f('impressum.stand', 'Stand Datum', 'text', 'Impressum', '/impressum', 'Stand: März 2026'),
+      f('impressum.weitereTexte', 'Weitere Rechtstexte Label', 'text', 'Impressum', '/impressum', 'Weitere Rechtstexte:'),
+    );
+  }
+
+  // ── Datenschutz-Seite ──
+  if (pathname === '/datenschutz') {
+    fields.push(
+      f('datenschutz.label', 'Obertitel', 'text', 'Datenschutz', '/datenschutz', 'Rechtliches'),
+      f('datenschutz.title', 'Überschrift', 'text', 'Datenschutz', '/datenschutz', 'Datenschutzerklärung'),
+      f('datenschutz.tocLabel', 'Inhaltsverzeichnis Label', 'text', 'Datenschutz', '/datenschutz', 'Inhaltsverzeichnis'),
+      f('datenschutz.stand', 'Stand Datum', 'text', 'Datenschutz', '/datenschutz', 'Stand: März 2026'),
+      f('datenschutz.weitereTexte', 'Weitere Rechtstexte Label', 'text', 'Datenschutz', '/datenschutz', 'Weitere Rechtstexte:'),
+    );
+  }
+
+  // ── AGB (B2C) Seite ──
+  if (pathname === '/agb') {
+    fields.push(
+      f('agb.label', 'Obertitel', 'text', 'AGB', '/agb', 'Rechtliches'),
+      f('agb.title', 'Überschrift', 'text', 'AGB', '/agb', 'Allgemeine Geschäftsbedingungen (B2C)'),
+      f('agb.subtitle', 'Untertitel', 'text', 'AGB', '/agb', 'Gültig für Verbraucher im Sinne des §13 BGB.'),
+      f('agb.tocLabel', 'Inhaltsverzeichnis Label', 'text', 'AGB', '/agb', 'Inhaltsverzeichnis'),
+      f('agb.stand', 'Stand Datum', 'text', 'AGB', '/agb', 'Stand: März 2026'),
+      f('agb.weitereTexte', 'Weitere Rechtstexte Label', 'text', 'AGB', '/agb', 'Weitere Rechtstexte:'),
+    );
+  }
+
+  // ── AGB B2B Seite ──
+  if (pathname === '/agb-b2b') {
+    fields.push(
+      f('agbb2b.label', 'Obertitel', 'text', 'AGB B2B', '/agb-b2b', 'Rechtliches'),
+      f('agbb2b.title', 'Überschrift', 'text', 'AGB B2B', '/agb-b2b', 'Allgemeine Geschäftsbedingungen für Unternehmer (B2B)'),
+      f('agbb2b.subtitle', 'Untertitel', 'text', 'AGB B2B', '/agb-b2b', 'Diese AGB gelten ausschließlich gegenüber Unternehmern im Sinne des §14 BGB.'),
+      f('agbb2b.tocLabel', 'Inhaltsverzeichnis Label', 'text', 'AGB B2B', '/agb-b2b', 'Inhaltsverzeichnis'),
+      f('agbb2b.stand', 'Stand Datum', 'text', 'AGB B2B', '/agb-b2b', 'Stand: März 2026'),
+      f('agbb2b.weitereTexte', 'Weitere Rechtstexte Label', 'text', 'AGB B2B', '/agb-b2b', 'Weitere Rechtstexte:'),
     );
   }
 
