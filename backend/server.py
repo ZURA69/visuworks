@@ -419,6 +419,48 @@ async def upload_image(file: UploadFile = File(...), authorization: str = Header
             f.write(contents)
         return {"status": "ok", "url": f"/uploads/{filename}", "filename": filename}
 
+# ── Layout Settings ──
+
+class LayoutSectionSettings(BaseModel):
+    visible: bool = True
+    order: int = 0
+    paddingTop: str = 'medium'
+    paddingBottom: str = 'medium'
+    contentWidth: str = 'normal'
+
+class ImageDefaults(BaseModel):
+    fit: str = 'cover'
+    aspect: str = 'auto'
+
+class LayoutSettingsRequest(BaseModel):
+    page: str = 'home'
+    sections: dict = {}
+    imageDefaults: Optional[dict] = None
+
+@api_router.get("/editor/layout")
+async def get_layout(page: str = 'home'):
+    """Public endpoint — returns layout settings for a page."""
+    doc = await db.layout_settings.find_one({"page": page}, {"_id": 0})
+    if not doc:
+        return {"page": page, "sections": {}, "imageDefaults": {"fit": "cover", "aspect": "auto"}}
+    return doc
+
+@api_router.post("/admin/layout")
+async def save_layout(body: LayoutSettingsRequest, authorization: str = Header(None)):
+    await verify_admin(authorization)
+    now = datetime.now(timezone.utc)
+    await db.layout_settings.update_one(
+        {"page": body.page},
+        {"$set": {
+            "page": body.page,
+            "sections": body.sections,
+            "imageDefaults": body.imageDefaults or {"fit": "cover", "aspect": "auto"},
+            "updatedAt": now,
+        }},
+        upsert=True
+    )
+    return {"status": "ok"}
+
 @api_router.get("/health")
 async def health_check():
     return {"status": "ok"}
@@ -430,7 +472,8 @@ app.include_router(api_router)
 async def startup_db_index():
     await db.content_overrides.create_index("key", unique=True)
     await db.content_overrides.create_index("page")
-    logger.info("MongoDB indexes ensured for content_overrides")
+    await db.layout_settings.create_index("page", unique=True)
+    logger.info("MongoDB indexes ensured for content_overrides and layout_settings")
 
 @app.on_event("shutdown")
 async def shutdown_db_client():

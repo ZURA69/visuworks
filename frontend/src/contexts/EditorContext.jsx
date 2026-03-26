@@ -4,13 +4,40 @@ const EditorContext = createContext(null);
 
 const API = process.env.REACT_APP_BACKEND_URL;
 
+/* ── Default section definitions for HomePage ── */
+const DEFAULT_SECTIONS = [
+  { id: 'hero', label: 'Keyword Hero' },
+  { id: 'trustbar', label: 'Trust Bar' },
+  { id: 'services', label: 'Leistungen' },
+  { id: 'showcase', label: 'Visual Showcase' },
+  { id: 'projects', label: 'Projekte' },
+  { id: 'process', label: 'Prozess' },
+  { id: 'testimonials', label: 'Kundenstimmen' },
+  { id: 'faq', label: 'FAQ' },
+  { id: 'cta', label: 'CTA' },
+];
+
+const DEFAULT_SECTION_SETTINGS = {
+  visible: true,
+  order: 0,
+  paddingTop: 'medium',
+  paddingBottom: 'medium',
+  contentWidth: 'normal',
+};
+
+export { DEFAULT_SECTIONS, DEFAULT_SECTION_SETTINGS };
+
 export function EditorProvider({ children }) {
   const [isActive, setIsActive] = useState(false);
   const [token, setToken] = useState(null);
   const [overrides, setOverrides] = useState({});
   const [pending, setPending] = useState({});
   const [isSaving, setIsSaving] = useState(false);
-  const [previewMode, setPreviewMode] = useState(true);
+
+  /* ── Layout state ── */
+  const [layout, setLayout] = useState({ sections: {}, imageDefaults: { fit: 'cover', aspect: 'auto' } });
+  const [layoutPending, setLayoutPending] = useState(null);
+  const [isLayoutSaving, setIsLayoutSaving] = useState(false);
 
   useEffect(() => {
     try {
@@ -23,7 +50,7 @@ export function EditorProvider({ children }) {
     } catch {}
   }, []);
 
-  // Always load overrides on mount (for all visitors - makes saved content visible publicly)
+  /* ── Load public content overrides ── */
   useEffect(() => {
     async function loadPublicOverrides() {
       try {
@@ -36,6 +63,24 @@ export function EditorProvider({ children }) {
       }
     }
     loadPublicOverrides();
+  }, []);
+
+  /* ── Load public layout settings ── */
+  useEffect(() => {
+    async function loadLayout() {
+      try {
+        const res = await fetch(`${API}/api/editor/layout?page=home`);
+        if (!res.ok) return;
+        const data = await res.json();
+        setLayout({
+          sections: data.sections || {},
+          imageDefaults: data.imageDefaults || { fit: 'cover', aspect: 'auto' },
+        });
+      } catch (err) {
+        console.error('Failed to load layout:', err);
+      }
+    }
+    loadLayout();
   }, []);
 
   const fetchOverrides = useCallback(async (t) => {
@@ -78,6 +123,7 @@ export function EditorProvider({ children }) {
   const deactivate = () => {
     setIsActive(false);
     setPending({});
+    setLayoutPending(null);
     sessionStorage.setItem('vw_admin', JSON.stringify({ token, active: false }));
   };
 
@@ -86,6 +132,7 @@ export function EditorProvider({ children }) {
     setIsActive(false);
     setOverrides({});
     setPending({});
+    setLayoutPending(null);
     sessionStorage.removeItem('vw_admin');
   };
 
@@ -118,10 +165,7 @@ export function EditorProvider({ children }) {
         body: JSON.stringify({ overrides: entries }),
       });
       if (!res.ok) throw new Error('Save failed');
-      /* Re-fetch from server to ensure perfect sync */
-      if (token) {
-        await fetchOverrides(token);
-      }
+      if (token) await fetchOverrides(token);
       setPending({});
       return true;
     } catch (err) {
@@ -129,6 +173,89 @@ export function EditorProvider({ children }) {
       return false;
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  /* ── Layout helpers ── */
+  const getEffectiveLayout = useCallback(() => {
+    return layoutPending || layout;
+  }, [layout, layoutPending]);
+
+  const getSectionSettings = useCallback((sectionId) => {
+    const effective = layoutPending || layout;
+    const saved = effective.sections?.[sectionId];
+    const idx = DEFAULT_SECTIONS.findIndex(s => s.id === sectionId);
+    return { ...DEFAULT_SECTION_SETTINGS, order: idx >= 0 ? idx : 99, ...saved };
+  }, [layout, layoutPending]);
+
+  const updateSectionSetting = useCallback((sectionId, key, value) => {
+    setLayoutPending(prev => {
+      const base = prev || { ...layout };
+      const sections = { ...base.sections };
+      sections[sectionId] = { ...(sections[sectionId] || {}), [key]: value };
+      return { ...base, sections };
+    });
+  }, [layout]);
+
+  const updateImageDefaults = useCallback((key, value) => {
+    setLayoutPending(prev => {
+      const base = prev || { ...layout };
+      const imageDefaults = { ...(base.imageDefaults || {}), [key]: value };
+      return { ...base, imageDefaults };
+    });
+  }, [layout]);
+
+  const reorderSection = useCallback((sectionId, direction) => {
+    setLayoutPending(prev => {
+      const base = prev || { ...layout };
+      const sections = { ...base.sections };
+
+      // Build ordered list
+      const ordered = DEFAULT_SECTIONS.map(s => ({
+        id: s.id,
+        order: sections[s.id]?.order ?? DEFAULT_SECTIONS.findIndex(d => d.id === s.id),
+      })).sort((a, b) => a.order - b.order);
+
+      const idx = ordered.findIndex(s => s.id === sectionId);
+      if (idx < 0) return base;
+      const swapIdx = direction === 'up' ? idx - 1 : idx + 1;
+      if (swapIdx < 0 || swapIdx >= ordered.length) return base;
+
+      // Swap orders
+      const tempOrder = ordered[idx].order;
+      ordered[idx].order = ordered[swapIdx].order;
+      ordered[swapIdx].order = tempOrder;
+
+      ordered.forEach(s => {
+        sections[s.id] = { ...(sections[s.id] || {}), order: s.order };
+      });
+
+      return { ...base, sections };
+    });
+  }, [layout]);
+
+  const saveLayout = async () => {
+    if (!layoutPending) return true;
+    setIsLayoutSaving(true);
+    try {
+      const res = await fetch(`${API}/api/admin/layout`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({
+          page: 'home',
+          sections: layoutPending.sections,
+          imageDefaults: layoutPending.imageDefaults,
+        }),
+      });
+      if (!res.ok) throw new Error('Layout save failed');
+      setLayout(layoutPending);
+      setLayoutPending(null);
+      return true;
+    } catch (err) {
+      console.error('Layout save failed:', err);
+      return false;
+    } finally {
+      setIsLayoutSaving(false);
     }
   };
 
@@ -234,6 +361,16 @@ export function EditorProvider({ children }) {
         resetAll,
         uploadImage,
         fetchOverrides: () => fetchOverrides(token),
+        /* Layout */
+        layout: getEffectiveLayout(),
+        layoutPending,
+        isLayoutSaving,
+        getSectionSettings,
+        updateSectionSetting,
+        updateImageDefaults,
+        reorderSection,
+        saveLayout,
+        hasLayoutChanges: !!layoutPending,
       }}
     >
       {children}
@@ -248,6 +385,5 @@ export function useEditor() {
 export function useEditable(key, fallback) {
   const ctx = useContext(EditorContext);
   if (!ctx) return fallback;
-  // Always apply overrides (even when editor is not active = public visitors see saved content)
   return ctx.getValue(key, fallback);
 }
