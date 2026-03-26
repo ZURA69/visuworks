@@ -189,7 +189,10 @@ export const Navbar = () => {
               data-testid="mega-menu"
             >
               <div className="max-w-[1200px] mx-auto px-6 md:px-12">
-                <div className={`mega-panel`}>
+                <div className={`${isLightPage
+                  ? 'bg-white/[0.97] border border-black/[0.08] shadow-[0_24px_48px_rgba(0,0,0,0.08)]'
+                  : 'bg-[#050507]/95 border border-white/[0.06] shadow-[0_40px_80px_rgba(0,0,0,0.5)]'
+                } backdrop-blur-[40px] rounded-2xl overflow-hidden`}>
                   <div className={`grid grid-cols-4 gap-0 divide-x ${isLightPage ? 'divide-black/[0.06]' : 'divide-white/[0.06]'}`}>
                     {leistungen.pillars.map((pillar) => (
                       <div key={pillar.href} className="p-5">
@@ -200,13 +203,13 @@ export const Navbar = () => {
                           <span className={`text-sm font-semibold transition-colors duration-200 ${
                             isLinkActive(pillar.href)
                               ? (isLightPage ? 'text-[#1A1A1A]' : 'text-white')
-                              : (isLightPage ? 'text-[#1A1A1A]/80 group-hover:text-[#1A1A1A]' : 'text-white/80 group-hover:text-white')
+                              : (isLightPage ? 'text-[#1A1A1A]/90 group-hover:text-[#1A1A1A]' : 'text-white/80 group-hover:text-white')
                           }`}>
                             {pillar.label}
                           </span>
-                          <ArrowRight className={`w-3.5 h-3.5 group-hover:translate-x-0.5 transition-all duration-200 ${isLightPage ? 'text-[#1A1A1A]/30 group-hover:text-[#1A1A1A]/60' : 'text-white/30 group-hover:text-white/60'}`} />
+                          <ArrowRight className={`w-3.5 h-3.5 group-hover:translate-x-0.5 transition-all duration-200 ${isLightPage ? 'text-[#1A1A1A]/40 group-hover:text-[#1A1A1A]/70' : 'text-white/30 group-hover:text-white/60'}`} />
                         </Link>
-                        <p className={`text-xs mb-4 ${isLightPage ? 'text-[#1A1A1A]/35' : 'text-white/35'}`}>{pillar.desc}</p>
+                        <p className={`text-xs mb-4 ${isLightPage ? 'text-[#1A1A1A]/50' : 'text-white/35'}`}>{pillar.desc}</p>
 
                         {pillar.subItems.length > 0 && (
                           <ul className="space-y-0.5">
@@ -215,14 +218,18 @@ export const Navbar = () => {
                                 <Link
                                   to={sub.href}
                                   data-testid={`mega-link-${sub.href.split('/').pop()}`}
-                                  className={`mega-sub-link ${
+                                  className={`flex flex-col gap-0.5 px-3.5 py-2.5 rounded-lg transition-all duration-300 ${
                                     location.pathname === sub.href
-                                      ? (isLightPage ? 'bg-black/[0.04] !text-[#1A1A1A]' : 'bg-white/[0.06] !text-white')
-                                      : ''
+                                      ? (isLightPage ? 'bg-black/[0.05]' : 'bg-white/[0.06]')
+                                      : (isLightPage ? 'hover:bg-black/[0.04]' : 'hover:bg-white/[0.03]')
                                   }`}
                                 >
-                                  <span className="text-[13px] font-medium">{sub.label}</span>
-                                  <span className={`text-[11px] leading-tight ${isLightPage ? 'text-[#1A1A1A]/30' : 'text-white/30'}`}>{sub.desc}</span>
+                                  <span className={`text-[13px] font-medium transition-colors duration-200 ${
+                                    isLightPage
+                                      ? (location.pathname === sub.href ? 'text-[#1A1A1A]' : 'text-[#1A1A1A]/70 group-hover:text-[#1A1A1A]')
+                                      : (location.pathname === sub.href ? 'text-white' : 'text-white/50 group-hover:text-white')
+                                  }`}>{sub.label}</span>
+                                  <span className={`text-[11px] leading-tight ${isLightPage ? 'text-[#1A1A1A]/40' : 'text-white/30'}`}>{sub.desc}</span>
                                 </Link>
                               </li>
                             ))}
@@ -234,8 +241,8 @@ export const Navbar = () => {
 
                   {/* CTA bar */}
                   <div className={`border-t px-5 py-3 flex items-center justify-between ${isLightPage ? 'border-black/[0.06]' : 'border-white/[0.06]'}`}>
-                    <p className={`text-xs ${isLightPage ? 'text-[#1A1A1A]/40' : 'text-white/40'}`}>{isDE ? t.nav.alleLeistungen.de : t.nav.alleLeistungen.en}</p>
-                    <Link to="/kontakt" className={`flex items-center gap-2 text-xs font-medium transition-colors duration-300 ${isLightPage ? 'text-[#1A1A1A]/50 hover:text-[#1A1A1A]/80' : 'text-white/50 hover:text-white/80'}`}>
+                    <p className={`text-xs ${isLightPage ? 'text-[#1A1A1A]/50' : 'text-white/40'}`}>{isDE ? t.nav.alleLeistungen.de : t.nav.alleLeistungen.en}</p>
+                    <Link to="/kontakt" className={`flex items-center gap-2 text-xs font-medium transition-colors duration-300 ${isLightPage ? 'text-[#1A1A1A]/65 hover:text-[#1A1A1A]' : 'text-white/50 hover:text-white/80'}`}>
                       {isDE ? t.nav.projektBesprechen.de : t.nav.projektBesprechen.en}
                       <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
@@ -409,14 +416,14 @@ export const Navbar = () => {
           font-weight: 500;
           letter-spacing: 0.04em;
           text-transform: uppercase;
-          color: ${isLightPage ? 'rgba(26,26,26,0.5)' : 'rgba(255,255,255,0.45)'};
+          color: ${isLightPage ? 'rgba(26,26,26,0.55)' : 'rgba(255,255,255,0.45)'};
           border: none;
           transition: color 400ms cubic-bezier(0.16, 1, 0.3, 1);
           cursor: pointer;
           background: none;
         }
         .nav-link-base:hover {
-          color: ${isLightPage ? 'rgba(26,26,26,0.9)' : 'rgba(255,255,255,0.9)'};
+          color: ${isLightPage ? 'rgba(26,26,26,0.95)' : 'rgba(255,255,255,0.9)'};
           background-color: transparent;
         }
         .nav-link-active {
@@ -432,28 +439,6 @@ export const Navbar = () => {
           height: 4px;
           border-radius: 50%;
           background: ${isLightPage ? 'rgba(26,26,26,0.5)' : 'rgba(255,255,255,0.6)'};
-        }
-        .mega-panel {
-          background: ${isLightPage ? 'rgba(255,255,255,0.97)' : 'rgba(5,5,7,0.95)'};
-          backdrop-filter: blur(40px);
-          -webkit-backdrop-filter: blur(40px);
-          border: 1px solid ${isLightPage ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.06)'};
-          border-radius: 16px;
-          overflow: hidden;
-          box-shadow: ${isLightPage ? '0 24px 48px rgba(0,0,0,0.08)' : '0 40px 80px rgba(0,0,0,0.5)'};
-        }
-        .mega-sub-link {
-          display: flex;
-          flex-direction: column;
-          gap: 2px;
-          padding: 10px 14px;
-          border-radius: 8px;
-          color: ${isLightPage ? 'rgba(26,26,26,0.5)' : 'rgba(255,255,255,0.5)'};
-          transition: color 300ms cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .mega-sub-link:hover {
-          color: ${isLightPage ? '#1A1A1A' : '#fff'};
-          background-color: ${isLightPage ? 'rgba(0,0,0,0.03)' : 'rgba(255,255,255,0.03)'};
         }
       `}</style>
     </>
