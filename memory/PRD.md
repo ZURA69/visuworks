@@ -1,98 +1,76 @@
-# VISUWORKS — Product Requirements Document
+# VISUWORKS Website — PRD
 
 ## Original Problem Statement
-Fully designed, premium, multi-page website for a European visual branding company called VISUWORKS. High-end with unified light/warm-minimal design system and a powerful CMS for content and layout management.
+Premium multi-page website for European visual branding company VISUWORKS. Unified light/minimal design aesthetic (Apple-like SaaS). German (primary) + English (secondary). Visual CMS with MongoDB persistence, IONOS SMTP contact form, responsive layout, SEO, DSGVO compliance.
 
-## User Personas
-- **VISUWORKS Team**: Uses the CMS to update content, images, layout order, spacing, style, visibility, and animations. Can save/load layout templates.
-- **Prospective Clients**: Browse services, portfolio, and contact form. Premium Apple-like aesthetic.
-- **Legal Visitors**: Access Impressum, Datenschutz, AGB for compliance.
+## Core Architecture
+- **Frontend**: React + TailwindCSS + Framer Motion
+- **Backend**: FastAPI + MongoDB
+- **CMS**: Two-tier system (Content overrides + Layout settings)
+- **Email**: IONOS SMTP integration
 
-## Architecture
-```
-/app/
-├── backend/
-│   ├── server.py          # FastAPI (SMTP + CMS Content + Layout + Template APIs)
-│   └── uploads/
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   │   └── editor/
-│   │   │       ├── EditorSidebar.jsx   # Content + Layout tabs (all controls)
-│   │   │       └── LayoutSection.jsx   # Section/Container wrappers with presets/animations
-│   │   ├── content/       # Fallback content
-│   │   ├── contexts/      # EditorContext (content + layout + templates), LanguageContext
-│   │   └── pages/         # All page templates
-```
+## Pages
+Home, Mobilität, Raum & Architektur, Markenkommunikation, Design & Konzeption, Projektmanagement, Projekte, Kontakt, Impressum, Datenschutz, AGB
 
-## CMS Layout System — Complete
+## Implemented Features
 
-### Phase 1 (Done):
-- Section visibility (on/off toggle)
-- Section order (up/down arrows)
-- Padding controls (top/bottom: none/small/medium/large/xl)
-- Content width (narrow 900px / normal 1400px / wide 1600px)
-- Image defaults (fit: cover/contain, aspect: auto/16:9/4:3/1:1)
+### Design System (DONE)
+- Unified light/minimal theme across all pages
+- Premium typography, spacing, micro-animations
+- Responsive layout (mobile + desktop)
 
-### Phase 2 (Done — Dec 2025):
-- **Style Presets**: default, card (white+border), accent (dark bg), muted (warm bg), highlight (border)
-- **Alignment**: left / center per section
-- **Device Visibility**: all / desktop-only / mobile-only (responsive CSS classes)
-- **CTA Controls**: Toggle per section with configurable label + href
-- **Animation Types**: none, fade-up, fade-in, slide-left, slide-right (Framer Motion)
-- **Duplicate Section**: Copy all settings from one section to another
-- **Reusable Templates**: Save, load, delete layout configurations (MongoDB persisted)
+### CMS Content Editor (DONE)
+- Visual in-page editor with MongoDB persistence
+- Image upload with WebP optimization, zoom/pan controls
+- Text/textarea/image/list field types
+- Admin panel at /admin (password: visuworks2026)
 
-### API Endpoints:
-- `GET /api/editor/layout?page=home` — Public layout settings
-- `POST /api/admin/layout` — Save layout (admin)
-- `GET /api/editor/templates` — List all saved templates
-- `DELETE /api/admin/template/{name}` — Delete template (admin)
+### CMS Layout System (DONE)
+- Section visibility, reordering (drag up/down)
+- Spacing controls (top/bottom padding, content width)
+- Style presets, text alignment, device visibility
+- Animations (fade-up, fade-in, slide-left/right)
+- Section duplication, reusable layout templates
 
-### DB Schema:
-- **Collection**: `layout_settings`
-  - `page` (string, unique), `sections` (dict), `imageDefaults` (dict), `updatedAt` (datetime)
-  - Templates stored with page = `template:{name}`
+### "Was wir tun" CMS Integration (DONE — Dec 2025)
+- Section heading (Obertitel + Überschrift) editable via CMS
+- 3 service items fully CMS-managed: Bild, Kategorie, Überschrift, Beschreibung, Merkmale (comma-separated), Link
+- Image fields with upload/zoom/alt-text in admin
+- Increased vertical spacing (space-y-32 md:space-y-44)
+- Registry keys: services.sectionLabel, services.sectionTitle, services.{0-2}.{image,label,title,desc,features,href}
 
-### Section Settings Schema:
-```json
-{
-  "visible": true,
-  "order": 0,
-  "paddingTop": "medium",
-  "paddingBottom": "medium",
-  "contentWidth": "normal",
-  "preset": "default",
-  "alignment": "left",
-  "deviceVisibility": "all",
-  "cta": { "enabled": false, "label": "", "href": "" },
-  "animation": "fade-up"
-}
-```
+### Contact Form (DONE)
+- IONOS SMTP integration with error handling and rate limiting
 
-## What's Implemented
-- [x] Full multi-page React site with FastAPI backend
-- [x] Visual Content Editor (MongoDB, EditorSidebar, EditableImage zoom/pan)
-- [x] CMS Layout System Phase 1 (visibility, order, padding, width, image defaults)
-- [x] CMS Layout System Phase 2 (presets, alignment, device visibility, CTA, animation, duplicate, templates)
-- [x] Contact Form with IONOS SMTP
-- [x] Language Switcher (DE/EN)
-- [x] Scroll-pinned Keyword Hero (Framer Motion)
-- [x] SEO optimization (meta, JSON-LD, keywords)
-- [x] Mobile responsiveness
-- [x] Cookie consent banner (DSGVO)
-- [x] Unified light theme across ALL public pages
+### SEO (DONE)
+- JSON-LD schemas, meta tags, alt attributes, keyword strategy
 
-## Prioritized Backlog
+### Language Switcher (DONE)
+- DE/EN toggle via Context API
 
-### P1
-- CMS Preview Mode: Toggle to view unsaved drafts before publishing
+### Mobile Responsiveness (DONE)
+- Full mobile overhaul completed
 
-### P2 (Future)
-- Hero Video Integration
-- Content Expansion: Blog/News, Careers, Partners pages
-- Layout controls extended to service pages
+## Backlog
+
+### P2 — Cookie Consent Logic
+- DSGVO-compliant gating of analytics/tracking scripts behind cookie banner acceptance
+
+### P2 — Content Expansion
+- Blog/News, Careers, Partners pages
+
+## DB Collections
+- `content_overrides`: {key, type, value}
+- `layout_settings`: {page, sections, imageDefaults, updatedAt}
+- `layout_templates`: {name, layout, updatedAt}
+
+## Key API Endpoints
+- POST /api/contact — form submission
+- POST /api/editor/content — save content
+- POST /api/editor/layout/{page} — save layout
+- GET /api/content/overrides — public content
+- GET /api/editor/layout — public layout
 
 ## Credentials
-- Admin: `/admin`, password: `visuworks2026`
-- SMTP: IONOS config in `backend/.env`
+- Admin: /admin, password visuworks2026
+- IONOS SMTP: configured in backend/.env
