@@ -152,20 +152,40 @@ function ServicesSection({ sectionLabel, sectionTitle, serviceItems }) {
   return (
     <LayoutSection id="services">
       <LayoutContainer id="services">
-        <motion.div {...revealSlow} className="mb-20 md:mb-28">
+        <motion.div {...revealSlow} className="mb-24 md:mb-36">
           <p className="text-[12px] font-semibold uppercase tracking-[0.15em] mb-4" style={{ color: C.light }}>{sectionLabel}</p>
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-semibold tracking-[-0.03em] leading-[1.1]">{sectionTitle}</h2>
         </motion.div>
-        <div className="space-y-32 md:space-y-44">
+        <div className="space-y-40 md:space-y-56 lg:space-y-72">
           {serviceItems.map((svc, i) => (
-            <motion.div key={i} {...reveal} transition={{ ...reveal.transition, delay: 0.1 }}>
-              <div className={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${i % 2 === 1 ? 'lg:[direction:rtl]' : ''}`}>
-                <div className={i % 2 === 1 ? 'lg:[direction:ltr]' : ''}>
-                  <ParallaxImage src={svc.image} alt={svc.title} contentKey={`services.${i}.image`} />
+            <motion.article 
+              key={i} 
+              {...reveal} 
+              transition={{ ...reveal.transition, delay: 0.1 }}
+              className="relative"
+            >
+              {/* Visual separator line */}
+              {i > 0 && (
+                <div className="absolute -top-20 md:-top-28 lg:-top-36 left-0 right-0 flex justify-center">
+                  <div className="w-px h-12 md:h-16" style={{ background: `linear-gradient(to bottom, transparent, ${C.border}, transparent)` }} />
                 </div>
-                <div className={`flex flex-col justify-center ${i % 2 === 1 ? 'lg:[direction:ltr]' : ''}`}>
+              )}
+              
+              <div className={`grid lg:grid-cols-12 gap-10 lg:gap-16 items-center ${i % 2 === 1 ? 'lg:[direction:rtl]' : ''}`}>
+                {/* Image - takes 7 columns for dominance */}
+                <div className={`lg:col-span-7 ${i % 2 === 1 ? 'lg:[direction:ltr]' : ''}`}>
+                  <ParallaxImage 
+                    src={svc.image} 
+                    alt={svc.title} 
+                    contentKey={`services.${i}.image`} 
+                    aspectClass="aspect-[16/10]"
+                  />
+                </div>
+                
+                {/* Content - takes 5 columns */}
+                <div className={`lg:col-span-5 flex flex-col justify-center ${i % 2 === 1 ? 'lg:[direction:ltr]' : ''}`}>
                   <p className="text-[12px] font-semibold uppercase tracking-[0.15em] mb-4" style={{ color: C.light }}>{svc.label}</p>
-                  <h3 className="text-2xl md:text-3xl lg:text-4xl font-semibold tracking-[-0.02em] leading-[1.15] mb-5">{svc.title}</h3>
+                  <h3 className="text-2xl md:text-3xl lg:text-4xl font-semibold tracking-[-0.02em] leading-[1.15] mb-6">{svc.title}</h3>
                   <p className="text-base leading-relaxed mb-8" style={{ color: C.muted }}>{svc.desc}</p>
                   <ul className="space-y-3 mb-10">
                     {svc.features.map((feat, fi) => (
@@ -180,7 +200,7 @@ function ServicesSection({ sectionLabel, sectionTitle, serviceItems }) {
                   </Link>
                 </div>
               </div>
-            </motion.div>
+            </motion.article>
           ))}
         </div>
       </LayoutContainer>
