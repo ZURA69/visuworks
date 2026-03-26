@@ -9,6 +9,7 @@ import images, { getProjectImage } from '../content/images';
 import { useEditable } from '../contexts/EditorContext';
 import { EditableImage } from '../components/EditableImage';
 import { useLanguage } from '../contexts/LanguageContext';
+import { KeywordStory } from '../components/KeywordStory';
 
 /* ─── Palette ─── */
 const C = {
@@ -251,6 +252,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ═══ KEYWORD STORY ═══ */}
+      <KeywordStory />
 
       {/* ═══ SERVICES — Alternating Layout ═══ */}
       <section data-testid="services-section" className="py-24 md:py-36">
