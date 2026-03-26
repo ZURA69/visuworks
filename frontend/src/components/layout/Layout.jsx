@@ -11,7 +11,7 @@ export const Layout = ({ children }) => {
   const isHomePage = location.pathname === '/';
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#070910]">
+    <div className="min-h-screen flex flex-col bg-[#F5F2ED]">
       <Navbar />
       <main className={`flex-1 ${isHomePage ? '' : 'pt-20'} ${isActive ? 'mr-[380px]' : ''}`} role="main" style={{ transition: 'margin 0.3s ease' }}>
         {children}

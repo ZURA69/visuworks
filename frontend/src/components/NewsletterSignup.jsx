@@ -38,7 +38,7 @@ export const NewsletterSignup = ({ variant = 'default' }) => {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex items-center gap-2 text-green-400"
+            className="flex items-center gap-2 text-green-600"
           >
             <Check className="w-5 h-5" />
             <span className="text-sm">Erfolgreich angemeldet!</span>
@@ -73,7 +73,7 @@ export const NewsletterSignup = ({ variant = 'default' }) => {
           </form>
         )}
         {status === 'error' && (
-          <p className="text-xs text-red-400 mt-2">{errorMessage}</p>
+          <p className="text-xs text-red-500 mt-2">{errorMessage}</p>
         )}
       </div>
     );
@@ -86,7 +86,7 @@ export const NewsletterSignup = ({ variant = 'default' }) => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="relative overflow-hidden border border-white/[0.06] p-10 md:p-16 lg:p-20"
+          className="relative overflow-hidden border border-black/[0.06] p-10 md:p-16 lg:p-20"
         >
           <div className="relative grid md:grid-cols-2 gap-12 items-center">
             {/* Content */}
@@ -94,7 +94,7 @@ export const NewsletterSignup = ({ variant = 'default' }) => {
               <h2 className="text-2xl md:text-3xl lg:text-4xl font-light tracking-[-0.03em] mb-5">
                 Bleiben Sie informiert
               </h2>
-              <p className="text-sm text-white/40 max-w-md leading-relaxed font-light">
+              <p className="text-sm text-[#6B6B6B] max-w-md leading-relaxed font-light">
                 Erhalten Sie Updates zu neuen Projekten, Trends und exklusive Einblicke 
                 in unsere Arbeit. Kein Spam.
               </p>
@@ -106,13 +106,13 @@ export const NewsletterSignup = ({ variant = 'default' }) => {
                 <motion.div
                   initial={{ opacity: 0, scale: 0.98 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="text-center p-8 border border-white/[0.08]"
+                  className="text-center p-8 border border-black/[0.08]"
                 >
-                  <div className="w-12 h-12 mx-auto mb-4 flex items-center justify-center border border-white/15">
-                    <Check className="w-5 h-5 text-white/60" />
+                  <div className="w-12 h-12 mx-auto mb-4 flex items-center justify-center border border-black/[0.08]">
+                    <Check className="w-5 h-5 text-[#6B6B6B]" />
                   </div>
-                  <h3 className="text-lg font-light mb-2">Vielen Dank</h3>
-                  <p className="text-sm text-white/40">Sie wurden erfolgreich angemeldet.</p>
+                  <h3 className="text-lg font-light mb-2 text-[#1A1A1A]">Vielen Dank</h3>
+                  <p className="text-sm text-[#6B6B6B]">Sie wurden erfolgreich angemeldet.</p>
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -151,9 +151,9 @@ export const NewsletterSignup = ({ variant = 'default' }) => {
                       </>
                     )}
                   </Button>
-                  <p className="text-[11px] text-white/25 text-center">
+                  <p className="text-[11px] text-[#9A9A9A] text-center">
                     Mit der Anmeldung stimmen Sie unserer{' '}
-                    <a href="/datenschutz" className="underline hover:text-white/40 transition-colors">
+                    <a href="/datenschutz" className="underline hover:text-[#1A1A1A] transition-colors">
                       Datenschutzerklärung
                     </a>{' '}
                     zu.

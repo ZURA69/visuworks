@@ -19,29 +19,23 @@ export const Navbar = () => {
   const { language } = useLanguage();
   const isDE = language === 'de';
 
-  /* ─── Theme detection: light on homepage, dark everywhere else ─── */
-  const isLightPage = location.pathname === '/';
-
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close menus on route change
   useEffect(() => {
     setIsMobileMenuOpen(false);
     setIsMegaOpen(false);
     setMobileAccordion({});
   }, [location.pathname]);
 
-  // Prevent body scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = isMobileMenuOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [isMobileMenuOpen]);
 
-  // Close mega on ESC
   useEffect(() => {
     const handleEsc = (e) => {
       if (e.key === 'Escape') setIsMegaOpen(false);
@@ -77,13 +71,9 @@ export const Navbar = () => {
       <header
         data-testid="main-navigation"
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isLightPage
-            ? isScrolled
-              ? 'bg-[#F5F2ED]/90 backdrop-blur-xl border-b border-black/[0.06]'
-              : 'bg-transparent'
-            : isScrolled
-              ? 'bg-[#070910]/90 backdrop-blur-xl border-b border-white/5'
-              : 'bg-transparent'
+          isScrolled
+            ? 'bg-[#F5F2ED]/90 backdrop-blur-xl border-b border-black/[0.06]'
+            : 'bg-transparent'
         }`}
         role="banner"
       >
@@ -92,7 +82,6 @@ export const Navbar = () => {
 
             {/* Left: Leistungen + Projekte */}
             <div className="hidden lg:flex items-center gap-1">
-              {/* Leistungen with mega menu */}
               <div
                 ref={megaTriggerRef}
                 className="relative"
@@ -112,7 +101,6 @@ export const Navbar = () => {
                 </button>
               </div>
 
-              {/* Projekte link */}
               <Link
                 to="/projekte"
                 data-testid="nav-link-projekte"
@@ -130,7 +118,7 @@ export const Navbar = () => {
               className="absolute left-1/2 -translate-x-1/2 lg:static lg:translate-x-0"
               aria-label="VISUWORKS - Zur Startseite"
             >
-              <span className={`text-2xl font-bold tracking-tight transition-colors duration-300 ${isLightPage ? 'text-[#1A1A1A]' : 'text-white'}`}>VISUWORKS</span>
+              <span className="text-2xl font-bold tracking-tight transition-colors duration-300 text-[#1A1A1A]">VISUWORKS</span>
             </Link>
 
             {/* Right: Projektmanagement + Kontakt + Language + CTA */}
@@ -151,11 +139,7 @@ export const Navbar = () => {
               ))}
               <LanguageSwitcher className="ml-1" />
               <Link to="/kontakt" className="ml-2">
-                <button data-testid="nav-cta-button" className={`px-5 py-2 text-[13px] font-medium tracking-[0.02em] uppercase transition-all duration-300 rounded-full ${
-                  isLightPage
-                    ? 'bg-[#1A1A1A] text-white hover:bg-[#1A1A1A]/90'
-                    : 'bg-white text-[#050507] hover:bg-white/90'
-                }`}>
+                <button data-testid="nav-cta-button" className="px-5 py-2 text-[13px] font-medium tracking-[0.02em] uppercase transition-all duration-300 rounded-full bg-[#1A1A1A] text-white hover:bg-[#1A1A1A]/90">
                   {isDE ? t.nav.projektStarten.de : t.nav.projektStarten.en}
                 </button>
               </Link>
@@ -165,7 +149,7 @@ export const Navbar = () => {
             <button
               data-testid="mobile-menu-toggle"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`lg:hidden p-2 transition-colors z-50 ${isLightPage ? 'text-[#1A1A1A]/70 hover:text-[#1A1A1A]' : 'text-white/70 hover:text-white'}`}
+              className="lg:hidden p-2 transition-colors z-50 text-[#1A1A1A]/70 hover:text-[#1A1A1A]"
               aria-expanded={isMobileMenuOpen}
               aria-label={isMobileMenuOpen ? 'Menü schließen' : 'Menü öffnen'}
             >
@@ -189,11 +173,8 @@ export const Navbar = () => {
               data-testid="mega-menu"
             >
               <div className="max-w-[1200px] mx-auto px-6 md:px-12">
-                <div className={`${isLightPage
-                  ? 'bg-white/[0.97] border border-black/[0.08] shadow-[0_24px_48px_rgba(0,0,0,0.08)]'
-                  : 'bg-[#050507]/95 border border-white/[0.06] shadow-[0_40px_80px_rgba(0,0,0,0.5)]'
-                } backdrop-blur-[40px] rounded-2xl overflow-hidden`}>
-                  <div className={`grid grid-cols-4 gap-0 divide-x ${isLightPage ? 'divide-black/[0.06]' : 'divide-white/[0.06]'}`}>
+                <div className="bg-white/[0.97] border border-black/[0.08] shadow-[0_24px_48px_rgba(0,0,0,0.08)] backdrop-blur-[40px] rounded-2xl overflow-hidden">
+                  <div className="grid grid-cols-4 gap-0 divide-x divide-black/[0.06]">
                     {leistungen.pillars.map((pillar) => (
                       <div key={pillar.href} className="p-5">
                         <Link
@@ -202,14 +183,14 @@ export const Navbar = () => {
                         >
                           <span className={`text-sm font-semibold transition-colors duration-200 ${
                             isLinkActive(pillar.href)
-                              ? (isLightPage ? 'text-[#1A1A1A]' : 'text-white')
-                              : (isLightPage ? 'text-[#1A1A1A]/90 group-hover:text-[#1A1A1A]' : 'text-white/80 group-hover:text-white')
+                              ? 'text-[#1A1A1A]'
+                              : 'text-[#1A1A1A]/90 group-hover:text-[#1A1A1A]'
                           }`}>
                             {pillar.label}
                           </span>
-                          <ArrowRight className={`w-3.5 h-3.5 group-hover:translate-x-0.5 transition-all duration-200 ${isLightPage ? 'text-[#1A1A1A]/40 group-hover:text-[#1A1A1A]/70' : 'text-white/30 group-hover:text-white/60'}`} />
+                          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-all duration-200 text-[#1A1A1A]/40 group-hover:text-[#1A1A1A]/70" />
                         </Link>
-                        <p className={`text-xs mb-4 ${isLightPage ? 'text-[#1A1A1A]/50' : 'text-white/35'}`}>{pillar.desc}</p>
+                        <p className="text-xs mb-4 text-[#1A1A1A]/50">{pillar.desc}</p>
 
                         {pillar.subItems.length > 0 && (
                           <ul className="space-y-0.5">
@@ -220,16 +201,14 @@ export const Navbar = () => {
                                   data-testid={`mega-link-${sub.href.split('/').pop()}`}
                                   className={`flex flex-col gap-0.5 px-3.5 py-2.5 rounded-lg transition-all duration-300 ${
                                     location.pathname === sub.href
-                                      ? (isLightPage ? 'bg-black/[0.05]' : 'bg-white/[0.06]')
-                                      : (isLightPage ? 'hover:bg-black/[0.04]' : 'hover:bg-white/[0.03]')
+                                      ? 'bg-black/[0.05]'
+                                      : 'hover:bg-black/[0.04]'
                                   }`}
                                 >
                                   <span className={`text-[13px] font-medium transition-colors duration-200 ${
-                                    isLightPage
-                                      ? (location.pathname === sub.href ? 'text-[#1A1A1A]' : 'text-[#1A1A1A]/70 group-hover:text-[#1A1A1A]')
-                                      : (location.pathname === sub.href ? 'text-white' : 'text-white/50 group-hover:text-white')
+                                    location.pathname === sub.href ? 'text-[#1A1A1A]' : 'text-[#1A1A1A]/70'
                                   }`}>{sub.label}</span>
-                                  <span className={`text-[11px] leading-tight ${isLightPage ? 'text-[#1A1A1A]/40' : 'text-white/30'}`}>{sub.desc}</span>
+                                  <span className="text-[11px] leading-tight text-[#1A1A1A]/40">{sub.desc}</span>
                                 </Link>
                               </li>
                             ))}
@@ -240,9 +219,9 @@ export const Navbar = () => {
                   </div>
 
                   {/* CTA bar */}
-                  <div className={`border-t px-5 py-3 flex items-center justify-between ${isLightPage ? 'border-black/[0.06]' : 'border-white/[0.06]'}`}>
-                    <p className={`text-xs ${isLightPage ? 'text-[#1A1A1A]/50' : 'text-white/40'}`}>{isDE ? t.nav.alleLeistungen.de : t.nav.alleLeistungen.en}</p>
-                    <Link to="/kontakt" className={`flex items-center gap-2 text-xs font-medium transition-colors duration-300 ${isLightPage ? 'text-[#1A1A1A]/65 hover:text-[#1A1A1A]' : 'text-white/50 hover:text-white/80'}`}>
+                  <div className="border-t px-5 py-3 flex items-center justify-between border-black/[0.06]">
+                    <p className="text-xs text-[#1A1A1A]/50">{isDE ? t.nav.alleLeistungen.de : t.nav.alleLeistungen.en}</p>
+                    <Link to="/kontakt" className="flex items-center gap-2 text-xs font-medium transition-colors duration-300 text-[#1A1A1A]/65 hover:text-[#1A1A1A]">
                       {isDE ? t.nav.projektBesprechen.de : t.nav.projektBesprechen.en}
                       <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
@@ -254,7 +233,7 @@ export const Navbar = () => {
         </AnimatePresence>
       </header>
 
-      {/* ─── MOBILE MENU ─── */}
+      {/* ─── MOBILE MENU (Light) ─── */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -264,12 +243,11 @@ export const Navbar = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 lg:hidden bg-[#070910]/98 backdrop-blur-xl overflow-y-auto"
+            className="fixed inset-0 z-40 lg:hidden bg-[#F5F2ED]/98 backdrop-blur-xl overflow-y-auto"
             role="dialog"
             aria-modal="true"
           >
             <nav className="pt-24 pb-12 px-6">
-              {/* Language switcher in mobile */}
               <div className="flex justify-end mb-4 px-4">
                 <LanguageSwitcher />
               </div>
@@ -280,7 +258,7 @@ export const Navbar = () => {
                   onClick={() => toggleMobileAccordion('leistungen')}
                   data-testid="mobile-leistungen-toggle"
                   className={`w-full flex items-center justify-between py-3 px-4 rounded-xl text-left text-lg font-medium transition-all duration-200 ${
-                    isLeistungenActive ? 'text-white bg-white/[0.04]' : 'text-white/60'
+                    isLeistungenActive ? 'text-[#1A1A1A] bg-black/[0.04]' : 'text-[#1A1A1A]/60'
                   }`}
                 >
                   {isDE ? t.nav.leistungen.de : t.nav.leistungen.en}
@@ -304,7 +282,7 @@ export const Navbar = () => {
                                 <button
                                   onClick={() => toggleMobileAccordion(pillar.href)}
                                   className={`w-full flex items-center justify-between py-2.5 px-3 rounded-lg text-left text-base font-medium transition-all ${
-                                    isLinkActive(pillar.href) ? 'text-white' : 'text-white/50'
+                                    isLinkActive(pillar.href) ? 'text-[#1A1A1A]' : 'text-[#1A1A1A]/50'
                                   }`}
                                 >
                                   {pillar.label}
@@ -325,7 +303,7 @@ export const Navbar = () => {
                                           to={pillar.href}
                                           onClick={() => setIsMobileMenuOpen(false)}
                                           className={`block py-2 px-3 rounded-lg text-sm transition-colors ${
-                                            location.pathname === pillar.href ? 'text-white bg-white/[0.05]' : 'text-white/40 hover:text-white/70'
+                                            location.pathname === pillar.href ? 'text-[#1A1A1A] bg-black/[0.05]' : 'text-[#1A1A1A]/40 hover:text-[#1A1A1A]/70'
                                           }`}
                                         >
                                           {isDE ? t.nav.uebersicht.de : t.nav.uebersicht.en} {pillar.label}
@@ -336,7 +314,7 @@ export const Navbar = () => {
                                             to={sub.href}
                                             onClick={() => setIsMobileMenuOpen(false)}
                                             className={`block py-2 px-3 rounded-lg text-sm transition-colors ${
-                                              location.pathname === sub.href ? 'text-white bg-white/[0.05]' : 'text-white/40 hover:text-white/70'
+                                              location.pathname === sub.href ? 'text-[#1A1A1A] bg-black/[0.05]' : 'text-[#1A1A1A]/40 hover:text-[#1A1A1A]/70'
                                             }`}
                                           >
                                             {sub.label}
@@ -352,7 +330,7 @@ export const Navbar = () => {
                                 to={pillar.href}
                                 onClick={() => setIsMobileMenuOpen(false)}
                                 className={`block py-2.5 px-3 rounded-lg text-base font-medium transition-colors ${
-                                  isLinkActive(pillar.href) ? 'text-white' : 'text-white/50'
+                                  isLinkActive(pillar.href) ? 'text-[#1A1A1A]' : 'text-[#1A1A1A]/50'
                                 }`}
                               >
                                 {pillar.label}
@@ -371,7 +349,7 @@ export const Navbar = () => {
                 to="/projekte"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={`block py-3 px-4 rounded-xl text-lg font-medium transition-all duration-200 mb-1 ${
-                  isLinkActive('/projekte') ? 'text-white bg-white/[0.04]' : 'text-white/60'
+                  isLinkActive('/projekte') ? 'text-[#1A1A1A] bg-black/[0.04]' : 'text-[#1A1A1A]/60'
                 }`}
               >
                 {isDE ? t.nav.projekte.de : t.nav.projekte.en}
@@ -382,7 +360,7 @@ export const Navbar = () => {
                   to={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={`block py-3 px-4 rounded-xl text-lg font-medium transition-all duration-200 mb-1 ${
-                    isLinkActive(link.href) ? 'text-white bg-white/[0.04]' : 'text-white/60'
+                    isLinkActive(link.href) ? 'text-[#1A1A1A] bg-black/[0.04]' : 'text-[#1A1A1A]/60'
                   }`}
                 >
                   {link.href === '/projektmanagement' 
@@ -395,7 +373,7 @@ export const Navbar = () => {
               {/* CTA */}
               <div className="mt-6 px-4">
                 <Link to="/kontakt" onClick={() => setIsMobileMenuOpen(false)}>
-                  <button className="w-full py-3 text-[13px] font-medium tracking-[0.02em] uppercase bg-white text-[#050507] hover:bg-white/90 transition-all duration-300">
+                  <button className="w-full py-3 text-[13px] font-medium tracking-[0.02em] uppercase bg-[#1A1A1A] text-white hover:bg-[#1A1A1A]/90 transition-all duration-300">
                     {isDE ? t.nav.projektStarten.de : t.nav.projektStarten.en}
                   </button>
                 </Link>
@@ -416,18 +394,18 @@ export const Navbar = () => {
           font-weight: 500;
           letter-spacing: 0.04em;
           text-transform: uppercase;
-          color: ${isLightPage ? 'rgba(26,26,26,0.55)' : 'rgba(255,255,255,0.45)'};
+          color: rgba(26,26,26,0.65);
           border: none;
           transition: color 400ms cubic-bezier(0.16, 1, 0.3, 1);
           cursor: pointer;
           background: none;
         }
         .nav-link-base:hover {
-          color: ${isLightPage ? 'rgba(26,26,26,0.95)' : 'rgba(255,255,255,0.9)'};
+          color: rgba(26,26,26,0.95);
           background-color: transparent;
         }
         .nav-link-active {
-          color: ${isLightPage ? '#1A1A1A' : '#fff'} !important;
+          color: #1A1A1A !important;
           background-color: transparent !important;
         }
         .nav-accent {
@@ -438,7 +416,7 @@ export const Navbar = () => {
           width: 4px;
           height: 4px;
           border-radius: 50%;
-          background: ${isLightPage ? 'rgba(26,26,26,0.5)' : 'rgba(255,255,255,0.6)'};
+          background: rgba(26,26,26,0.5);
         }
       `}</style>
     </>

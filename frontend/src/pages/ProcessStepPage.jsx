@@ -115,8 +115,8 @@ export default function ProcessStepPage() {
       {/* Hero */}
       <section className="relative py-24 md:py-32">
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[120px]" />
-          <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-[100px]" />
+          <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-black/[0.03] rounded-full blur-[120px]" />
+          <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-black/[0.02] rounded-full blur-[100px]" />
         </div>
 
         <div className="relative max-w-[1200px] mx-auto px-6 md:px-12">
@@ -124,13 +124,13 @@ export default function ProcessStepPage() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex items-center gap-2 text-sm text-white/40 mb-8"
+            className="flex items-center gap-2 text-sm text-[#9A9A9A] mb-8"
           >
-            <Link to="/" className="hover:text-white/60 transition-colors">Start</Link>
+            <Link to="/" className="hover:text-[#6B6B6B] transition-colors">Start</Link>
             <span>/</span>
-            <span className="text-white/70">Unser Prozess</span>
+            <span className="text-[#1A1A1A]/70">Unser Prozess</span>
             <span>/</span>
-            <span className="text-white/70">Schritt {data.num}</span>
+            <span className="text-[#1A1A1A]/70">Schritt {data.num}</span>
           </motion.div>
 
           <div className="grid lg:grid-cols-2 gap-16 items-start">
@@ -141,27 +141,27 @@ export default function ProcessStepPage() {
             >
               {/* Step indicator */}
               <div className="flex items-center gap-4 mb-6">
-                <span className="text-7xl font-extrabold text-white/10">{data.num}</span>
-                <div className="w-14 h-14 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center">
-                  <Icon className="w-7 h-7 text-indigo-400" />
+                <span className="text-7xl font-extrabold text-black/[0.06]">{data.num}</span>
+                <div className="w-14 h-14 rounded-2xl bg-black/[0.03] border border-black/[0.08] flex items-center justify-center">
+                  <Icon className="w-7 h-7 text-[#1A1A1A]" />
                 </div>
               </div>
 
-              <p className="text-sm font-medium text-indigo-300/80 uppercase tracking-wider mb-4">
+              <p className="text-sm font-medium text-[#9A9A9A] uppercase tracking-wider mb-4">
                 Schritt {data.num} von 05
               </p>
               <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight leading-[1.1] mb-4">
                 {data.title}
               </h1>
-              <p className="text-lg text-white/50 mb-6">{data.subtitle}</p>
-              <p className="text-base text-white/70 leading-relaxed">{data.description}</p>
+              <p className="text-lg text-[#6B6B6B] mb-6">{data.subtitle}</p>
+              <p className="text-base text-[#1A1A1A]/70 leading-relaxed">{data.description}</p>
 
               {/* Duration */}
-              <div className="flex items-center gap-3 mt-8 p-4 rounded-xl bg-white/[0.03] border border-white/10">
-                <Clock className="w-5 h-5 text-indigo-400" />
+              <div className="flex items-center gap-3 mt-8 p-4 rounded-xl bg-black/[0.02] border border-black/[0.07]">
+                <Clock className="w-5 h-5 text-[#1A1A1A]" />
                 <div>
                   <p className="text-sm font-medium">Typische Dauer</p>
-                  <p className="text-sm text-white/50">{data.duration}</p>
+                  <p className="text-sm text-[#6B6B6B]">{data.duration}</p>
                 </div>
               </div>
             </motion.div>
@@ -179,15 +179,15 @@ export default function ProcessStepPage() {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.3 + i * 0.1 }}
-                  className="p-6 rounded-[20px] bg-white/[0.02] border border-white/10 hover:border-white/20 transition-all duration-300"
+                  className="p-6 rounded-[20px] bg-black/[0.02] border border-black/[0.07] hover:border-black/[0.15] transition-all duration-300"
                 >
                   <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mt-0.5">
-                      <span className="text-xs font-bold text-indigo-400">{i + 1}</span>
+                    <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-black/[0.03] border border-black/[0.08] flex items-center justify-center mt-0.5">
+                      <span className="text-xs font-bold text-[#1A1A1A]">{i + 1}</span>
                     </div>
                     <div>
                       <h3 className="text-lg font-bold mb-1">{step.title}</h3>
-                      <p className="text-sm text-white/50 leading-relaxed">{step.desc}</p>
+                      <p className="text-sm text-[#6B6B6B] leading-relaxed">{step.desc}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -198,7 +198,7 @@ export default function ProcessStepPage() {
       </section>
 
       {/* Deliverables */}
-      <section className="py-20 md:py-24 bg-white/[0.02]">
+      <section className="py-20 md:py-24 bg-black/[0.02]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -206,7 +206,7 @@ export default function ProcessStepPage() {
             viewport={{ once: true }}
             className="mb-12"
           >
-            <p className="text-sm font-medium text-white/40 uppercase tracking-wider mb-4">Ergebnisse</p>
+            <p className="text-sm font-medium text-[#9A9A9A] uppercase tracking-wider mb-4">Ergebnisse</p>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Was Sie in diesem Schritt erhalten</h2>
           </motion.div>
 
@@ -218,9 +218,9 @@ export default function ProcessStepPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="flex items-start gap-3 p-5 rounded-[16px] bg-white/[0.03] border border-white/10"
+                className="flex items-start gap-3 p-5 rounded-[16px] bg-black/[0.02] border border-black/[0.07]"
               >
-                <CheckCircle2 className="w-5 h-5 text-indigo-400 flex-shrink-0 mt-0.5" />
+                <CheckCircle2 className="w-5 h-5 text-[#1A1A1A] flex-shrink-0 mt-0.5" />
                 <span className="text-sm font-medium">{item}</span>
               </motion.div>
             ))}
@@ -237,8 +237,8 @@ export default function ProcessStepPage() {
               <Link key={step} to={`/prozess/${step}`}>
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold transition-all duration-300 ${
                   i === currentIndex
-                    ? 'bg-indigo-500 text-white'
-                    : 'bg-white/5 border border-white/10 text-white/40 hover:text-white/70 hover:border-white/20'
+                    ? 'bg-[#1A1A1A] text-white'
+                    : 'bg-black/[0.03] border border-black/[0.07] text-[#9A9A9A] hover:text-[#1A1A1A]/70 hover:border-black/[0.15]'
                 }`}>
                   {String(i + 1).padStart(2, '0')}
                 </div>
@@ -277,20 +277,20 @@ export default function ProcessStepPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-24 md:py-32 bg-white/[0.02]">
+      <section className="py-24 md:py-32 bg-black/[0.02]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="relative rounded-[28px] overflow-hidden bg-gradient-to-br from-white/[0.03] to-white/[0.01] border border-white/10 p-12 md:p-20"
+            className="relative rounded-[28px] overflow-hidden bg-gradient-to-br from-white/[0.03] to-white/[0.01] border border-black/[0.07] p-12 md:p-20"
           >
-            <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-indigo-500/10 rounded-full blur-[100px]" />
+            <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-black/[0.03] rounded-full blur-[100px]" />
             <div className="relative text-center max-w-2xl mx-auto">
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">
                 Bereit für Ihr Projekt?
               </h2>
-              <p className="text-lg text-white/60 mb-10">
+              <p className="text-lg text-[#6B6B6B] mb-10">
                 Lassen Sie uns gemeinsam den ersten Schritt machen – unverbindlich und persönlich.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

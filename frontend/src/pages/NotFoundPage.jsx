@@ -11,8 +11,8 @@ export default function NotFoundPage() {
       <SEOHead page="home" customTitle="404 - Seite nicht gefunden | VISUWORKS" customDescription="Die gesuchte Seite wurde nicht gefunden." />
       {/* Background Glow */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/3 left-1/4 w-[400px] h-[400px] bg-indigo-500/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/3 right-1/4 w-[300px] h-[300px] bg-purple-500/10 rounded-full blur-[100px]" />
+        <div className="absolute top-1/3 left-1/4 w-[400px] h-[400px] bg-black/[0.03] rounded-full blur-[120px]" />
+        <div className="absolute bottom-1/3 right-1/4 w-[300px] h-[300px] bg-black/[0.02] rounded-full blur-[100px]" />
       </div>
 
       <motion.div
@@ -28,7 +28,7 @@ export default function NotFoundPage() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="mb-8"
         >
-          <span className="text-[150px] md:text-[200px] font-extrabold leading-none bg-gradient-to-b from-white/20 to-white/5 bg-clip-text text-transparent select-none">
+          <span className="text-[150px] md:text-[200px] font-extrabold leading-none bg-gradient-to-b from-[#1A1A1A]/10 to-[#1A1A1A]/3 bg-clip-text text-transparent select-none">
             404
           </span>
         </motion.div>
@@ -38,16 +38,16 @@ export default function NotFoundPage() {
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ duration: 0.5, delay: 0.2, type: 'spring' }}
-          className="w-20 h-20 mx-auto mb-8 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center"
+          className="w-20 h-20 mx-auto mb-8 rounded-2xl bg-black/[0.03] border border-black/[0.07] flex items-center justify-center"
         >
-          <Search className="w-10 h-10 text-white/40" />
+          <Search className="w-10 h-10 text-[#9A9A9A]" />
         </motion.div>
 
         {/* Text */}
         <h1 className="text-3xl md:text-4xl font-bold mb-4">
           Seite nicht gefunden
         </h1>
-        <p className="text-lg text-white/60 mb-10 max-w-md mx-auto">
+        <p className="text-lg text-[#6B6B6B] mb-10 max-w-md mx-auto">
           Die gesuchte Seite existiert leider nicht oder wurde verschoben. 
           Kehren Sie zur Startseite zurück oder kontaktieren Sie uns.
         </p>
@@ -76,9 +76,9 @@ export default function NotFoundPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="mt-16 pt-8 border-t border-white/10"
+          className="mt-16 pt-8 border-t border-black/[0.07]"
         >
-          <p className="text-sm text-white/40 mb-4">Beliebte Seiten:</p>
+          <p className="text-sm text-[#9A9A9A] mb-4">Beliebte Seiten:</p>
           <div className="flex flex-wrap justify-center gap-3">
             {[
               { to: '/projekte', label: 'Projekte' },
@@ -88,7 +88,7 @@ export default function NotFoundPage() {
               <Link
                 key={link.to}
                 to={link.to}
-                className="px-4 py-2 text-sm text-white/50 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 rounded-full transition-all duration-200"
+                className="px-4 py-2 text-sm text-[#6B6B6B] hover:text-[#1A1A1A] bg-black/[0.03] hover:bg-black/[0.05] border border-black/[0.07] rounded-full transition-all duration-200"
               >
                 {link.label}
               </Link>

@@ -4,16 +4,16 @@ import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap text-[13px] font-medium tracking-[0.02em] uppercase focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/20 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center whitespace-nowrap text-[13px] font-medium tracking-[0.02em] uppercase focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-black/20 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
         default:
-          "bg-white text-[#050507] border border-white hover:bg-white/90 active:bg-white/80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
+          "bg-[#1A1A1A] text-white border border-[#1A1A1A] hover:bg-[#1A1A1A]/90 active:bg-[#1A1A1A]/80 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
         secondary:
-          "border border-white/15 text-white/80 hover:text-white hover:border-white/30 hover:bg-white/[0.04] active:bg-white/[0.02] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
-        ghost: "text-white/60 hover:text-white hover:bg-white/[0.04] transition-all duration-300",
-        link: "text-white/70 hover:text-white underline-offset-4 hover:underline transition-colors duration-300",
+          "border border-black/10 text-[#1A1A1A]/70 hover:text-[#1A1A1A] hover:border-black/20 hover:bg-black/[0.03] active:bg-black/[0.02] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
+        ghost: "text-[#1A1A1A]/60 hover:text-[#1A1A1A] hover:bg-black/[0.04] transition-all duration-300",
+        link: "text-[#1A1A1A]/70 hover:text-[#1A1A1A] underline-offset-4 hover:underline transition-colors duration-300",
       },
       size: {
         default: "h-11 px-7",

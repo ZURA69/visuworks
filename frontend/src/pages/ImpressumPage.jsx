@@ -27,7 +27,7 @@ export default function ImpressumPage() {
 
       <section className="relative py-24 md:py-32">
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-indigo-500/5 rounded-full blur-[100px]" />
+          <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-black/[0.02] rounded-full blur-[100px]" />
         </div>
 
         <div className="relative max-w-[800px] mx-auto px-6 md:px-12">
@@ -36,19 +36,19 @@ export default function ImpressumPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <p className="text-sm font-medium text-white/40 uppercase tracking-wider mb-4">Rechtliches</p>
+            <p className="text-sm font-medium text-[#9A9A9A] uppercase tracking-wider mb-4">Rechtliches</p>
             <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4">Impressum</h1>
-            <p className="text-base text-white/50 mb-12">gemäß § 5 TMG und § 18 Abs. 2 MStV</p>
+            <p className="text-base text-[#6B6B6B] mb-12">gemäß § 5 TMG und § 18 Abs. 2 MStV</p>
 
             {/* Anchor Navigation */}
-            <nav className="mb-16 p-6 rounded-2xl bg-white/[0.02] border border-white/10" aria-label="Inhaltsverzeichnis">
-              <p className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-4">Inhaltsverzeichnis</p>
+            <nav className="mb-16 p-6 rounded-2xl bg-black/[0.02] border border-black/[0.07]" aria-label="Inhaltsverzeichnis">
+              <p className="text-sm font-semibold text-[#6B6B6B] uppercase tracking-wider mb-4">Inhaltsverzeichnis</p>
               <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-2">
                 {tocItems.map((item) => (
                   <li key={item.id}>
                     <a
                       href={`#${item.id}`}
-                      className="text-sm text-white/50 hover:text-white transition-colors"
+                      className="text-sm text-[#6B6B6B] hover:text-[#1A1A1A] transition-colors"
                     >
                       {item.label}
                     </a>
@@ -63,7 +63,7 @@ export default function ImpressumPage() {
               {/* Anbieter */}
               <section id="anbieter">
                 <h2 className="text-xl font-bold mb-4 scroll-mt-24">Anbieter</h2>
-                <p className="text-white/70">
+                <p className="text-[#1A1A1A]/70">
                   Visuworks visual work labs GmbH<br />
                   Verbindungsstraße 19c<br />
                   40723 Hilden<br />
@@ -75,7 +75,7 @@ export default function ImpressumPage() {
               {/* Vertreten durch */}
               <section id="vertreten-durch">
                 <h2 className="text-xl font-bold mb-4 scroll-mt-24">Vertreten durch</h2>
-                <p className="text-white/70">
+                <p className="text-[#1A1A1A]/70">
                   Daniel Zura<br />
                   Gesellschafter / Geschäftsführer
                 </p>
@@ -84,19 +84,19 @@ export default function ImpressumPage() {
               {/* Kontakt */}
               <section id="kontakt">
                 <h2 className="text-xl font-bold mb-4 scroll-mt-24">Kontakt</h2>
-                <p className="text-white/70">
-                  Telefon: <a href="tel:+4915172615378" className="text-white/80 hover:text-white transition-colors">+49 (0)151 72615378</a><br />
-                  E-Mail: <a href="mailto:info@visuworks.de" className="text-white/80 hover:text-white transition-colors">info@visuworks.de</a>
+                <p className="text-[#1A1A1A]/70">
+                  Telefon: <a href="tel:+4915172615378" className="text-[#1A1A1A] hover:text-[#1A1A1A] transition-colors">+49 (0)151 72615378</a><br />
+                  E-Mail: <a href="mailto:info@visuworks.de" className="text-[#1A1A1A] hover:text-[#1A1A1A] transition-colors">info@visuworks.de</a>
                 </p>
-                <p className="text-white/70 mt-3">
-                  Website: <a href="https://www.visuworks.de" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300 transition-colors underline underline-offset-2">www.visuworks.de</a>
+                <p className="text-[#1A1A1A]/70 mt-3">
+                  Website: <a href="https://www.visuworks.de" target="_blank" rel="noopener noreferrer" className="text-[#1A1A1A] hover:text-[#9A9A9A] transition-colors underline underline-offset-2">www.visuworks.de</a>
                 </p>
               </section>
 
               {/* Registereintrag */}
               <section id="registereintrag">
                 <h2 className="text-xl font-bold mb-4 scroll-mt-24">Registereintrag</h2>
-                <p className="text-white/70">
+                <p className="text-[#1A1A1A]/70">
                   Eingetragen im Handelsregister.<br />
                   Registergericht: Amtsgericht Düsseldorf<br />
                   Registernummer: HRB 96931
@@ -106,7 +106,7 @@ export default function ImpressumPage() {
               {/* Umsatzsteuer-ID */}
               <section id="umsatzsteuer">
                 <h2 className="text-xl font-bold mb-4 scroll-mt-24">Umsatzsteuer-Identifikationsnummer</h2>
-                <p className="text-white/70">
+                <p className="text-[#1A1A1A]/70">
                   Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG:<br />
                   DE353393855
                 </p>
@@ -115,7 +115,7 @@ export default function ImpressumPage() {
               {/* Verantwortlich */}
               <section id="verantwortlich">
                 <h2 className="text-xl font-bold mb-4 scroll-mt-24">Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
-                <p className="text-white/70">
+                <p className="text-[#1A1A1A]/70">
                   Daniel Zura<br />
                   Verbindungsstraße 19c<br />
                   40723 Hilden
@@ -125,13 +125,13 @@ export default function ImpressumPage() {
               {/* EU-Streitbeilegung */}
               <section id="streitbeilegung">
                 <h2 className="text-xl font-bold mb-4 scroll-mt-24">EU-Streitbeilegung</h2>
-                <p className="text-white/70 mb-3">
+                <p className="text-[#1A1A1A]/70 mb-3">
                   Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:{' '}
-                  <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300 transition-colors underline underline-offset-2">
+                  <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener noreferrer" className="text-[#1A1A1A] hover:text-[#9A9A9A] transition-colors underline underline-offset-2">
                     https://ec.europa.eu/consumers/odr/
                   </a>
                 </p>
-                <p className="text-white/70">
+                <p className="text-[#1A1A1A]/70">
                   Wir sind nicht verpflichtet und nicht bereit, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
                 </p>
               </section>
@@ -139,13 +139,13 @@ export default function ImpressumPage() {
               {/* Geltungsbereich */}
               <section id="geltungsbereich">
                 <h2 className="text-xl font-bold mb-4 scroll-mt-24">Geltungsbereich</h2>
-                <p className="text-white/70 mb-3">
+                <p className="text-[#1A1A1A]/70 mb-3">
                   Dieses Impressum gilt für alle Angebote unter der Domain:
                 </p>
-                <p className="text-white/70 mb-3 pl-4 border-l-2 border-white/10">
-                  <a href="https://www.visuworks.de" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300 transition-colors underline underline-offset-2">www.visuworks.de</a>
+                <p className="text-[#1A1A1A]/70 mb-3 pl-4 border-l-2 border-black/[0.07]">
+                  <a href="https://www.visuworks.de" target="_blank" rel="noopener noreferrer" className="text-[#1A1A1A] hover:text-[#9A9A9A] transition-colors underline underline-offset-2">www.visuworks.de</a>
                 </p>
-                <p className="text-white/70">
+                <p className="text-[#1A1A1A]/70">
                   einschließlich aller Subdomains (Unterseiten).
                 </p>
               </section>
@@ -153,19 +153,19 @@ export default function ImpressumPage() {
               {/* Social-Media-Präsenzen */}
               <section id="social-media">
                 <h2 className="text-xl font-bold mb-4 scroll-mt-24">Social-Media-Präsenzen</h2>
-                <p className="text-white/70 mb-3">
+                <p className="text-[#1A1A1A]/70 mb-3">
                   Dieses Impressum gilt ebenfalls für folgende Social-Media-Auftritte:
                 </p>
-                <div className="space-y-3 text-white/70">
+                <div className="space-y-3 text-[#1A1A1A]/70">
                   <p>
-                    <span className="text-white/50">Instagram:</span><br />
-                    <a href="https://www.instagram.com/visualworklabs/" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300 transition-colors underline underline-offset-2">
+                    <span className="text-[#6B6B6B]">Instagram:</span><br />
+                    <a href="https://www.instagram.com/visualworklabs/" target="_blank" rel="noopener noreferrer" className="text-[#1A1A1A] hover:text-[#9A9A9A] transition-colors underline underline-offset-2">
                       https://www.instagram.com/visualworklabs/
                     </a>
                   </p>
                   <p>
-                    <span className="text-white/50">TikTok:</span><br />
-                    <a href="https://www.tiktok.com/@visuworks" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300 transition-colors underline underline-offset-2">
+                    <span className="text-[#6B6B6B]">TikTok:</span><br />
+                    <a href="https://www.tiktok.com/@visuworks" target="_blank" rel="noopener noreferrer" className="text-[#1A1A1A] hover:text-[#9A9A9A] transition-colors underline underline-offset-2">
                       https://www.tiktok.com/@visuworks
                     </a>
                   </p>
@@ -175,7 +175,7 @@ export default function ImpressumPage() {
               {/* Bildnachweise */}
               <section id="bildnachweise">
                 <h2 className="text-xl font-bold mb-4 scroll-mt-24">Bildnachweise</h2>
-                <p className="text-white/70">
+                <p className="text-[#1A1A1A]/70">
                   Sämtliche auf dieser Website verwendeten Bilder stammen, sofern nicht anders gekennzeichnet, von Daniel Zura.
                 </p>
               </section>
@@ -183,13 +183,13 @@ export default function ImpressumPage() {
             </div>
 
             {/* Footer Links & Date */}
-            <div className="mt-16 pt-8 border-t border-white/10">
-              <p className="text-xs text-white/30 mb-6">Stand: März 2026</p>
+            <div className="mt-16 pt-8 border-t border-black/[0.07]">
+              <p className="text-xs text-[#9A9A9A] mb-6">Stand: März 2026</p>
               <div className="flex flex-wrap gap-4 text-sm">
-                <span className="text-white/40">Weitere Rechtstexte:</span>
-                <Link to="/agb" className="text-white/60 hover:text-white transition-colors">AGB (B2C)</Link>
-                <Link to="/agb-b2b" className="text-white/60 hover:text-white transition-colors">AGB für Unternehmer</Link>
-                <Link to="/datenschutz" className="text-white/60 hover:text-white transition-colors">Datenschutzerklärung</Link>
+                <span className="text-[#9A9A9A]">Weitere Rechtstexte:</span>
+                <Link to="/agb" className="text-[#6B6B6B] hover:text-[#1A1A1A] transition-colors">AGB (B2C)</Link>
+                <Link to="/agb-b2b" className="text-[#6B6B6B] hover:text-[#1A1A1A] transition-colors">AGB für Unternehmer</Link>
+                <Link to="/datenschutz" className="text-[#6B6B6B] hover:text-[#1A1A1A] transition-colors">Datenschutzerklärung</Link>
               </div>
             </div>
 

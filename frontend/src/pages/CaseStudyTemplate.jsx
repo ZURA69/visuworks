@@ -14,7 +14,7 @@ export const CaseStudyTemplate = ({ project }) => {
   if (!project) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-white/60">Projekt nicht gefunden</p>
+        <p className="text-[#6B6B6B]">Projekt nicht gefunden</p>
       </div>
     );
   }
@@ -48,12 +48,12 @@ export const CaseStudyTemplate = ({ project }) => {
                 className="absolute inset-0 w-full h-full"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#070910] via-[#070910]/70 to-[#070910]/40" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#F5F2ED] via-black/60 to-black/40" />
             </>
           ) : (
             <>
-              <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[120px]" />
-              <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-[100px]" />
+              <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-black/[0.03] rounded-full blur-[120px]" />
+              <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-black/[0.02] rounded-full blur-[100px]" />
             </>
           )}
         </div>
@@ -65,7 +65,7 @@ export const CaseStudyTemplate = ({ project }) => {
             transition={{ duration: 0.5 }}
             className="mb-8"
           >
-            <Link to="/projekte" className="inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors">
+            <Link to="/projekte" className="inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors">
               <ArrowLeft className="w-4 h-4" />
               Zurück zu Projekte
             </Link>
@@ -76,10 +76,10 @@ export const CaseStudyTemplate = ({ project }) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-block px-4 py-1.5 text-xs font-medium text-indigo-300/80 uppercase tracking-wider bg-indigo-500/10 rounded-full mb-6">
+            <span className="inline-block px-4 py-1.5 text-xs font-medium text-white/70 uppercase tracking-wider bg-white/10 rounded-full mb-6">
               {category}
             </span>
-            <h1 data-testid="case-study-title" className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] mb-6">
+            <h1 data-testid="case-study-title" className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] mb-6 text-white">
               {title}
             </h1>
             <p className="text-xl text-white/70 max-w-2xl">
@@ -90,7 +90,7 @@ export const CaseStudyTemplate = ({ project }) => {
       </section>
 
       {/* Project Overview */}
-      <section className="py-16 border-t border-white/5">
+      <section className="py-16 border-t border-black/[0.05]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -98,24 +98,24 @@ export const CaseStudyTemplate = ({ project }) => {
             viewport={{ once: true }}
             className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
           >
-            <div className="p-6 rounded-[20px] bg-white/[0.02] border border-white/10">
-              <Building2 className="w-5 h-5 text-white/40 mb-3" />
-              <p className="text-xs text-white/40 uppercase tracking-wider mb-1">Kunde</p>
+            <div className="p-6 rounded-[20px] bg-black/[0.02] border border-black/[0.07]">
+              <Building2 className="w-5 h-5 text-[#9A9A9A] mb-3" />
+              <p className="text-xs text-[#9A9A9A] uppercase tracking-wider mb-1">Kunde</p>
               <p data-testid="case-study-client" className="font-medium">{client}</p>
             </div>
-            <div className="p-6 rounded-[20px] bg-white/[0.02] border border-white/10">
-              <Layers className="w-5 h-5 text-white/40 mb-3" />
-              <p className="text-xs text-white/40 uppercase tracking-wider mb-1">Umfang</p>
+            <div className="p-6 rounded-[20px] bg-black/[0.02] border border-black/[0.07]">
+              <Layers className="w-5 h-5 text-[#9A9A9A] mb-3" />
+              <p className="text-xs text-[#9A9A9A] uppercase tracking-wider mb-1">Umfang</p>
               <p data-testid="case-study-scope" className="font-medium">{scope}</p>
             </div>
-            <div className="p-6 rounded-[20px] bg-white/[0.02] border border-white/10">
-              <MapPin className="w-5 h-5 text-white/40 mb-3" />
-              <p className="text-xs text-white/40 uppercase tracking-wider mb-1">Standort</p>
+            <div className="p-6 rounded-[20px] bg-black/[0.02] border border-black/[0.07]">
+              <MapPin className="w-5 h-5 text-[#9A9A9A] mb-3" />
+              <p className="text-xs text-[#9A9A9A] uppercase tracking-wider mb-1">Standort</p>
               <p className="font-medium">{location}</p>
             </div>
-            <div className="p-6 rounded-[20px] bg-white/[0.02] border border-white/10">
-              <Calendar className="w-5 h-5 text-white/40 mb-3" />
-              <p className="text-xs text-white/40 uppercase tracking-wider mb-1">Jahr</p>
+            <div className="p-6 rounded-[20px] bg-black/[0.02] border border-black/[0.07]">
+              <Calendar className="w-5 h-5 text-[#9A9A9A] mb-3" />
+              <p className="text-xs text-[#9A9A9A] uppercase tracking-wider mb-1">Jahr</p>
               <p className="font-medium">{year}</p>
             </div>
           </motion.div>
@@ -129,12 +129,12 @@ export const CaseStudyTemplate = ({ project }) => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="aspect-[21/9] rounded-[28px] overflow-hidden bg-gradient-to-br from-white/5 to-white/0 border border-white/10"
+            className="aspect-[21/9] rounded-[28px] overflow-hidden bg-gradient-to-br from-black/[0.03] to-black/0 border border-black/[0.07]"
           >
             <div className="h-full flex items-center justify-center">
               <div className="text-center">
-                <p className="text-white/30 text-sm">Projekt-Hauptbild</p>
-                <p className="text-white/20 text-xs mt-1">{title}</p>
+                <p className="text-[#9A9A9A] text-sm">Projekt-Hauptbild</p>
+                <p className="text-[#9A9A9A]/60 text-xs mt-1">{title}</p>
               </div>
             </div>
           </motion.div>
@@ -150,9 +150,9 @@ export const CaseStudyTemplate = ({ project }) => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <p className="text-sm font-medium text-white/40 uppercase tracking-wider mb-4">Herausforderung</p>
+              <p className="text-sm font-medium text-[#9A9A9A] uppercase tracking-wider mb-4">Herausforderung</p>
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">Die Aufgabe</h2>
-              <p data-testid="case-study-challenge" className="text-lg text-white/70 leading-relaxed">{challenge}</p>
+              <p data-testid="case-study-challenge" className="text-lg text-[#1A1A1A]/70 leading-relaxed">{challenge}</p>
             </motion.div>
 
             <motion.div
@@ -161,16 +161,16 @@ export const CaseStudyTemplate = ({ project }) => {
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
             >
-              <p className="text-sm font-medium text-white/40 uppercase tracking-wider mb-4">Lösung</p>
+              <p className="text-sm font-medium text-[#9A9A9A] uppercase tracking-wider mb-4">Lösung</p>
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">Unser Ansatz</h2>
-              <p data-testid="case-study-solution" className="text-lg text-white/70 leading-relaxed">{solution}</p>
+              <p data-testid="case-study-solution" className="text-lg text-[#1A1A1A]/70 leading-relaxed">{solution}</p>
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* Implementation */}
-      <section className="py-24 md:py-32 bg-white/[0.02]">
+      <section className="py-24 md:py-32 bg-black/[0.02]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -178,9 +178,9 @@ export const CaseStudyTemplate = ({ project }) => {
             viewport={{ once: true }}
             className="max-w-3xl"
           >
-            <p className="text-sm font-medium text-white/40 uppercase tracking-wider mb-4">Umsetzung</p>
+            <p className="text-sm font-medium text-[#9A9A9A] uppercase tracking-wider mb-4">Umsetzung</p>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">Die Realisierung</h2>
-            <p className="text-lg text-white/70 leading-relaxed">{project.implementation}</p>
+            <p className="text-lg text-[#1A1A1A]/70 leading-relaxed">{project.implementation}</p>
           </motion.div>
         </div>
       </section>
@@ -195,7 +195,7 @@ export const CaseStudyTemplate = ({ project }) => {
               viewport={{ once: true }}
               className="mb-12"
             >
-              <p className="text-sm font-medium text-white/40 uppercase tracking-wider mb-4">Impressionen</p>
+              <p className="text-sm font-medium text-[#9A9A9A] uppercase tracking-wider mb-4">Impressionen</p>
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Galerie</h2>
             </motion.div>
 
@@ -207,7 +207,7 @@ export const CaseStudyTemplate = ({ project }) => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="aspect-[4/3] rounded-[20px] overflow-hidden bg-[#0A0C14] border border-white/10 group"
+                  className="aspect-[4/3] rounded-[20px] overflow-hidden bg-[#E8E4DD] border border-black/[0.07] group"
                 >
                   <EditableImage
                     contentKey={`images.projects.${slug}.gallery.${index}`}
@@ -224,7 +224,7 @@ export const CaseStudyTemplate = ({ project }) => {
       )}
 
       {/* Result */}
-      <section className="py-24 md:py-32 bg-white/[0.02]">
+      <section className="py-24 md:py-32 bg-black/[0.02]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -232,21 +232,21 @@ export const CaseStudyTemplate = ({ project }) => {
             viewport={{ once: true }}
             className="max-w-3xl"
           >
-            <p className="text-sm font-medium text-white/40 uppercase tracking-wider mb-4">Ergebnis</p>
+            <p className="text-sm font-medium text-[#9A9A9A] uppercase tracking-wider mb-4">Ergebnis</p>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">Das Resultat</h2>
-            <p data-testid="case-study-result" className="text-lg text-white/70 leading-relaxed">{result}</p>
+            <p data-testid="case-study-result" className="text-lg text-[#1A1A1A]/70 leading-relaxed">{result}</p>
           </motion.div>
         </div>
       </section>
 
       {/* Tags */}
-      <section className="py-16 border-t border-white/5">
+      <section className="py-16 border-t border-black/[0.05]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <div className="flex flex-wrap gap-3">
             {project.tags.map((tag) => (
               <span 
                 key={tag}
-                className="px-4 py-2 text-sm text-white/60 bg-white/5 border border-white/10 rounded-full"
+                className="px-4 py-2 text-sm text-[#6B6B6B] bg-black/[0.03] border border-black/[0.07] rounded-full"
               >
                 {tag}
               </span>
@@ -262,12 +262,12 @@ export const CaseStudyTemplate = ({ project }) => {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="relative rounded-[28px] overflow-hidden bg-gradient-to-br from-white/[0.03] to-white/[0.01] border border-white/10 p-12 md:p-20"
+            className="relative rounded-[28px] overflow-hidden bg-gradient-to-br from-white/[0.03] to-white/[0.01] border border-black/[0.07] p-12 md:p-20"
           >
-            <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-indigo-500/10 rounded-full blur-[100px]" />
+            <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-black/[0.03] rounded-full blur-[100px]" />
             <div className="relative text-center max-w-2xl mx-auto">
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">Ähnliches Projekt geplant?</h2>
-              <p className="text-lg text-white/60 mb-10">
+              <p className="text-lg text-[#6B6B6B] mb-10">
                 Lassen Sie uns über Ihre Anforderungen sprechen – unverbindlich und persönlich.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

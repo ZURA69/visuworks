@@ -26,11 +26,11 @@ const C = {
 function WordItem({ word, distance }) {
   const a = Math.abs(distance);
 
-  const y = distance * 100;
-  const opacity = a < 0.4 ? 1 : a > 1.5 ? 0 : 1 - (a - 0.4) / 1.1;
-  const scale = a < 0.3 ? 1 : Math.max(0.82, 1 - (a - 0.3) * 0.08);
-  const blurPx = a < 0.35 ? 0 : Math.min((a - 0.35) * 12, 16);
-  const colorV = a < 0.35 ? 26 : Math.round(26 + Math.min((a - 0.35) / 1.15, 1) * 200);
+  const y = distance * 170;
+  const opacity = a < 0.45 ? 1 : a > 1.5 ? 0 : 1 - (a - 0.45) / 1.05;
+  const scale = a < 0.35 ? 1 : Math.max(0.82, 1 - (a - 0.35) * 0.07);
+  const blurPx = a < 0.4 ? 0 : Math.min((a - 0.4) * 14, 18);
+  const colorV = a < 0.4 ? 26 : Math.round(26 + Math.min((a - 0.4) / 1.1, 1) * 200);
 
   return (
     <div

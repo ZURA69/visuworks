@@ -20,22 +20,22 @@ export const Footer = () => {
   const isDE = language === 'de';
 
   return (
-    <footer data-testid="footer" className="border-t border-white/[0.06] bg-[#050507]">
+    <footer data-testid="footer" className="border-t border-black/[0.07] bg-[#EFECE6]">
       {/* Main Footer */}
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16 py-20 md:py-28">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-10 lg:gap-12">
           {/* Brand & Newsletter */}
           <div className="col-span-2 lg:col-span-2">
             <Link to="/" className="inline-block mb-6">
-              <span className="text-xl font-light tracking-[-0.03em]">{company.name}</span>
+              <span className="text-xl font-light tracking-[-0.03em] text-[#1A1A1A]">{company.name}</span>
             </Link>
-            <p className="text-sm text-white/30 mb-8 max-w-sm leading-relaxed font-light">
+            <p className="text-sm text-[#6B6B6B] mb-8 max-w-sm leading-relaxed font-light">
               {company.description}
             </p>
             
             {/* Newsletter Compact */}
             <div className="mb-8">
-              <p className="text-[13px] font-medium text-white/40 mb-3">Newsletter</p>
+              <p className="text-[13px] font-medium text-[#9A9A9A] mb-3">Newsletter</p>
               <NewsletterSignup variant="minimal" />
             </div>
 
@@ -49,7 +49,7 @@ export const Footer = () => {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-9 h-9 flex items-center justify-center border border-white/[0.06] text-white/35 hover:text-white/60 hover:border-white/15 transition-all duration-300"
+                    className="w-9 h-9 flex items-center justify-center border border-black/[0.07] text-[#9A9A9A] hover:text-[#1A1A1A] hover:border-black/15 transition-all duration-300"
                     aria-label={social.name}
                     data-testid={`social-${social.name.toLowerCase()}`}
                   >
@@ -62,7 +62,7 @@ export const Footer = () => {
 
           {/* Services */}
           <div>
-            <h3 className="text-[11px] font-medium uppercase tracking-[0.15em] text-white/25 mb-5">
+            <h3 className="text-[11px] font-medium uppercase tracking-[0.15em] text-[#9A9A9A] mb-5">
               {isDE ? t.footer.leistungen.de : t.footer.leistungen.en}
             </h3>
             <ul className="space-y-3">
@@ -70,7 +70,7 @@ export const Footer = () => {
                 <li key={item.name}>
                   <Link
                     to={item.href}
-                    className="text-[13px] text-white/40 hover:text-white/70 transition-colors duration-300"
+                    className="text-[13px] text-[#6B6B6B] hover:text-[#1A1A1A] transition-colors duration-300"
                   >
                     {item.name}
                   </Link>
@@ -81,7 +81,7 @@ export const Footer = () => {
 
           {/* Company */}
           <div>
-            <h3 className="text-[11px] font-medium uppercase tracking-[0.15em] text-white/25 mb-5">
+            <h3 className="text-[11px] font-medium uppercase tracking-[0.15em] text-[#9A9A9A] mb-5">
               {isDE ? t.footer.unternehmen.de : t.footer.unternehmen.en}
             </h3>
             <ul className="space-y-3">
@@ -89,7 +89,7 @@ export const Footer = () => {
                 <li key={item.name}>
                   <Link
                     to={item.href}
-                    className="text-[13px] text-white/40 hover:text-white/70 transition-colors duration-300"
+                    className="text-[13px] text-[#6B6B6B] hover:text-[#1A1A1A] transition-colors duration-300"
                   >
                     {item.name}
                   </Link>
@@ -98,10 +98,10 @@ export const Footer = () => {
             </ul>
 
             {/* CTA */}
-            <div className="mt-6 pt-6 border-t border-white/[0.06]">
+            <div className="mt-6 pt-6 border-t border-black/[0.07]">
               <Link
                 to="/kontakt"
-                className="inline-flex items-center gap-2 text-[13px] font-medium text-white/45 hover:text-white/70 transition-colors duration-300"
+                className="inline-flex items-center gap-2 text-[13px] font-medium text-[#6B6B6B] hover:text-[#1A1A1A] transition-colors duration-300"
               >
                 {isDE ? t.nav.projektStarten.de : t.nav.projektStarten.en}
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -111,7 +111,7 @@ export const Footer = () => {
 
           {/* Legal */}
           <div>
-            <h3 className="text-[11px] font-medium uppercase tracking-[0.15em] text-white/25 mb-5">
+            <h3 className="text-[11px] font-medium uppercase tracking-[0.15em] text-[#9A9A9A] mb-5">
               {isDE ? t.footer.rechtliches.de : t.footer.rechtliches.en}
             </h3>
             <ul className="space-y-3">
@@ -120,7 +120,7 @@ export const Footer = () => {
                   <Link
                     to={item.href}
                     data-testid={`footer-${item.name.toLowerCase()}`}
-                    className="text-[13px] text-white/40 hover:text-white/70 transition-colors duration-300"
+                    className="text-[13px] text-[#6B6B6B] hover:text-[#1A1A1A] transition-colors duration-300"
                   >
                     {item.name}
                   </Link>
@@ -129,26 +129,26 @@ export const Footer = () => {
             </ul>
 
             {/* Contact Info */}
-            <div className="mt-6 pt-6 border-t border-white/[0.06] space-y-2">
-              <p className="text-[11px] text-white/25">{isDE ? 'Standort' : 'Location'} {company.address.city}</p>
-              <p className="text-[11px] text-white/25">{isDE ? 'Projekte europaweit' : 'Projects Europe-wide'}</p>
+            <div className="mt-6 pt-6 border-t border-black/[0.07] space-y-2">
+              <p className="text-[11px] text-[#9A9A9A]">{isDE ? 'Standort' : 'Location'} {company.address.city}</p>
+              <p className="text-[11px] text-[#9A9A9A]">{isDE ? 'Projekte europaweit' : 'Projects Europe-wide'}</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-white/[0.06]">
+      <div className="border-t border-black/[0.07]">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-[11px] text-white/20">
-              © {currentYear} {company.legalName || company.name}. {isDE ? t.footer.copyright.de : t.footer.copyright.en}
+            <p className="text-[11px] text-[#9A9A9A]">
+              &copy; {currentYear} {company.legalName || company.name}. {isDE ? t.footer.copyright.de : t.footer.copyright.en}
             </p>
             <div className="flex items-center gap-6">
-              <a href={`tel:${company.phone.replace(/\s/g, '')}`} className="text-[11px] text-white/25 hover:text-white/50 transition-colors duration-300">
+              <a href={`tel:${company.phone.replace(/\s/g, '')}`} className="text-[11px] text-[#9A9A9A] hover:text-[#1A1A1A] transition-colors duration-300">
                 {company.phone}
               </a>
-              <a href={`mailto:${company.email}`} className="text-[11px] text-white/25 hover:text-white/50 transition-colors duration-300">
+              <a href={`mailto:${company.email}`} className="text-[11px] text-[#9A9A9A] hover:text-[#1A1A1A] transition-colors duration-300">
                 {company.email}
               </a>
             </div>

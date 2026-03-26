@@ -38,10 +38,10 @@ export const ClientLogos = ({ className = '' }) => {
         viewport={{ once: true }}
         className="text-center mb-12"
       >
-        <h2 className="text-2xl md:text-3xl font-light tracking-[-0.02em] mb-4">
+        <h2 className="text-2xl md:text-3xl font-light tracking-[-0.02em] mb-4 text-[#1A1A1A]">
           {isDE ? content.title.de : content.title.en}
         </h2>
-        <p className="text-sm text-white/35 max-w-xl mx-auto leading-relaxed font-light">
+        <p className="text-sm text-[#6B6B6B] max-w-xl mx-auto leading-relaxed font-light">
           {isDE ? content.subtitle.de : content.subtitle.en}
         </p>
       </motion.div>
@@ -55,8 +55,8 @@ export const ClientLogos = ({ className = '' }) => {
             viewport={{ once: true }}
             transition={{ delay: index * 0.05, duration: 0.5 }}
           >
-            <div className="px-5 py-2 border border-white/[0.08] hover:border-white/15 hover:bg-white/[0.03] transition-all duration-300">
-              <span className="text-[13px] font-light text-white/50">
+            <div className="px-5 py-2 border border-black/[0.08] hover:border-black/[0.15] hover:bg-black/[0.02] transition-all duration-300">
+              <span className="text-[13px] font-light text-[#6B6B6B]">
                 {isDE ? category.de : category.en}
               </span>
             </div>
@@ -69,7 +69,7 @@ export const ClientLogos = ({ className = '' }) => {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ delay: 0.3 }}
-        className="text-center text-[13px] text-white/25"
+        className="text-center text-[13px] text-[#9A9A9A]"
       >
         {isDE ? content.supporting.de : content.supporting.en}
       </motion.p>

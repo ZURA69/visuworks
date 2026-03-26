@@ -3,17 +3,17 @@ import { Toaster as Sonner } from "sonner";
 const Toaster = ({ ...props }) => {
   return (
     <Sonner
-      theme="dark"
+      theme="light"
       className="toaster group"
       toastOptions={{
         classNames: {
           toast:
-            "group toast group-[.toaster]:bg-[#0A0C14] group-[.toaster]:text-white group-[.toaster]:border-white/10 group-[.toaster]:shadow-lg",
-          description: "group-[.toast]:text-white/60",
+            "group toast group-[.toaster]:bg-white group-[.toaster]:text-[#1A1A1A] group-[.toaster]:border-black/[0.08] group-[.toaster]:shadow-lg",
+          description: "group-[.toast]:text-[#6B6B6B]",
           actionButton:
-            "group-[.toast]:bg-white group-[.toast]:text-black",
+            "group-[.toast]:bg-[#1A1A1A] group-[.toast]:text-white",
           cancelButton:
-            "group-[.toast]:bg-white/10 group-[.toast]:text-white",
+            "group-[.toast]:bg-black/[0.05] group-[.toast]:text-[#1A1A1A]",
         },
       }}
       {...props}

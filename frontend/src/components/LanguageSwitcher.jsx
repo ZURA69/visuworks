@@ -1,12 +1,9 @@
 import React from 'react';
 import { useLanguage, LANGUAGES } from '../contexts/LanguageContext';
-import { useLocation } from 'react-router-dom';
 
 export const LanguageSwitcher = ({ className = '' }) => {
   const { language, toggleLanguage } = useLanguage();
   const isGerman = language === LANGUAGES.DE;
-  const location = useLocation();
-  const isLight = location.pathname === '/';
 
   return (
     <button
@@ -16,17 +13,13 @@ export const LanguageSwitcher = ({ className = '' }) => {
       aria-label={isGerman ? 'Switch to English' : 'Auf Deutsch wechseln'}
     >
       <span className={`transition-colors duration-200 ${
-        isGerman
-          ? (isLight ? 'text-[#1A1A1A]' : 'text-white')
-          : (isLight ? 'text-[#1A1A1A]/35' : 'text-white/40')
+        isGerman ? 'text-[#1A1A1A]' : 'text-[#1A1A1A]/35'
       }`}>
         DE
       </span>
-      <span className={isLight ? 'text-[#1A1A1A]/20' : 'text-white/20'}>/</span>
+      <span className="text-[#1A1A1A]/20">/</span>
       <span className={`transition-colors duration-200 ${
-        !isGerman
-          ? (isLight ? 'text-[#1A1A1A]' : 'text-white')
-          : (isLight ? 'text-[#1A1A1A]/35' : 'text-white/40')
+        !isGerman ? 'text-[#1A1A1A]' : 'text-[#1A1A1A]/35'
       }`}>
         EN
       </span>

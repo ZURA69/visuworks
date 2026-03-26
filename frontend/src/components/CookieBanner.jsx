@@ -9,16 +9,14 @@ export const CookieBanner = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [preferences, setPreferences] = useState({
-    necessary: true, // Always true, can't be disabled
+    necessary: true,
     analytics: false,
     marketing: false,
   });
 
   useEffect(() => {
-    // Check if user has already made a choice
     const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
     if (!consent) {
-      // Delay showing banner for better UX
       const timer = setTimeout(() => setIsVisible(true), 1500);
       return () => clearTimeout(timer);
     }
@@ -31,24 +29,15 @@ export const CookieBanner = () => {
       marketing: acceptAll ? true : preferences.marketing,
       timestamp: new Date().toISOString(),
     };
-    
     localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(consentData));
     setIsVisible(false);
-    
-    // Trigger analytics initialization if accepted
     if (consentData.analytics) {
       window.dispatchEvent(new CustomEvent('cookieConsent', { detail: consentData }));
     }
   };
 
-  const handleAcceptAll = () => {
-    saveConsent(true);
-  };
-
-  const handleAcceptSelected = () => {
-    saveConsent(false);
-  };
-
+  const handleAcceptAll = () => saveConsent(true);
+  const handleAcceptSelected = () => saveConsent(false);
   const handleRejectAll = () => {
     setPreferences({ necessary: true, analytics: false, marketing: false });
     saveConsent(false);
@@ -67,22 +56,17 @@ export const CookieBanner = () => {
         data-testid="cookie-banner"
       >
         <div className="max-w-[1200px] mx-auto">
-          <div className="relative bg-[#0A0C14]/95 backdrop-blur-xl border border-white/10 rounded-[24px] shadow-2xl shadow-black/50 overflow-hidden">
-            {/* Glow effect */}
-            <div className="absolute top-0 left-1/4 w-[300px] h-[100px] bg-indigo-500/10 rounded-full blur-[60px]" />
-            
+          <div className="relative bg-white/95 backdrop-blur-xl border border-black/[0.08] shadow-[0_-8px_40px_rgba(0,0,0,0.08)] overflow-hidden">
             <div className="relative p-6 md:p-8">
               {!showSettings ? (
-                /* Main Banner View */
                 <div className="flex flex-col lg:flex-row lg:items-center gap-6">
-                  {/* Icon & Text */}
                   <div className="flex-1 flex items-start gap-4">
-                    <div className="hidden sm:flex w-12 h-12 rounded-xl bg-white/5 border border-white/10 items-center justify-center flex-shrink-0">
-                      <Cookie className="w-6 h-6 text-white/60" />
+                    <div className="hidden sm:flex w-12 h-12 border border-black/[0.08] items-center justify-center flex-shrink-0">
+                      <Cookie className="w-6 h-6 text-[#6B6B6B]" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold mb-2">Cookie-Einstellungen</h3>
-                      <p className="text-sm text-white/60 leading-relaxed max-w-2xl">
+                      <h3 className="text-lg font-medium mb-2 text-[#1A1A1A]">Cookie-Einstellungen</h3>
+                      <p className="text-sm text-[#6B6B6B] leading-relaxed max-w-2xl">
                         Wir verwenden Cookies, um Ihnen die bestmögliche Erfahrung auf unserer Website zu bieten. 
                         Einige Cookies sind notwendig, während andere uns helfen, die Website zu verbessern und 
                         Ihnen personalisierte Inhalte anzuzeigen.
@@ -90,7 +74,6 @@ export const CookieBanner = () => {
                     </div>
                   </div>
 
-                  {/* Buttons */}
                   <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 lg:flex-shrink-0">
                     <Button
                       variant="ghost"
@@ -122,13 +105,12 @@ export const CookieBanner = () => {
                   </div>
                 </div>
               ) : (
-                /* Settings View */
                 <div>
                   <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-lg font-bold">Cookie-Einstellungen</h3>
+                    <h3 className="text-lg font-medium text-[#1A1A1A]">Cookie-Einstellungen</h3>
                     <button
                       onClick={() => setShowSettings(false)}
-                      className="p-2 text-white/50 hover:text-white transition-colors"
+                      className="p-2 text-[#9A9A9A] hover:text-[#1A1A1A] transition-colors"
                       aria-label="Schließen"
                     >
                       <X className="w-5 h-5" />
@@ -136,62 +118,59 @@ export const CookieBanner = () => {
                   </div>
 
                   <div className="space-y-4 mb-8">
-                    {/* Necessary Cookies */}
-                    <div className="flex items-start justify-between p-4 rounded-xl bg-white/5 border border-white/10">
+                    <div className="flex items-start justify-between p-4 bg-black/[0.02] border border-black/[0.07]">
                       <div className="flex-1 pr-4">
                         <div className="flex items-center gap-2 mb-1">
-                          <h4 className="font-semibold">Notwendige Cookies</h4>
-                          <span className="px-2 py-0.5 text-xs bg-green-500/20 text-green-400 rounded-full">Erforderlich</span>
+                          <h4 className="font-medium text-[#1A1A1A]">Notwendige Cookies</h4>
+                          <span className="px-2 py-0.5 text-xs bg-green-50 text-green-700 border border-green-200">Erforderlich</span>
                         </div>
-                        <p className="text-sm text-white/50">
+                        <p className="text-sm text-[#6B6B6B]">
                           Diese Cookies sind für die Grundfunktionen der Website erforderlich und können nicht deaktiviert werden.
                         </p>
                       </div>
-                      <div className="w-12 h-7 rounded-full bg-white/20 flex items-center justify-end px-1 cursor-not-allowed">
+                      <div className="w-12 h-7 rounded-full bg-[#1A1A1A] flex items-center justify-end px-1 cursor-not-allowed">
                         <div className="w-5 h-5 rounded-full bg-white flex items-center justify-center">
-                          <Check className="w-3 h-3 text-[#070910]" />
+                          <Check className="w-3 h-3 text-[#1A1A1A]" />
                         </div>
                       </div>
                     </div>
 
-                    {/* Analytics Cookies */}
-                    <div className="flex items-start justify-between p-4 rounded-xl bg-white/5 border border-white/10">
+                    <div className="flex items-start justify-between p-4 bg-black/[0.02] border border-black/[0.07]">
                       <div className="flex-1 pr-4">
-                        <h4 className="font-semibold mb-1">Analyse-Cookies</h4>
-                        <p className="text-sm text-white/50">
+                        <h4 className="font-medium text-[#1A1A1A] mb-1">Analyse-Cookies</h4>
+                        <p className="text-sm text-[#6B6B6B]">
                           Helfen uns zu verstehen, wie Besucher mit der Website interagieren, um sie zu verbessern.
                         </p>
                       </div>
                       <button
                         onClick={() => setPreferences(p => ({ ...p, analytics: !p.analytics }))}
                         className={`w-12 h-7 rounded-full transition-colors duration-200 flex items-center px-1 ${
-                          preferences.analytics ? 'bg-indigo-500 justify-end' : 'bg-white/10 justify-start'
+                          preferences.analytics ? 'bg-[#1A1A1A] justify-end' : 'bg-black/[0.1] justify-start'
                         }`}
                         data-testid="cookie-analytics-toggle"
                       >
                         <div className="w-5 h-5 rounded-full bg-white flex items-center justify-center">
-                          {preferences.analytics && <Check className="w-3 h-3 text-indigo-500" />}
+                          {preferences.analytics && <Check className="w-3 h-3 text-[#1A1A1A]" />}
                         </div>
                       </button>
                     </div>
 
-                    {/* Marketing Cookies */}
-                    <div className="flex items-start justify-between p-4 rounded-xl bg-white/5 border border-white/10">
+                    <div className="flex items-start justify-between p-4 bg-black/[0.02] border border-black/[0.07]">
                       <div className="flex-1 pr-4">
-                        <h4 className="font-semibold mb-1">Marketing-Cookies</h4>
-                        <p className="text-sm text-white/50">
+                        <h4 className="font-medium text-[#1A1A1A] mb-1">Marketing-Cookies</h4>
+                        <p className="text-sm text-[#6B6B6B]">
                           Werden verwendet, um Besuchern relevante Werbung und Marketingkampagnen anzuzeigen.
                         </p>
                       </div>
                       <button
                         onClick={() => setPreferences(p => ({ ...p, marketing: !p.marketing }))}
                         className={`w-12 h-7 rounded-full transition-colors duration-200 flex items-center px-1 ${
-                          preferences.marketing ? 'bg-indigo-500 justify-end' : 'bg-white/10 justify-start'
+                          preferences.marketing ? 'bg-[#1A1A1A] justify-end' : 'bg-black/[0.1] justify-start'
                         }`}
                         data-testid="cookie-marketing-toggle"
                       >
                         <div className="w-5 h-5 rounded-full bg-white flex items-center justify-center">
-                          {preferences.marketing && <Check className="w-3 h-3 text-indigo-500" />}
+                          {preferences.marketing && <Check className="w-3 h-3 text-[#1A1A1A]" />}
                         </div>
                       </button>
                     </div>
@@ -208,9 +187,8 @@ export const CookieBanner = () => {
                 </div>
               )}
 
-              {/* Privacy Link */}
-              <div className="mt-4 pt-4 border-t border-white/5 text-center">
-                <a href="/datenschutz" className="text-xs text-white/40 hover:text-white/60 transition-colors">
+              <div className="mt-4 pt-4 border-t border-black/[0.06] text-center">
+                <a href="/datenschutz" className="text-xs text-[#9A9A9A] hover:text-[#1A1A1A] transition-colors">
                   Mehr Informationen in unserer Datenschutzerklärung
                 </a>
               </div>

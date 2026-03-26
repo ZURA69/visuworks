@@ -6,7 +6,7 @@ export const Skeleton = ({ className, ...props }) => {
   return (
     <div
       className={cn(
-        "animate-pulse rounded-xl bg-white/5",
+        "animate-pulse rounded-xl bg-black/[0.05]",
         className
       )}
       {...props}
@@ -33,7 +33,7 @@ export const PageLoadingSkeleton = () => {
         {/* Content skeleton */}
         <div className="grid md:grid-cols-3 gap-6">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="space-y-4 p-6 rounded-[22px] border border-white/10">
+            <div key={i} className="space-y-4 p-6 rounded-[22px] border border-black/[0.07]">
               <Skeleton className="h-14 w-14 rounded-xl" />
               <Skeleton className="h-6 w-3/4" />
               <Skeleton className="h-4 w-full" />
@@ -49,7 +49,7 @@ export const PageLoadingSkeleton = () => {
 // Card loading skeleton
 export const CardSkeleton = () => {
   return (
-    <div className="p-6 rounded-[22px] border border-white/10 space-y-4">
+    <div className="p-6 rounded-[22px] border border-black/[0.07] space-y-4">
       <Skeleton className="aspect-[4/3] rounded-xl" />
       <Skeleton className="h-4 w-20" />
       <Skeleton className="h-6 w-3/4" />

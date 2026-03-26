@@ -5,13 +5,12 @@ import { MessageCircle, X, Phone, Mail, Send } from 'lucide-react';
 export const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const whatsappNumber = '4921112345678'; // Replace with actual number
+  const whatsappNumber = '4921112345678';
   const whatsappMessage = encodeURIComponent('Hallo, ich interessiere mich für Ihre Dienstleistungen.');
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
   return (
     <>
-      {/* Floating Button */}
       <motion.button
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -23,118 +22,77 @@ export const ChatWidget = () => {
       >
         <AnimatePresence mode="wait">
           {isOpen ? (
-            <motion.div
-              key="close"
-              initial={{ rotate: -90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: 90, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
+            <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.2 }}>
               <X className="w-6 h-6 text-white" />
             </motion.div>
           ) : (
-            <motion.div
-              key="chat"
-              initial={{ rotate: 90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: -90, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
+            <motion.div key="chat" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.2 }}>
               <MessageCircle className="w-6 h-6 text-white" />
             </motion.div>
           )}
         </AnimatePresence>
-        
-        {/* Pulse animation when closed */}
-        {!isOpen && (
-          <span className="absolute inset-0 rounded-full bg-green-500 animate-ping opacity-30" />
-        )}
       </motion.button>
 
-      {/* Chat Popup */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed bottom-24 right-6 z-50 w-[320px] sm:w-[360px]"
-            data-testid="chat-widget-popup"
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed bottom-24 right-6 z-50 w-80"
+            data-testid="chat-widget-panel"
           >
-            <div className="bg-[#0A0C14] border border-white/10 rounded-[24px] shadow-2xl shadow-black/50 overflow-hidden">
-              {/* Header */}
-              <div className="bg-gradient-to-r from-green-500 to-green-600 p-5">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center">
-                    <MessageCircle className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-white">VISUWORKS</h3>
-                    <p className="text-sm text-white/80">Wir sind für Sie da!</p>
-                  </div>
-                </div>
+            <div className="bg-white border border-black/[0.08] shadow-[0_16px_48px_rgba(0,0,0,0.1)] overflow-hidden">
+              <div className="p-5 border-b border-black/[0.06]">
+                <h3 className="font-medium text-[#1A1A1A]">Kontakt aufnehmen</h3>
+                <p className="text-sm text-[#6B6B6B]">Wir sind für Sie da!</p>
               </div>
 
-              {/* Content */}
-              <div className="p-5">
-                <p className="text-white/70 text-sm mb-6">
-                  Haben Sie Fragen zu Ihrem Projekt? Wir helfen Ihnen gerne weiter.
-                </p>
+              <div className="p-4 space-y-3">
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-4 p-3 border border-black/[0.06] hover:border-black/[0.12] hover:bg-black/[0.02] transition-all duration-200 group"
+                  data-testid="chat-whatsapp-link"
+                >
+                  <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center">
+                    <Send className="w-5 h-5 text-green-600" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-[#1A1A1A]">WhatsApp</p>
+                    <p className="text-xs text-[#9A9A9A]">Direkt schreiben</p>
+                  </div>
+                </a>
 
-                {/* Contact Options */}
-                <div className="space-y-3">
-                  {/* WhatsApp */}
-                  <a
-                    href={whatsappUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-4 p-4 rounded-xl bg-green-500/10 border border-green-500/20 hover:bg-green-500/20 hover:border-green-500/30 transition-all duration-200 group"
-                    data-testid="whatsapp-link"
-                  >
-                    <div className="w-10 h-10 rounded-lg bg-green-500 flex items-center justify-center">
-                      <Send className="w-5 h-5 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-semibold text-green-400">WhatsApp</p>
-                      <p className="text-xs text-white/50">Direkt schreiben</p>
-                    </div>
-                  </a>
+                <a
+                  href="tel:+4921112345678"
+                  className="flex items-center gap-4 p-3 border border-black/[0.06] hover:border-black/[0.12] hover:bg-black/[0.02] transition-all duration-200 group"
+                  data-testid="chat-phone-link"
+                >
+                  <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center">
+                    <Phone className="w-5 h-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-[#1A1A1A]">Anrufen</p>
+                    <p className="text-xs text-[#9A9A9A]">+49 211 123 456 78</p>
+                  </div>
+                </a>
 
-                  {/* Phone */}
-                  <a
-                    href="tel:+4921112345678"
-                    className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-200"
-                    data-testid="phone-link"
-                  >
-                    <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center">
-                      <Phone className="w-5 h-5 text-white/70" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-semibold">Anrufen</p>
-                      <p className="text-xs text-white/50">+49 211 123 456 78</p>
-                    </div>
-                  </a>
-
-                  {/* Email */}
-                  <a
-                    href="mailto:info@visuworks.de"
-                    className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-200"
-                    data-testid="email-link"
-                  >
-                    <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center">
-                      <Mail className="w-5 h-5 text-white/70" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-semibold">E-Mail</p>
-                      <p className="text-xs text-white/50">info@visuworks.de</p>
-                    </div>
-                  </a>
-                </div>
-
-                <p className="text-xs text-white/30 text-center mt-5">
-                  Mo-Fr: 9:00 - 18:00 Uhr
-                </p>
+                <a
+                  href="mailto:info@visuworks.de"
+                  className="flex items-center gap-4 p-3 border border-black/[0.06] hover:border-black/[0.12] hover:bg-black/[0.02] transition-all duration-200 group"
+                  data-testid="chat-email-link"
+                >
+                  <div className="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center">
+                    <Mail className="w-5 h-5 text-amber-600" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-[#1A1A1A]">E-Mail</p>
+                    <p className="text-xs text-[#9A9A9A]">info@visuworks.de</p>
+                  </div>
+                </a>
               </div>
             </div>
           </motion.div>

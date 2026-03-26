@@ -3,35 +3,35 @@
 @tailwind utilities;
 
 /* ═══════════════════════════════════════════════════════════════════════════════
-   VISUWORKS — Premium Design System
-   Refined for maximum visual precision and architectural elegance
+   VISUWORKS — Premium Light Design System
+   Unified warm-minimal aesthetic across all pages
    ═══════════════════════════════════════════════════════════════════════════════ */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 
 :root {
-  /* Core Palette — Refined */
-  --background: #050507;
-  --background-elevated: #0a0a0d;
-  --surface: rgba(255, 255, 255, 0.02);
-  --surface-hover: rgba(255, 255, 255, 0.04);
-  --border: rgba(255, 255, 255, 0.06);
-  --border-hover: rgba(255, 255, 255, 0.12);
-  
+  /* Core Palette — Light / Warm Minimal */
+  --background: #F5F2ED;
+  --background-elevated: #FFFFFF;
+  --surface: rgba(0, 0, 0, 0.02);
+  --surface-hover: rgba(0, 0, 0, 0.04);
+  --border: rgba(0, 0, 0, 0.07);
+  --border-hover: rgba(0, 0, 0, 0.12);
+
   /* Typography */
-  --primary: #ffffff;
-  --secondary: rgba(255, 255, 255, 0.6);
-  --muted: rgba(255, 255, 255, 0.35);
-  --subtle: rgba(255, 255, 255, 0.2);
-  
+  --primary: #1A1A1A;
+  --secondary: #6B6B6B;
+  --muted: #9A9A9A;
+  --subtle: rgba(0, 0, 0, 0.15);
+
   /* Accent — Minimal */
-  --accent: rgba(255, 255, 255, 0.9);
-  
+  --accent: #1A1A1A;
+
   /* Spacing Scale — Generous */
   --space-section: clamp(6rem, 12vh, 10rem);
   --space-block: clamp(3rem, 6vh, 5rem);
   --space-element: clamp(1.5rem, 3vh, 2.5rem);
-  
+
   /* Typography Scale */
   --text-hero: clamp(3rem, 8vw, 6rem);
   --text-display: clamp(2.5rem, 6vw, 4.5rem);
@@ -39,7 +39,7 @@
   --text-subheading: clamp(1.25rem, 2.5vw, 1.5rem);
   --text-body: clamp(0.9375rem, 1.2vw, 1.0625rem);
   --text-small: clamp(0.8125rem, 1vw, 0.875rem);
-  
+
   /* Animation */
   --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
   --duration-slow: 0.8s;
@@ -62,7 +62,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--background);
   color: var(--primary);
-  /* overflow-x handled per-component, not on body — breaks position:sticky */
   line-height: 1.7;
   letter-spacing: -0.01em;
 }
@@ -77,6 +76,7 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.03em;
   line-height: 1.05;
   margin: 0;
+  color: var(--primary);
 }
 
 h1 {
@@ -150,7 +150,7 @@ section {
 }
 
 .btn-premium:hover {
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--surface-hover);
   border-color: var(--border-hover);
   transform: translateY(-1px);
 }
@@ -162,27 +162,25 @@ section {
 }
 
 .btn-premium-solid:hover {
-  background: rgba(255, 255, 255, 0.9);
-  border-color: rgba(255, 255, 255, 0.9);
+  background: rgba(26, 26, 26, 0.85);
+  border-color: rgba(26, 26, 26, 0.85);
 }
 
 /* ─────────────────────────────────────────────
-   CARDS — Floating Glass
+   CARDS — Clean Surface
    ───────────────────────────────────────────── */
 
 .card-glass {
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: #FFFFFF;
   border: 1px solid var(--border);
   border-radius: 1rem;
   transition: all var(--duration-medium) var(--ease-premium);
 }
 
 .card-glass:hover {
-  background: rgba(255, 255, 255, 0.03);
   border-color: var(--border-hover);
   transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.04);
 }
 
 /* ─────────────────────────────────────────────
@@ -260,12 +258,12 @@ section {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.12);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.2);
 }
 
 /* ─────────────────────────────────────────────
@@ -273,42 +271,8 @@ section {
    ───────────────────────────────────────────── */
 
 ::selection {
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
-}
-
-/* ─────────────────────────────────────────────
-   PREMIUM OVERRIDES
-   ───────────────────────────────────────────── */
-
-/* Reduce visual noise in cards */
-[class*="rounded-"] {
-  border-radius: 0.75rem;
-}
-
-/* Softer borders globally */
-[class*="border"] {
-  border-color: var(--border) !important;
-}
-
-/* More generous section spacing */
-[class*="py-20"],
-[class*="py-24"],
-[class*="py-28"],
-[class*="py-32"] {
-  padding-top: var(--space-section);
-  padding-bottom: var(--space-section);
-}
-
-/* Refined text colors */
-[class*="text-white/50"],
-[class*="text-white/60"] {
-  color: var(--secondary) !important;
-}
-
-[class*="text-white/40"],
-[class*="text-white/30"] {
-  color: var(--muted) !important;
+  background: rgba(26, 26, 26, 0.12);
+  color: #1A1A1A;
 }
 
 /* ─────────────────────────────────────────────
@@ -320,25 +284,25 @@ section {
     --space-section: 4rem;
     --space-block: 2.5rem;
   }
-  
+
   section {
     padding-left: 1.25rem;
     padding-right: 1.25rem;
   }
-  
+
   h1 {
     font-size: clamp(2.25rem, 10vw, 3rem);
   }
-  
+
   h2 {
     font-size: clamp(1.75rem, 7vw, 2.25rem);
   }
-  
+
   p {
     font-size: 0.9375rem;
     max-width: 100%;
   }
-  
+
   .btn-premium {
     padding: 0.75rem 1.5rem;
     font-size: 0.75rem;

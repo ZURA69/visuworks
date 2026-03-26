@@ -55,19 +55,19 @@ export default function ProjektmanagementPage() {
             className="absolute inset-0 w-full h-full object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-[#050507]/70" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#050507] via-transparent to-[#050507]/30" />
+          <div className="absolute inset-0 bg-black/60" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#F5F2ED] via-transparent to-black/20" />
         </div>
 
         <div className="relative max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16 py-32 md:py-40">
           <motion.div initial="initial" animate="animate" className="max-w-3xl">
             <motion.div variants={fadeInUp}>
-              <p className="text-[11px] font-medium text-white/35 uppercase tracking-[0.15em] mb-6">Projektmanagement</p>
-              <h1 data-testid="projektmanagement-hero-title" className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-light tracking-[-0.04em] leading-[0.95]">
+              <p className="text-[11px] font-medium text-white/60 uppercase tracking-[0.15em] mb-6">Projektmanagement</p>
+              <h1 data-testid="projektmanagement-hero-title" className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-light tracking-[-0.04em] leading-[0.95] text-white">
                 {e('service.projektmanagement.heroTitle', 'Struktur für große Umsetzungen')}
               </h1>
             </motion.div>
-            <motion.p variants={fadeInUp} className="mt-8 text-base md:text-lg text-white/45 max-w-lg leading-relaxed font-light">
+            <motion.p variants={fadeInUp} className="mt-8 text-base md:text-lg text-white/70 max-w-lg leading-relaxed font-light">
               {e('service.projektmanagement.heroDesc', 'Planung, Koordination und Qualitätssicherung für Flotten, Räume und Events – strukturiert und zuverlässig.')}
             </motion.p>
             <motion.div variants={fadeInUp} className="mt-10">
@@ -83,18 +83,18 @@ export default function ProjektmanagementPage() {
       <section className="py-28 md:py-40">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-20">
-            <p className="text-[11px] font-medium text-white/30 uppercase tracking-[0.15em] mb-5">Bausteine</p>
+            <p className="text-[11px] font-medium text-[#9A9A9A] uppercase tracking-[0.15em] mb-5">Bausteine</p>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-[-0.03em]">Leistungsbausteine</h2>
           </motion.div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/[0.06]">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-black/[0.06]">
             {services.map((service, index) => (
               <motion.div key={service.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.08, duration: 0.6 }}>
-                <div className="p-8 md:p-10 bg-[#050507] h-full hover:bg-white/[0.02] transition-colors duration-500">
-                  <div className="w-10 h-10 flex items-center justify-center border border-white/[0.1] mb-6">
-                    <service.icon className="w-5 h-5 text-white/50" />
+                <div className="p-8 md:p-10 bg-[#F5F2ED] h-full hover:bg-black/[0.02] transition-colors duration-500">
+                  <div className="w-10 h-10 flex items-center justify-center border border-black/[0.08] mb-6">
+                    <service.icon className="w-5 h-5 text-[#6B6B6B]" />
                   </div>
                   <h3 className="text-lg font-medium tracking-[-0.01em] mb-2">{e(`service.projektmanagement.services.${index}.title`, service.title)}</h3>
-                  <p className="text-sm text-white/35 leading-relaxed">{e(`service.projektmanagement.services.${index}.desc`, service.desc)}</p>
+                  <p className="text-sm text-[#6B6B6B] leading-relaxed">{e(`service.projektmanagement.services.${index}.desc`, service.desc)}</p>
                 </div>
               </motion.div>
             ))}
@@ -103,25 +103,25 @@ export default function ProjektmanagementPage() {
       </section>
 
       {/* Timeline */}
-      <section className="py-28 md:py-40 border-t border-white/[0.06]">
+      <section className="py-28 md:py-40 border-t border-black/[0.06]">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-20">
-            <p className="text-[11px] font-medium text-white/30 uppercase tracking-[0.15em] mb-5">Ablauf</p>
+            <p className="text-[11px] font-medium text-[#9A9A9A] uppercase tracking-[0.15em] mb-5">Ablauf</p>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-[-0.03em]">Ablauf bei größeren Projekten</h2>
           </motion.div>
-          <div className="grid md:grid-cols-4 gap-px bg-white/[0.06]">
+          <div className="grid md:grid-cols-4 gap-px bg-black/[0.06]">
             {timeline.map((phase, index) => (
               <motion.div key={phase.phase} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.1, duration: 0.6 }}>
-                <div className="p-8 bg-[#050507] h-full hover:bg-white/[0.02] transition-colors duration-500">
+                <div className="p-8 bg-[#F5F2ED] h-full hover:bg-black/[0.02] transition-colors duration-500">
                   <div className="flex items-center gap-3 mb-5">
-                    <span className="text-2xl font-extralight text-white/20">{String(index + 1).padStart(2, '0')}</span>
-                    <span className="text-[11px] text-white/25 px-2 py-1 border border-white/[0.08]">{phase.duration}</span>
+                    <span className="text-2xl font-extralight text-black/[0.1]">{String(index + 1).padStart(2, '0')}</span>
+                    <span className="text-[11px] text-[#9A9A9A] px-2 py-1 border border-black/[0.08]">{phase.duration}</span>
                   </div>
                   <h3 className="text-base font-medium mb-4 tracking-[-0.01em]">{phase.phase}</h3>
                   <ul className="space-y-2.5">
                     {phase.tasks.map((task) => (
-                      <li key={task} className="flex items-start gap-3 text-[13px] text-white/40">
-                        <div className="w-1 h-1 bg-white/25 mt-2 flex-shrink-0" />
+                      <li key={task} className="flex items-start gap-3 text-[13px] text-[#6B6B6B]">
+                        <div className="w-1 h-1 bg-black/[0.15] mt-2 flex-shrink-0" />
                         {task}
                       </li>
                     ))}
@@ -138,26 +138,26 @@ export default function ProjektmanagementPage() {
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
           <div className="grid lg:grid-cols-2 gap-16 items-start">
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-              <p className="text-[11px] font-medium text-white/30 uppercase tracking-[0.15em] mb-5">Qualität</p>
+              <p className="text-[11px] font-medium text-[#9A9A9A] uppercase tracking-[0.15em] mb-5">Qualität</p>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-[-0.03em] mb-8">Qualität & Abnahme</h2>
-              <p className="text-base text-white/40 mb-10 leading-relaxed font-light max-w-lg">
+              <p className="text-base text-[#6B6B6B] mb-10 leading-relaxed font-light max-w-lg">
                 Strukturierte Qualitätssicherung ist der Kern unseres Projektmanagements. Jeder Meilenstein wird dokumentiert und abgenommen.
               </p>
               <ul className="space-y-5">
                 {qualityPoints.map((point, index) => (
                   <motion.li key={index} initial={{ opacity: 0, x: -15 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.1, duration: 0.5 }}
                     className="flex items-start gap-4">
-                    <div className="w-1 h-1 bg-white/30 mt-2.5 flex-shrink-0" />
-                    <span className="text-sm text-white/55 leading-relaxed">{point}</span>
+                    <div className="w-1 h-1 bg-black/[0.15] mt-2.5 flex-shrink-0" />
+                    <span className="text-sm text-[#6B6B6B] leading-relaxed">{point}</span>
                   </motion.li>
                 ))}
               </ul>
             </motion.div>
 
             <motion.div initial={{ opacity: 0, scale: 0.98 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
-              <div className="aspect-square overflow-hidden border border-white/[0.06]">
-                <div className="h-full flex items-center justify-center bg-[#050507]">
-                  <Shield className="w-24 h-24 text-white/[0.05]" />
+              <div className="aspect-square overflow-hidden border border-black/[0.06]">
+                <div className="h-full flex items-center justify-center bg-[#F5F2ED]">
+                  <Shield className="w-24 h-24 text-black/[0.05]" />
                 </div>
               </div>
             </motion.div>
@@ -166,13 +166,13 @@ export default function ProjektmanagementPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-28 md:py-40 border-t border-white/[0.06]">
+      <section className="py-28 md:py-40 border-t border-black/[0.06]">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            className="relative overflow-hidden border border-white/[0.06] p-12 md:p-20 lg:p-28">
+            className="relative overflow-hidden border border-black/[0.06] p-12 md:p-20 lg:p-28">
             <div className="relative max-w-2xl">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-light tracking-[-0.03em] leading-[1.1] mb-8">{e('service.projektmanagement.ctaTitle', 'Großprojekt geplant?')}</h2>
-              <p className="text-base text-white/40 mb-12 leading-relaxed font-light max-w-lg">
+              <p className="text-base text-[#6B6B6B] mb-12 leading-relaxed font-light max-w-lg">
                 {e('service.projektmanagement.ctaDesc', 'Flotten-Rollout, Messeauftritt oder komplexe Raumgestaltung – wir übernehmen die Koordination.')}
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
