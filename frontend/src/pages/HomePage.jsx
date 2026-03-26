@@ -150,75 +150,95 @@ function TrustBarSection({ trustBarItems }) {
 
 function ServicesSection({ sectionLabel, sectionTitle, serviceItems }) {
   return (
-    <LayoutSection id="services">
-      <LayoutContainer id="services">
-        {/* Section Header */}
-        <motion.div {...revealSlow} className="mb-32 md:mb-44 lg:mb-56">
+    <section id="services" className="relative">
+      {/* Section Header - Contained */}
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 pt-32 md:pt-44 pb-20 md:pb-28">
+        <motion.div {...revealSlow}>
           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] mb-5" style={{ color: C.light }}>{sectionLabel}</p>
           <h2 className="text-4xl md:text-5xl lg:text-7xl font-semibold tracking-[-0.03em] leading-[1.05]">{sectionTitle}</h2>
         </motion.div>
+      </div>
 
-        {/* Service Blocks - Each as standalone mini-section */}
-        <div className="flex flex-col">
-          {serviceItems.map((svc, i) => (
-            <motion.article 
-              key={i} 
-              {...reveal} 
-              transition={{ ...reveal.transition, delay: 0.1 }}
-              className={`relative ${i > 0 ? 'pt-32 md:pt-44 lg:pt-56' : ''} ${i < serviceItems.length - 1 ? 'pb-32 md:pb-44 lg:pb-56' : ''}`}
-            >
-              {/* Subtle horizontal divider between sections */}
-              {i > 0 && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 md:w-32">
-                  <div className="h-px w-full" style={{ background: `linear-gradient(to right, transparent, ${C.border}, transparent)` }} />
-                </div>
-              )}
-              
-              {/* Grid: Image dominant (8 cols) + Content supporting (4 cols) */}
-              <div className={`grid lg:grid-cols-12 gap-12 lg:gap-20 items-start ${i % 2 === 1 ? 'lg:[direction:rtl]' : ''}`}>
-                
-                {/* Image Block - Large & Dominant */}
-                <div className={`lg:col-span-8 ${i % 2 === 1 ? 'lg:[direction:ltr]' : ''}`}>
-                  <ParallaxImage 
-                    src={svc.image} 
-                    alt={svc.title} 
-                    contentKey={`services.${i}.image`} 
-                    aspectClass="aspect-[16/9]"
-                  />
-                </div>
-                
-                {/* Content Block - Supporting */}
-                <div className={`lg:col-span-4 flex flex-col justify-center lg:py-8 ${i % 2 === 1 ? 'lg:[direction:ltr]' : ''}`}>
+      {/* Full-Width Service Blocks */}
+      {serviceItems.map((svc, i) => (
+        <motion.article 
+          key={i} 
+          {...reveal} 
+          transition={{ ...reveal.transition, delay: 0.1 }}
+          className="relative w-full"
+        >
+          {/* Full-Width Image Container */}
+          <div className="relative w-full aspect-[21/9] md:aspect-[21/8] lg:aspect-[21/7] overflow-hidden">
+            {/* Background Image - Full Width */}
+            <EditableImage 
+              contentKey={`services.${i}.image`} 
+              fallbackSrc={svc.image} 
+              alt={svc.title} 
+              className="absolute inset-0 w-full h-full" 
+              imgClassName="object-cover"
+            />
+            
+            {/* Gradient Overlay for Readability */}
+            <div 
+              className={`absolute inset-0 ${
+                i % 2 === 0 
+                  ? 'bg-gradient-to-r from-black/70 via-black/40 to-transparent' 
+                  : 'bg-gradient-to-l from-black/70 via-black/40 to-transparent'
+              }`} 
+            />
+            
+            {/* Content Overlay */}
+            <div className="absolute inset-0 flex items-center">
+              <div className={`w-full max-w-[1400px] mx-auto px-6 md:px-12 ${i % 2 === 0 ? '' : 'flex justify-end'}`}>
+                <div className={`max-w-lg lg:max-w-xl ${i % 2 === 0 ? '' : 'text-right'}`}>
                   {/* Category Label */}
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] mb-6" style={{ color: C.light }}>{svc.label}</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.25em] mb-4 text-white/60">
+                    {svc.label}
+                  </p>
                   
-                  {/* Headline - Strong Focus */}
-                  <h3 className="text-2xl md:text-3xl lg:text-[2.5rem] font-semibold tracking-[-0.025em] leading-[1.1] mb-8">{svc.title}</h3>
+                  {/* Headline */}
+                  <h3 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold tracking-[-0.03em] leading-[1.05] mb-6 text-white">
+                    {svc.title}
+                  </h3>
                   
-                  {/* Description - Subtle */}
-                  <p className="text-[15px] leading-[1.7] mb-10" style={{ color: C.muted }}>{svc.desc}</p>
+                  {/* Description */}
+                  <p className="text-[15px] md:text-base leading-[1.7] mb-8 text-white/80 hidden md:block">
+                    {svc.desc}
+                  </p>
                   
-                  {/* Features - Compact */}
-                  <ul className="space-y-3 mb-12">
+                  {/* Features - Hidden on mobile */}
+                  <ul className={`space-y-2 mb-10 hidden lg:block ${i % 2 === 0 ? '' : 'flex flex-col items-end'}`}>
                     {svc.features.map((feat, fi) => (
-                      <li key={fi} className="flex items-center gap-3">
-                        <span className="w-1 h-1 rounded-full flex-shrink-0" style={{ background: C.light }} />
-                        <span className="text-[14px]" style={{ color: C.muted }}>{feat}</span>
+                      <li key={fi} className={`flex items-center gap-3 ${i % 2 === 0 ? '' : 'flex-row-reverse'}`}>
+                        <span className="w-1 h-1 rounded-full bg-white/50" />
+                        <span className="text-[14px] text-white/70">{feat}</span>
                       </li>
                     ))}
                   </ul>
                   
                   {/* CTA */}
-                  <Link to={svc.href} className="inline-flex items-center gap-2.5 text-[13px] font-medium tracking-wide group" style={{ color: C.text }}>
-                    Mehr erfahren <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" />
+                  <Link 
+                    to={svc.href} 
+                    className={`inline-flex items-center gap-2.5 text-[13px] font-medium tracking-wide text-white group hover:text-white/80 transition-colors ${i % 2 === 0 ? '' : 'flex-row-reverse'}`}
+                  >
+                    {i % 2 === 0 ? (
+                      <>Mehr erfahren <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" /></>
+                    ) : (
+                      <><ArrowRight className="w-4 h-4 rotate-180 group-hover:-translate-x-1.5 transition-transform duration-300" /> Mehr erfahren</>
+                    )}
                   </Link>
                 </div>
               </div>
-            </motion.article>
-          ))}
-        </div>
-      </LayoutContainer>
-    </LayoutSection>
+            </div>
+          </div>
+          
+          {/* Spacer between sections */}
+          {i < serviceItems.length - 1 && (
+            <div className="h-2 md:h-3" style={{ background: C.bg }} />
+          )}
+        </motion.article>
+      ))}
+    </section>
   );
 }
 
