@@ -1,47 +1,78 @@
 # VISUWORKS — Product Requirements Document
 
 ## Original Problem Statement
-Build a premium, multi-page website for VISUWORKS (European visual branding company). Homepage uses a pinned scroll keyword hero with a light Apple-like aesthetic. Subpages maintain dark architectural theme. Full CMS integration for all content.
+Fully designed, premium, multi-page website for a European visual branding company called VISUWORKS. The website must be visually high-end with a unified light/warm-minimal design system.
+
+## User Personas
+- **VISUWORKS Team**: Uses the CMS to update content, images, and text. Needs preview mode before publishing.
+- **Prospective Clients**: Browse services, portfolio, and contact form. Expect premium, Apple-like aesthetic.
+- **Legal Visitors**: Access Impressum, Datenschutz, AGB for compliance.
+
+## Core Requirements
+- **Pages**: Home, Mobilität, Raum & Architektur, Markenkommunikation, Design & Konzeption, Projektmanagement, Projekte, Kontakt, Impressum, Datenschutz, AGB, AGB B2B, Team, Process Steps, Sub-Service detail pages, Case Studies
+- **Design**: Unified light/warm-minimal aesthetic (#F5F2ED bg, #1A1A1A text). Large typography, generous whitespace, micro-animations (Framer Motion). Premium Apple/SaaS-like feel.
+- **Content**: German (Primary), English (Secondary) via Language Switcher
+- **Features**: Visual Content Editor (MongoDB CMS), Contact Form (IONOS SMTP), Language Switcher (DE/EN), Scroll-pinned Keyword Hero
+
+## Design System (Global)
+| Token | Value | Usage |
+|-------|-------|-------|
+| bg | #F5F2ED | Page background |
+| card | #FFFFFF | Card surfaces |
+| footer-bg | #EFECE6 | Footer, alternating sections |
+| text | #1A1A1A | Primary text |
+| muted | #6B6B6B | Secondary text |
+| light | #9A9A9A | Captions, labels |
+| border | rgba(0,0,0,0.07) | Borders, dividers |
+| accent | #1A1A1A | CTA buttons, highlights |
 
 ## Architecture
-- **Frontend**: React + TailwindCSS + Framer Motion
-- **Backend**: FastAPI + MongoDB + IONOS SMTP
-- **CMS**: MongoDB `content_overrides` collection — key/value store supporting text, images, and arrays
-- **Admin Panel**: `/admin`, Password: `visuworks2026`
-- **Theme System**: Navbar/LanguageSwitcher detect `pathname === '/'` for light/dark
+```
+/app/
+├── backend/
+│   ├── server.py          # FastAPI (SMTP + MongoDB CMS API)
+│   └── uploads/
+├── frontend/
+│   ├── src/
+│   │   ├── components/    # UI components
+│   │   ├── content/       # Fallback content (site.js, images.js, projects.js)
+│   │   ├── contexts/      # EditorContext, LanguageContext
+│   │   └── pages/         # All page templates
+```
 
-## What's Been Implemented
-
-### CMS Integration Fix (Completed 2025-12-26)
-- **Trust Bar editable**: Stored as `trustbar.items` array in MongoDB (list of {value, label} objects). Admin sidebar has ListField component with add/edit/delete. Falls back to individual `stats.{i}.*` keys, then to `statistics` from site.js
-- **Content sync fixed**: EditorContext.save() now re-fetches all overrides from server after save (was only doing local state merge)
-- **All homepage content wired to CMS**: Trust Bar, Hero subline, CTA labels, Process Steps, Testimonials — all read via `getValue()` from EditorContext. No hardcoded fallbacks overriding CMS data.
-- **ListField component** in EditorSidebar: supports add, edit, delete for list-type fields (used for trust bar stats)
-
-### Pinned Scroll Keyword Hero (Completed 2025-12-26)
-- `position: fixed` overlay with scroll listener (not sticky — broken by body overflow)
-- 6 keywords: DESIGN → VEREDLUNG → PRÄSENZ → ARCHITEKTUR → MATERIAL → PRÄZISION
-- Each keyword: 100vh scroll distance, sharp/blur transitions
-- Section height: 600vh, releases after last keyword
-
-### Previously Completed
-- Homepage sections: Trust Bar, Services, Visual Showcase, Projects, Process, Testimonials, FAQ, CTA
-- Theme-aware Navbar + LanguageSwitcher
-- 5 dark-theme service pages
-- Visual Content Editor with MongoDB persistence (zoom/pan)
-- IONOS SMTP Contact Form
-- SEO (meta, JSON-LD, keywords)
-- Mobile responsiveness
-- Cookie Consent Banner (DSGVO)
-
-## Key CMS Details
-- **Public API**: `GET /api/content/overrides` → `{overrides: {key: value}}`
-- **Admin API**: `POST /api/admin/overrides` (Bearer token), `GET/DELETE /api/admin/overrides`
-- **DB Schema**: `content_overrides` — key (string), type (text|image|list), value (any), page (string)
-- **Frontend**: `useEditor().getValue(key, fallback)` reads CMS first, falls back to hardcoded
-- **Trust Bar key**: `trustbar.items` (array of {value, label})
+## What's Implemented
+- [x] Full multi-page React site with FastAPI backend
+- [x] Visual Content Editor (MongoDB persistence, EditorSidebar, EditableImage with zoom/pan)
+- [x] Contact Form with IONOS SMTP integration
+- [x] Language Switcher (DE/EN)
+- [x] Scroll-pinned Keyword Hero (Framer Motion)
+- [x] SEO optimization (meta tags, JSON-LD schemas, keywords)
+- [x] Mobile responsiveness
+- [x] Cookie consent banner (DSGVO)
+- [x] **Unified light theme across ALL public pages** (Dec 2025)
+- [x] **Keyword scroll spacing increased** (Dec 2025)
+- [x] **Navbar readability improved (dark text)** (Dec 2025)
+- [x] **All components (Footer, Testimonials, Statistics, ClientLogos, ChatWidget, CookieBanner) converted to light theme** (Dec 2025)
 
 ## Prioritized Backlog
-- **(P2) Hero Video Integration** — cinematic loop video
-- **(P2) Cookie Consent Logic** — gate analytics on consent
-- **(P2) Content Expansion** — Blog, Careers, Partners
+
+### P0 (In Progress)
+- CMS Preview Mode: Toggle in EditorSidebar to view unsaved drafts before publishing (EditorContext already has `previewMode` state logic)
+
+### P2 (Future)
+- Hero Video Integration (looping background video option)
+- Content Expansion: Blog/News, Careers, Partners pages
+
+## Key API Endpoints
+- `POST /api/contact` — Form submission via IONOS SMTP
+- `GET /api/editor/content` — Fetch live overrides
+- `POST /api/editor/content` — Save overrides
+- `GET /api/health` — Healthcheck
+
+## DB Schema
+- **Collection**: `content_overrides`
+  - `key` (string), `type` ("text" | "image"), `value` (string | object)
+
+## Credentials
+- Admin: `/admin`, password: `visuworks2026`
+- SMTP: IONOS config in `backend/.env`
