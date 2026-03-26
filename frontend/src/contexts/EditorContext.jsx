@@ -23,6 +23,11 @@ const DEFAULT_SECTION_SETTINGS = {
   paddingTop: 'medium',
   paddingBottom: 'medium',
   contentWidth: 'normal',
+  preset: 'default',
+  alignment: 'left',
+  deviceVisibility: 'all',
+  cta: { enabled: false, label: '', href: '' },
+  animation: 'fade-up',
 };
 
 export { DEFAULT_SECTIONS, DEFAULT_SECTION_SETTINGS };
@@ -234,6 +239,65 @@ export function EditorProvider({ children }) {
     });
   }, [layout]);
 
+  const duplicateSection = useCallback((sourceId, targetId) => {
+    setLayoutPending(prev => {
+      const base = prev || { ...layout };
+      const sections = { ...base.sections };
+      const sourceSettings = sections[sourceId] || {};
+      const targetOrder = sections[targetId]?.order ?? DEFAULT_SECTIONS.findIndex(d => d.id === targetId);
+      sections[targetId] = { ...sourceSettings, order: targetOrder };
+      return { ...base, sections };
+    });
+  }, [layout]);
+
+  const saveTemplate = async (name) => {
+    const effective = layoutPending || layout;
+    try {
+      const res = await fetch(`${API}/api/admin/layout`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({
+          page: `template:${name}`,
+          sections: effective.sections,
+          imageDefaults: effective.imageDefaults,
+        }),
+      });
+      return res.ok;
+    } catch { return false; }
+  };
+
+  const loadTemplate = async (name) => {
+    try {
+      const res = await fetch(`${API}/api/editor/layout?page=${encodeURIComponent(`template:${name}`)}`);
+      if (!res.ok) return null;
+      const data = await res.json();
+      if (data.sections && Object.keys(data.sections).length > 0) {
+        setLayoutPending({ sections: data.sections, imageDefaults: data.imageDefaults || { fit: 'cover', aspect: 'auto' } });
+        return true;
+      }
+      return false;
+    } catch { return false; }
+  };
+
+  const listTemplates = async () => {
+    try {
+      const res = await fetch(`${API}/api/editor/templates`, { headers: token ? { Authorization: `Bearer ${token}` } : {} });
+      if (!res.ok) return [];
+      const data = await res.json();
+      return data.templates || [];
+    } catch { return []; }
+  };
+
+  const deleteTemplate = async (name) => {
+    try {
+      const res = await fetch(`${API}/api/admin/template/${encodeURIComponent(name)}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return res.ok;
+    } catch { return false; }
+  };
+
   const saveLayout = async () => {
     if (!layoutPending) return true;
     setIsLayoutSaving(true);
@@ -369,8 +433,14 @@ export function EditorProvider({ children }) {
         updateSectionSetting,
         updateImageDefaults,
         reorderSection,
+        duplicateSection,
         saveLayout,
         hasLayoutChanges: !!layoutPending,
+        /* Templates */
+        saveTemplate,
+        loadTemplate,
+        listTemplates,
+        deleteTemplate,
       }}
     >
       {children}

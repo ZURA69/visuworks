@@ -237,6 +237,33 @@ const ASPECT_OPTIONS = [
   { value: '1:1', label: '1:1' },
 ];
 
+const PRESET_OPTIONS = [
+  { value: 'default', label: 'Standard' },
+  { value: 'card', label: 'Card (weiß, Rahmen)' },
+  { value: 'accent', label: 'Akzent (dunkel)' },
+  { value: 'muted', label: 'Gedämpft (warm)' },
+  { value: 'highlight', label: 'Highlight (Rahmen)' },
+];
+
+const ALIGNMENT_OPTIONS = [
+  { value: 'left', label: 'Links' },
+  { value: 'center', label: 'Zentriert' },
+];
+
+const DEVICE_OPTIONS = [
+  { value: 'all', label: 'Alle Geräte' },
+  { value: 'desktop', label: 'Nur Desktop' },
+  { value: 'mobile', label: 'Nur Mobil' },
+];
+
+const ANIMATION_OPTIONS = [
+  { value: 'none', label: 'Keine' },
+  { value: 'fade-up', label: 'Einblenden + hoch' },
+  { value: 'fade-in', label: 'Einblenden' },
+  { value: 'slide-left', label: 'Von links' },
+  { value: 'slide-right', label: 'Von rechts' },
+];
+
 function SelectControl({ label, value, options, onChange }) {
   return (
     <div>
@@ -254,12 +281,17 @@ function SelectControl({ label, value, options, onChange }) {
 
 function LayoutPanel() {
   const {
-    getSectionSettings, updateSectionSetting, reorderSection,
+    getSectionSettings, updateSectionSetting, reorderSection, duplicateSection,
     saveLayout, hasLayoutChanges, isLayoutSaving,
     layout, updateImageDefaults,
+    saveTemplate, loadTemplate, listTemplates, deleteTemplate,
   } = useEditor();
 
   const [expandedSection, setExpandedSection] = useState(null);
+  const [templateName, setTemplateName] = useState('');
+  const [templates, setTemplates] = useState([]);
+  const [showTemplates, setShowTemplates] = useState(false);
+  const [copySource, setCopySource] = useState(null);
 
   const orderedSections = useMemo(() => {
     return DEFAULT_SECTIONS.map(s => ({
@@ -272,6 +304,48 @@ function LayoutPanel() {
     const ok = await saveLayout();
     if (ok) toast.success('Layout gespeichert');
     else toast.error('Layout speichern fehlgeschlagen');
+  };
+
+  const handleSaveTemplate = async () => {
+    if (!templateName.trim()) return;
+    const ok = await saveTemplate(templateName.trim());
+    if (ok) { toast.success(`Template "${templateName}" gespeichert`); setTemplateName(''); refreshTemplates(); }
+    else toast.error('Template speichern fehlgeschlagen');
+  };
+
+  const handleLoadTemplate = async (name) => {
+    const ok = await loadTemplate(name);
+    if (ok) toast.success(`Template "${name}" geladen`);
+    else toast.error('Template laden fehlgeschlagen');
+  };
+
+  const handleDeleteTemplate = async (name) => {
+    if (!window.confirm(`Template "${name}" löschen?`)) return;
+    const ok = await deleteTemplate(name);
+    if (ok) { toast.success('Gelöscht'); refreshTemplates(); }
+    else toast.error('Löschen fehlgeschlagen');
+  };
+
+  const refreshTemplates = async () => {
+    const t = await listTemplates();
+    setTemplates(t);
+  };
+
+  const handleToggleTemplates = () => {
+    if (!showTemplates) refreshTemplates();
+    setShowTemplates(v => !v);
+  };
+
+  const handleDuplicate = (sourceId) => {
+    setCopySource(sourceId);
+  };
+
+  const handleApplyCopy = (targetId) => {
+    if (copySource && copySource !== targetId) {
+      duplicateSection(copySource, targetId);
+      toast.success(`Einstellungen von "${DEFAULT_SECTIONS.find(s => s.id === copySource)?.label}" kopiert`);
+    }
+    setCopySource(null);
   };
 
   const effectiveLayout = layout || {};
@@ -342,24 +416,114 @@ function LayoutPanel() {
             {/* Expanded settings */}
             {isExpanded && (
               <div className="px-4 pb-4 space-y-3 ml-6 border-l border-white/5">
+                {/* P1: Style Preset */}
                 <SelectControl
-                  label="Abstand oben"
-                  value={s.paddingTop || 'medium'}
-                  options={PADDING_OPTIONS}
-                  onChange={(v) => updateSectionSetting(section.id, 'paddingTop', v)}
+                  label="Stil-Preset"
+                  value={s.preset || 'default'}
+                  options={PRESET_OPTIONS}
+                  onChange={(v) => updateSectionSetting(section.id, 'preset', v)}
                 />
+                {/* Spacing */}
+                <div className="grid grid-cols-2 gap-2">
+                  <SelectControl
+                    label="Abstand oben"
+                    value={s.paddingTop || 'medium'}
+                    options={PADDING_OPTIONS}
+                    onChange={(v) => updateSectionSetting(section.id, 'paddingTop', v)}
+                  />
+                  <SelectControl
+                    label="Abstand unten"
+                    value={s.paddingBottom || 'medium'}
+                    options={PADDING_OPTIONS}
+                    onChange={(v) => updateSectionSetting(section.id, 'paddingBottom', v)}
+                  />
+                </div>
+                {/* P1: Alignment + Width */}
+                <div className="grid grid-cols-2 gap-2">
+                  <SelectControl
+                    label="Ausrichtung"
+                    value={s.alignment || 'left'}
+                    options={ALIGNMENT_OPTIONS}
+                    onChange={(v) => updateSectionSetting(section.id, 'alignment', v)}
+                  />
+                  <SelectControl
+                    label="Inhaltsbreite"
+                    value={s.contentWidth || 'normal'}
+                    options={WIDTH_OPTIONS}
+                    onChange={(v) => updateSectionSetting(section.id, 'contentWidth', v)}
+                  />
+                </div>
+                {/* P1: Device Visibility */}
                 <SelectControl
-                  label="Abstand unten"
-                  value={s.paddingBottom || 'medium'}
-                  options={PADDING_OPTIONS}
-                  onChange={(v) => updateSectionSetting(section.id, 'paddingBottom', v)}
+                  label="Gerätesichtbarkeit"
+                  value={s.deviceVisibility || 'all'}
+                  options={DEVICE_OPTIONS}
+                  onChange={(v) => updateSectionSetting(section.id, 'deviceVisibility', v)}
                 />
+                {/* P2: Animation */}
                 <SelectControl
-                  label="Inhaltsbreite"
-                  value={s.contentWidth || 'normal'}
-                  options={WIDTH_OPTIONS}
-                  onChange={(v) => updateSectionSetting(section.id, 'contentWidth', v)}
+                  label="Animation"
+                  value={s.animation || 'fade-up'}
+                  options={ANIMATION_OPTIONS}
+                  onChange={(v) => updateSectionSetting(section.id, 'animation', v)}
                 />
+                {/* P1: CTA Controls */}
+                <div className="pt-2 border-t border-white/5">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[10px] text-white/30">CTA-Button</span>
+                    <button
+                      data-testid={`layout-cta-toggle-${section.id}`}
+                      onClick={() => {
+                        const current = s.cta || { enabled: false, label: '', href: '' };
+                        updateSectionSetting(section.id, 'cta', { ...current, enabled: !current.enabled });
+                      }}
+                      className={`w-8 h-4.5 rounded-full transition-colors duration-200 flex items-center px-0.5 ${
+                        s.cta?.enabled ? 'bg-emerald-600 justify-end' : 'bg-white/10 justify-start'
+                      }`}
+                    >
+                      <div className="w-3.5 h-3.5 rounded-full bg-white" />
+                    </button>
+                  </div>
+                  {s.cta?.enabled && (
+                    <div className="space-y-2">
+                      <input
+                        type="text"
+                        value={s.cta?.label || ''}
+                        onChange={(e) => updateSectionSetting(section.id, 'cta', { ...s.cta, label: e.target.value })}
+                        placeholder="Button-Text"
+                        className="w-full px-2 py-1.5 rounded bg-white/5 border border-white/10 text-white text-[12px] placeholder:text-white/20 focus:outline-none focus:border-indigo-500/50"
+                      />
+                      <input
+                        type="text"
+                        value={s.cta?.href || ''}
+                        onChange={(e) => updateSectionSetting(section.id, 'cta', { ...s.cta, href: e.target.value })}
+                        placeholder="Link (z.B. /kontakt)"
+                        className="w-full px-2 py-1.5 rounded bg-white/5 border border-white/10 text-white text-[12px] placeholder:text-white/20 focus:outline-none focus:border-indigo-500/50"
+                      />
+                    </div>
+                  )}
+                </div>
+                {/* P2: Duplicate */}
+                <div className="pt-2 border-t border-white/5">
+                  {copySource === section.id ? (
+                    <p className="text-[11px] text-amber-400/70 text-center">Wähle Ziel-Sektion oben</p>
+                  ) : copySource ? (
+                    <button
+                      onClick={() => handleApplyCopy(section.id)}
+                      className="w-full py-1.5 rounded bg-amber-600/20 text-amber-400 text-[11px] font-medium hover:bg-amber-600/30 transition-colors"
+                    >
+                      Einstellungen hier einfügen
+                    </button>
+                  ) : (
+                    <button
+                      data-testid={`layout-copy-${section.id}`}
+                      onClick={() => handleDuplicate(section.id)}
+                      className="w-full py-1.5 rounded bg-white/5 text-white/40 text-[11px] hover:text-white/60 hover:bg-white/8 transition-colors"
+                    >
+                      Einstellungen kopieren
+                    </button>
+                  )}
+                </div>
               </div>
             )}
           </div>
@@ -384,6 +548,84 @@ function LayoutPanel() {
           />
         </div>
       </div>
+
+      {/* P2: Templates */}
+      <div className="px-4 py-3 border-t border-white/5">
+        <button
+          data-testid="toggle-templates"
+          onClick={handleToggleTemplates}
+          className="w-full flex items-center justify-between text-[11px] text-white/30 uppercase tracking-wider font-medium"
+        >
+          <span>Templates</span>
+          {showTemplates ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
+        </button>
+
+        {showTemplates && (
+          <div className="mt-3 space-y-3">
+            {/* Save current as template */}
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={templateName}
+                onChange={(e) => setTemplateName(e.target.value)}
+                placeholder="Template-Name..."
+                data-testid="template-name-input"
+                className="flex-1 px-2 py-1.5 rounded bg-white/5 border border-white/10 text-white text-[12px] placeholder:text-white/20 focus:outline-none focus:border-indigo-500/50"
+              />
+              <button
+                onClick={handleSaveTemplate}
+                disabled={!templateName.trim()}
+                data-testid="template-save-btn"
+                className="px-3 py-1.5 rounded bg-indigo-600/80 text-white text-[11px] font-medium hover:bg-indigo-600 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+              >
+                Speichern
+              </button>
+            </div>
+
+            {/* Template list */}
+            {templates.length > 0 ? (
+              <div className="space-y-1">
+                {templates.map(t => (
+                  <div key={t.name} className="flex items-center justify-between px-2 py-1.5 rounded bg-white/5 group">
+                    <span className="text-[12px] text-white/60 truncate flex-1">{t.name}</span>
+                    <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button
+                        onClick={() => handleLoadTemplate(t.name)}
+                        data-testid={`template-load-${t.name}`}
+                        className="px-2 py-0.5 rounded bg-emerald-600/30 text-emerald-400 text-[10px] font-medium hover:bg-emerald-600/50 transition-colors"
+                      >
+                        Laden
+                      </button>
+                      <button
+                        onClick={() => handleDeleteTemplate(t.name)}
+                        className="px-2 py-0.5 rounded bg-red-600/20 text-red-400 text-[10px] hover:bg-red-600/40 transition-colors"
+                      >
+                        <Trash2 className="w-3 h-3" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-[11px] text-white/20 text-center py-2">Keine Templates vorhanden</p>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Copy mode indicator */}
+      {copySource && (
+        <div className="px-4 py-2 bg-amber-600/10 border-t border-amber-500/20">
+          <div className="flex items-center justify-between">
+            <p className="text-[11px] text-amber-400">
+              Kopiere: {DEFAULT_SECTIONS.find(s => s.id === copySource)?.label}
+            </p>
+            <button onClick={() => setCopySource(null)} className="text-[11px] text-white/40 hover:text-white/60">
+              Abbrechen
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Save Layout Button */}
       <div className="px-4 py-3 border-t border-white/5">

@@ -461,6 +461,24 @@ async def save_layout(body: LayoutSettingsRequest, authorization: str = Header(N
     )
     return {"status": "ok"}
 
+@api_router.get("/editor/templates")
+async def list_templates():
+    """Public — list all saved layout templates."""
+    cursor = db.layout_settings.find({"page": {"$regex": "^template:"}}, {"_id": 0, "page": 1, "updatedAt": 1})
+    templates = []
+    async for doc in cursor:
+        name = doc["page"].replace("template:", "", 1)
+        templates.append({"name": name, "updatedAt": doc.get("updatedAt")})
+    return {"templates": templates}
+
+@api_router.delete("/admin/template/{name}")
+async def delete_template(name: str, authorization: str = Header(None)):
+    await verify_admin(authorization)
+    result = await db.layout_settings.delete_one({"page": f"template:{name}"})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Template not found")
+    return {"status": "ok"}
+
 @api_router.get("/health")
 async def health_check():
     return {"status": "ok"}
