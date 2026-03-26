@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, ChevronDown, Plus, Minus } from 'lucide-react';
+import { ArrowRight, Plus, Minus } from 'lucide-react';
 import { getFeaturedProjects } from '../content/projects';
 import { SEOHead } from '../components/SEOHead';
 import { hero, ctaSection, processSteps, statistics, testimonials } from '../content/site';
@@ -138,9 +138,6 @@ export default function HomePage() {
   const featuredProjects = getFeaturedProjects().slice(0, 4);
   const [openFaq, setOpenFaq] = useState(null);
 
-  const heroHeadline = useEditable('hero.headline', hero.headline);
-  const heroSubline = useEditable('hero.subline', hero.subline);
-  const heroCta1 = useEditable('hero.ctaPrimary.label', hero.ctaPrimary.label);
   const ctaHeadline = useEditable('cta.headline', ctaSection.headline);
   const ctaSubline = useEditable('cta.subline', ctaSection.subline);
 
@@ -148,94 +145,14 @@ export default function HomePage() {
     <div data-testid="home-page" style={{ background: C.bg, color: C.text }}>
       <SEOHead page="home" />
 
-      {/* ═══ HERO ═══ */}
-      <section data-testid="hero-section" className="relative min-h-screen flex items-center" aria-label="Hero">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16 w-full pt-32 pb-20 md:pt-40 md:pb-28">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            {/* Left – Copy */}
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <motion.h1
-                className="text-[clamp(2.8rem,6vw,5.5rem)] font-semibold leading-[1.05] tracking-[-0.035em]"
-                style={{ color: C.text }}
-              >
-                {heroHeadline}
-              </motion.h1>
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.15, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                className="mt-7 text-lg md:text-xl leading-relaxed max-w-md"
-                style={{ color: C.muted }}
-              >
-                {heroSubline}
-              </motion.p>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.25, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                className="mt-10 flex flex-wrap gap-4"
-              >
-                <Link to={hero.ctaPrimary.href}>
-                  <button
-                    data-testid="hero-cta-primary"
-                    className="inline-flex items-center gap-2 px-8 py-3.5 text-[14px] font-medium rounded-full transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
-                    style={{ background: C.accent, color: '#fff' }}
-                  >
-                    {heroCta1}
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </Link>
-                <Link to={hero.ctaSecondary.href}>
-                  <button
-                    data-testid="hero-cta-secondary"
-                    className="inline-flex items-center gap-2 px-8 py-3.5 text-[14px] font-medium rounded-full transition-all duration-300 hover:bg-black/[0.04]"
-                    style={{ border: `1.5px solid ${C.border}`, color: C.text }}
-                  >
-                    {hero.ctaSecondary.label}
-                  </button>
-                </Link>
-              </motion.div>
-            </motion.div>
-
-            {/* Right – Hero Image */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-[0_32px_64px_rgba(0,0,0,0.08)]">
-                <EditableImage
-                  contentKey="images.hero.src"
-                  fallbackSrc={images.hero.src}
-                  alt={images.hero.alt}
-                  className="w-full h-full"
-                  imgClassName="object-cover"
-                  priority
-                />
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Scroll indicator */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.2, duration: 0.8 }}
-            className="hidden md:flex justify-center mt-20"
-          >
-            <motion.div
-              animate={{ y: [0, 8, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-            >
-              <ChevronDown className="w-5 h-5" style={{ color: C.light }} />
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
+      {/* ═══ KEYWORD HERO ═══ */}
+      <KeywordStory
+        subline={hero.subline}
+        ctaLabel={hero.ctaPrimary.label}
+        ctaHref={hero.ctaPrimary.href}
+        secondaryLabel={hero.ctaSecondary.label}
+        secondaryHref={hero.ctaSecondary.href}
+      />
 
       {/* ═══ TRUST BAR ═══ */}
       <section className="py-16 md:py-20" style={{ borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
@@ -252,9 +169,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* ═══ KEYWORD STORY ═══ */}
-      <KeywordStory />
 
       {/* ═══ SERVICES — Alternating Layout ═══ */}
       <section data-testid="services-section" className="py-24 md:py-36">
