@@ -183,6 +183,63 @@ function ImageField({ field, value, onChange, onUpload }) {
   );
 }
 
+function ListField({ field, value, onChange }) {
+  const items = Array.isArray(value) ? value : (field.default || []);
+  const schema = field.schema || [];
+
+  const update = (newItems) => onChange(field.key, newItems);
+
+  const handleItemChange = (index, prop, val) => {
+    const next = items.map((item, i) => i === index ? { ...item, [prop]: val } : item);
+    update(next);
+  };
+
+  const addItem = () => {
+    const blank = {};
+    schema.forEach(s => { blank[s.key] = ''; });
+    update([...items, blank]);
+  };
+
+  const removeItem = (index) => {
+    update(items.filter((_, i) => i !== index));
+  };
+
+  return (
+    <div className="space-y-3">
+      {items.map((item, i) => (
+        <div key={i} className="relative p-3 rounded-lg bg-white/5 border border-white/8 space-y-2">
+          <div className="flex items-center justify-between mb-1">
+            <span className="text-[10px] text-white/30 font-mono">#{i + 1}</span>
+            <button
+              onClick={() => removeItem(i)}
+              className="p-1 rounded hover:bg-red-500/20 text-white/30 hover:text-red-400 transition-colors"
+              title="Entfernen"
+            >
+              <Trash2 className="w-3 h-3" />
+            </button>
+          </div>
+          {schema.map(s => (
+            <input
+              key={s.key}
+              type="text"
+              value={item[s.key] || ''}
+              onChange={(e) => handleItemChange(i, s.key, e.target.value)}
+              placeholder={s.placeholder || s.label}
+              className="w-full px-3 py-1.5 rounded bg-white/5 border border-white/10 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-indigo-500/50 transition-colors"
+            />
+          ))}
+        </div>
+      ))}
+      <button
+        onClick={addItem}
+        className="w-full py-2 rounded-lg border border-dashed border-white/15 text-white/40 hover:text-white/70 hover:border-white/30 text-xs font-medium transition-colors"
+      >
+        + Eintrag hinzufügen
+      </button>
+    </div>
+  );
+}
+
 function FieldGroup({ title, fields, values, onChange, onUpload, isOpen, onToggle }) {
   return (
     <div className="border-b border-white/5 last:border-0">
@@ -210,6 +267,12 @@ function FieldGroup({ title, fields, values, onChange, onUpload, isOpen, onToggl
                   value={values[field.key] ?? field.default}
                   onChange={onChange}
                   onUpload={onUpload}
+                />
+              ) : field.type === 'list' ? (
+                <ListField
+                  field={field}
+                  value={values[field.key] ?? field.default}
+                  onChange={onChange}
                 />
               ) : field.type === 'textarea' ? (
                 <textarea

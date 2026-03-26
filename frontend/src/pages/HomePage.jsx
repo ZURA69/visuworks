@@ -6,7 +6,7 @@ import { getFeaturedProjects } from '../content/projects';
 import { SEOHead } from '../components/SEOHead';
 import { hero, ctaSection, processSteps, statistics, testimonials } from '../content/site';
 import images, { getProjectImage } from '../content/images';
-import { useEditable } from '../contexts/EditorContext';
+import { useEditable, useEditor } from '../contexts/EditorContext';
 import { EditableImage } from '../components/EditableImage';
 import { useLanguage } from '../contexts/LanguageContext';
 import { KeywordStory } from '../components/KeywordStory';
@@ -137,9 +137,40 @@ function ParallaxImage({ src, alt, className = '', contentKey, aspectClass = 'as
 export default function HomePage() {
   const featuredProjects = getFeaturedProjects().slice(0, 4);
   const [openFaq, setOpenFaq] = useState(null);
+  const { getValue } = useEditor();
 
   const ctaHeadline = useEditable('cta.headline', ctaSection.headline);
   const ctaSubline = useEditable('cta.subline', ctaSection.subline);
+
+  /* ── Trust Bar: read from CMS, fall back to site.js ── */
+  const trustBarRaw = getValue('trustbar.items', null);
+  const trustBarItems = trustBarRaw && Array.isArray(trustBarRaw)
+    ? trustBarRaw
+    : statistics.map((s, i) => ({
+        value: getValue(`stats.${i}.value`, `${s.value}${s.suffix || ''}`),
+        label: getValue(`stats.${i}.label`, s.label),
+      }));
+
+  /* ── Process: read from CMS ── */
+  const processItems = processSteps.map((step, i) => ({
+    ...step,
+    title: getValue(`process.${i}.title`, step.title),
+    desc: getValue(`process.${i}.desc`, step.desc),
+  }));
+
+  /* ── Testimonials: read from CMS ── */
+  const testimonialItems = testimonials.slice(0, 4).map((t, i) => ({
+    ...t,
+    quote: getValue(`testimonials.${i}.quote`, t.quote),
+    author: getValue(`testimonials.${i}.author`, t.author),
+    position: getValue(`testimonials.${i}.position`, t.position),
+    company: getValue(`testimonials.${i}.company`, t.company),
+  }));
+
+  /* ── Hero: read from CMS ── */
+  const heroSubline = getValue('hero.subline', hero.subline);
+  const heroCta1 = getValue('hero.ctaPrimary.label', hero.ctaPrimary.label);
+  const heroCta2 = getValue('hero.ctaSecondary.label', hero.ctaSecondary.label);
 
   return (
     <div data-testid="home-page" style={{ background: C.bg, color: C.text }}>
@@ -147,21 +178,21 @@ export default function HomePage() {
 
       {/* ═══ KEYWORD HERO ═══ */}
       <KeywordStory
-        subline={hero.subline}
-        ctaLabel={hero.ctaPrimary.label}
+        subline={heroSubline}
+        ctaLabel={heroCta1}
         ctaHref={hero.ctaPrimary.href}
-        secondaryLabel={hero.ctaSecondary.label}
+        secondaryLabel={heroCta2}
         secondaryHref={hero.ctaSecondary.href}
       />
 
       {/* ═══ TRUST BAR ═══ */}
-      <section className="py-16 md:py-20" style={{ borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+      <section data-testid="trust-bar" className="py-16 md:py-20" style={{ borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-            {statistics.map((stat, i) => (
-              <motion.div key={stat.label} {...reveal} transition={{ ...reveal.transition, delay: i * 0.08 }} className="text-center">
+            {trustBarItems.map((stat, i) => (
+              <motion.div key={i} {...reveal} transition={{ ...reveal.transition, delay: i * 0.08 }} className="text-center">
                 <div className="text-4xl md:text-5xl font-semibold tracking-[-0.03em]" style={{ color: C.text }}>
-                  {stat.value}{stat.suffix}
+                  {stat.value}
                 </div>
                 <div className="mt-2 text-[13px] font-medium" style={{ color: C.muted }}>{stat.label}</div>
               </motion.div>
@@ -330,7 +361,7 @@ export default function HomePage() {
           </motion.div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6 md:gap-8">
-            {processSteps.map((step, index) => (
+            {processItems.map((step, index) => (
               <motion.div key={step.num} {...reveal} transition={{ ...reveal.transition, delay: index * 0.08 }}>
                 <div className="h-full p-6 rounded-2xl transition-colors duration-300 hover:bg-black/[0.02]">
                   <span className="text-5xl font-semibold" style={{ color: 'rgba(0,0,0,0.06)' }}>
@@ -362,8 +393,8 @@ export default function HomePage() {
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-6">
-            {testimonials.slice(0, 4).map((t, i) => (
-              <motion.div key={t.id} {...reveal} transition={{ ...reveal.transition, delay: i * 0.1 }}>
+            {testimonialItems.map((t, i) => (
+              <motion.div key={i} {...reveal} transition={{ ...reveal.transition, delay: i * 0.1 }}>
                 <div className="h-full p-8 md:p-10 rounded-2xl" style={{ background: C.card, boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
                   <blockquote className="text-base md:text-lg leading-relaxed mb-8" style={{ color: C.text }}>
                     &bdquo;{t.quote}&ldquo;

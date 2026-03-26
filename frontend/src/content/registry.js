@@ -173,6 +173,19 @@ export function getFieldsForPage(pathname) {
         f(`stats.${i}.label`, `Statistik ${i + 1} – Label`, 'text', 'Statistiken', '/', s.label),
       );
     });
+    /* Trust bar list: allows add/edit/delete */
+    fields.push({
+      key: 'trustbar.items',
+      label: 'Trust-Bar (Liste)',
+      type: 'list',
+      group: 'Statistiken',
+      page: '/',
+      default: statistics.map(s => ({ value: `${s.value}${s.suffix || ''}`, label: s.label })),
+      schema: [
+        { key: 'value', label: 'Wert', placeholder: 'z.B. 500+' },
+        { key: 'label', label: 'Label', placeholder: 'z.B. Projekte' },
+      ],
+    });
     targetAudiences.forEach((a, i) => {
       fields.push(
         f(`audiences.${i}.title`, `Zielgruppe ${i + 1} – Titel`, 'text', 'Zielgruppen', '/', a.title),

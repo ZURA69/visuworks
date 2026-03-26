@@ -117,7 +117,10 @@ export function EditorProvider({ children }) {
         body: JSON.stringify({ overrides: entries }),
       });
       if (!res.ok) throw new Error('Save failed');
-      setOverrides((prev) => ({ ...prev, ...pending }));
+      /* Re-fetch from server to ensure perfect sync */
+      if (token) {
+        await fetchOverrides(token);
+      }
       setPending({});
       return true;
     } catch (err) {
