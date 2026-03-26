@@ -192,6 +192,27 @@ export function getFieldsForPage(pathname) {
         f(`audiences.${i}.focus`, `Zielgruppe ${i + 1} – Fokus`, 'text', 'Zielgruppen', '/', a.focus),
       );
     });
+    /* ── Was wir tun (Services) ── */
+    fields.push(
+      f('services.sectionLabel', 'Obertitel', 'text', 'Was wir tun', '/', 'Leistungen'),
+      f('services.sectionTitle', 'Überschrift', 'text', 'Was wir tun', '/', 'Was wir tun.'),
+    );
+    const defaultServices = [
+      { label: 'Mobilität', title: 'Fahrzeuge, die auffallen.', desc: 'Von der Lackschutzfolie bis zum kompletten Flottenbranding — wir realisieren Ihre Fahrzeugprojekte mit Präzision und Premium-Qualität.', features: 'PPF & Lackschutz, Flottenbranding, Teil- & Vollfolierung, Designkonzepte', href: '/mobilitaet', image: '/images/porsche-gt3-cup-race.webp' },
+      { label: 'Raum & Architektur', title: 'Räume, die wirken.', desc: 'Wir transformieren Räume in Markenerlebnisse — durch Architekturfolierung, Glasgestaltung und Interior Branding.', features: 'Raumgestaltung, Architekturfolierung, Glas- & Sichtschutzfolien, Interior Branding', href: '/architektur-raum', image: '/images/IMG_5646.webp' },
+      { label: 'Markenkommunikation', title: 'Botschaften, die ankommen.', desc: 'Von der Messewand bis zur Fassadenwerbung — wir produzieren und installieren Ihre Markenkommunikation in jeder Größe.', features: 'Großformatmedien, Werbesysteme, Event- & Messegrafik, POS-Systeme', href: '/markenkommunikation', image: '/images/IMG_7190.webp' },
+    ];
+    defaultServices.forEach((svc, i) => {
+      fields.push(
+        f(`services.${i}.image`, `Leistung ${i + 1} – Bild`, 'image', 'Was wir tun', '/', svc.image),
+        f(`services.${i}.label`, `Leistung ${i + 1} – Kategorie`, 'text', 'Was wir tun', '/', svc.label),
+        f(`services.${i}.title`, `Leistung ${i + 1} – Überschrift`, 'text', 'Was wir tun', '/', svc.title),
+        f(`services.${i}.desc`, `Leistung ${i + 1} – Beschreibung`, 'textarea', 'Was wir tun', '/', svc.desc),
+        f(`services.${i}.features`, `Leistung ${i + 1} – Merkmale (kommagetrennt)`, 'text', 'Was wir tun', '/', svc.features),
+        f(`services.${i}.href`, `Leistung ${i + 1} – Link`, 'text', 'Was wir tun', '/', svc.href),
+      );
+    });
+
     fields.push(
       f('cta.headline', 'CTA Überschrift', 'text', 'CTA', '/', ctaSection.headline),
       f('cta.subline', 'CTA Untertitel', 'textarea', 'CTA', '/', ctaSection.subline),

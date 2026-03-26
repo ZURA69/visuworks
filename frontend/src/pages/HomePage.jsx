@@ -148,30 +148,30 @@ function TrustBarSection({ trustBarItems }) {
   );
 }
 
-function ServicesSection() {
+function ServicesSection({ sectionLabel, sectionTitle, serviceItems }) {
   return (
     <LayoutSection id="services">
       <LayoutContainer id="services">
         <motion.div {...revealSlow} className="mb-20 md:mb-28">
-          <p className="text-[12px] font-semibold uppercase tracking-[0.15em] mb-4" style={{ color: C.light }}>Leistungen</p>
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-semibold tracking-[-0.03em] leading-[1.1]">Was wir tun.</h2>
+          <p className="text-[12px] font-semibold uppercase tracking-[0.15em] mb-4" style={{ color: C.light }}>{sectionLabel}</p>
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-semibold tracking-[-0.03em] leading-[1.1]">{sectionTitle}</h2>
         </motion.div>
-        <div className="space-y-24 md:space-y-36">
-          {services.map((svc, i) => (
-            <motion.div key={svc.label} {...reveal} transition={{ ...reveal.transition, delay: 0.1 }}>
+        <div className="space-y-32 md:space-y-44">
+          {serviceItems.map((svc, i) => (
+            <motion.div key={i} {...reveal} transition={{ ...reveal.transition, delay: 0.1 }}>
               <div className={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${i % 2 === 1 ? 'lg:[direction:rtl]' : ''}`}>
                 <div className={i % 2 === 1 ? 'lg:[direction:ltr]' : ''}>
-                  <ParallaxImage src={svc.image} alt={svc.title} contentKey={`images.service.${svc.label.toLowerCase().replace(/[^a-z]/g, '')}.hero`} />
+                  <ParallaxImage src={svc.image} alt={svc.title} contentKey={`services.${i}.image`} />
                 </div>
                 <div className={`flex flex-col justify-center ${i % 2 === 1 ? 'lg:[direction:ltr]' : ''}`}>
                   <p className="text-[12px] font-semibold uppercase tracking-[0.15em] mb-4" style={{ color: C.light }}>{svc.label}</p>
                   <h3 className="text-2xl md:text-3xl lg:text-4xl font-semibold tracking-[-0.02em] leading-[1.15] mb-5">{svc.title}</h3>
                   <p className="text-base leading-relaxed mb-8" style={{ color: C.muted }}>{svc.desc}</p>
                   <ul className="space-y-3 mb-10">
-                    {svc.features.map((f) => (
-                      <li key={f} className="flex items-center gap-3">
+                    {svc.features.map((feat, fi) => (
+                      <li key={fi} className="flex items-center gap-3">
                         <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: C.light }} />
-                        <span className="text-[15px]" style={{ color: C.muted }}>{f}</span>
+                        <span className="text-[15px]" style={{ color: C.muted }}>{feat}</span>
                       </li>
                     ))}
                   </ul>
@@ -372,11 +372,23 @@ export default function HomePage() {
   const heroCta1 = getValue('hero.ctaPrimary.label', hero.ctaPrimary.label);
   const heroCta2 = getValue('hero.ctaSecondary.label', hero.ctaSecondary.label);
 
+  /* ── Services (Was wir tun) CMS binding ── */
+  const serviceSectionLabel = getValue('services.sectionLabel', 'Leistungen');
+  const serviceSectionTitle = getValue('services.sectionTitle', 'Was wir tun.');
+  const serviceItems = services.map((svc, i) => ({
+    label: getValue(`services.${i}.label`, svc.label),
+    title: getValue(`services.${i}.title`, svc.title),
+    desc: getValue(`services.${i}.desc`, svc.desc),
+    features: getValue(`services.${i}.features`, svc.features.join(', ')).split(',').map(s => s.trim()).filter(Boolean),
+    href: getValue(`services.${i}.href`, svc.href),
+    image: svc.image,
+  }));
+
   /* ── Section rendering map ── */
   const sectionMap = {
     hero: <HeroSection heroSubline={heroSubline} heroCta1={heroCta1} heroCta2={heroCta2} />,
     trustbar: <TrustBarSection trustBarItems={trustBarItems} />,
-    services: <ServicesSection />,
+    services: <ServicesSection sectionLabel={serviceSectionLabel} sectionTitle={serviceSectionTitle} serviceItems={serviceItems} />,
     showcase: <ShowcaseSection />,
     projects: <ProjectsSection featuredProjects={featuredProjects} />,
     process: <ProcessSection processItems={processItems} />,
