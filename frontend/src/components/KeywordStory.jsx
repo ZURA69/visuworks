@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
+import { motion, useMotionValue } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
@@ -20,64 +20,64 @@ const C = {
   border: 'rgba(0,0,0,0.07)',
 };
 
-function WordItem({ word, index, scrollProgress }) {
-  const distance = useTransform(scrollProgress, (p) => index - p);
+/* ────────────────────────────────────────
+   WordItem: visual state from distance
+   ──────────────────────────────────────── */
+function WordItem({ word, distance }) {
+  const a = Math.abs(distance);
 
-  /* y offset from center; distance * spacing px */
-  const y = useTransform(distance, (d) => d * 90);
-  const opacity = useTransform(distance, (d) => {
-    const abs = Math.abs(d);
-    if (abs < 0.3) return 1;
-    if (abs > 1.6) return 0;
-    return 1 - (abs - 0.3) / 1.3;
-  });
-  const scale = useTransform(distance, (d) => {
-    const abs = Math.abs(d);
-    return Math.max(0.85, 1 - abs * 0.05);
-  });
-  const blur = useTransform(distance, (d) => {
-    const abs = Math.abs(d);
-    if (abs < 0.3) return 'blur(0px)';
-    const px = Math.min((abs - 0.3) * 10, 14);
-    return `blur(${px}px)`;
-  });
-  const color = useTransform(distance, (d) => {
-    const abs = Math.abs(d);
-    if (abs < 0.3) return C.text;
-    const t = Math.min((abs - 0.3) / 1.3, 1);
-    const v = Math.round(26 + t * 190);
-    return `rgb(${v},${v},${v})`;
-  });
+  const y = distance * 100;
+  const opacity = a < 0.4 ? 1 : a > 1.5 ? 0 : 1 - (a - 0.4) / 1.1;
+  const scale = a < 0.3 ? 1 : Math.max(0.82, 1 - (a - 0.3) * 0.08);
+  const blurPx = a < 0.35 ? 0 : Math.min((a - 0.35) * 12, 16);
+  const colorV = a < 0.35 ? 26 : Math.round(26 + Math.min((a - 0.35) / 1.15, 1) * 200);
 
   return (
-    <motion.div
+    <div
       style={{
         position: 'absolute',
         left: 0,
         right: 0,
         display: 'flex',
         justifyContent: 'center',
-        y, opacity, scale, filter: blur,
+        transform: `translateY(${y}px) scale(${scale})`,
+        opacity,
+        filter: `blur(${blurPx}px)`,
         willChange: 'transform, opacity, filter',
+        pointerEvents: 'none',
+        userSelect: 'none',
       }}
-      className="pointer-events-none select-none"
     >
-      <motion.span
+      <span
         style={{
           fontSize: 'clamp(3rem, 10vw, 9rem)',
           fontWeight: 700,
           letterSpacing: '-0.045em',
           lineHeight: 1,
           whiteSpace: 'nowrap',
-          color,
+          color: `rgb(${colorV},${colorV},${colorV})`,
         }}
       >
         {word}
-      </motion.span>
-    </motion.div>
+      </span>
+    </div>
   );
 }
 
+/* ══════════════════════════════════════════════════════
+   KeywordStory — Pinned Scroll Storytelling Hero
+   ══════════════════════════════════════════════════════
+   Approach: position:fixed overlay while the section
+   is in view. This avoids position:sticky issues caused
+   by ancestor overflow:hidden.
+
+   Math:
+   ─ Section height = N * 100vh (scroll runway)
+   ─ When section top <= 0 && section bottom >= viewport:
+     overlay is visible (fixed to viewport)
+   ─ progress = scrolled / (sectionHeight - viewportHeight)
+   ─ progress [0→1] maps to keyword index [0→N-1]
+   ══════════════════════════════════════════════════════ */
 export function KeywordStory({
   keywords = KEYWORDS_DEFAULT,
   subline = 'Visuelle Identität auf Fahrzeugen, in Räumen und auf Oberflächen.',
@@ -87,91 +87,253 @@ export function KeywordStory({
   secondaryHref = '/projekte',
 }) {
   const sectionRef = useRef(null);
-  const total = keywords.length;
+  const N = keywords.length;
+  const [progress, setProgress] = useState(0);
+  const [isActive, setIsActive] = useState(true);
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start start', 'end end'],
-  });
+  /* Scroll handler: compute progress from section position */
+  const onScroll = useCallback(() => {
+    const el = sectionRef.current;
+    if (!el) return;
 
-  const progress = useTransform(scrollYProgress, [0, 1], [-0.2, total - 0.8]);
-  const barScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
-  const bottomOpacity = useTransform(scrollYProgress, [0, 0.06, 0.88, 1], [0.7, 1, 1, 0]);
+    const rect = el.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const scrollable = el.offsetHeight - vh;
+
+    /* Section top relative to viewport: 0 = at top, negative = scrolled past */
+    const scrolled = -rect.top;
+
+    if (scrolled < 0) {
+      /* Section hasn't reached top yet — show first keyword */
+      setIsActive(true);
+      setProgress(0);
+    } else if (scrolled > scrollable) {
+      /* Section has scrolled past — hide overlay */
+      setIsActive(false);
+    } else {
+      /* Within the pinned zone */
+      setIsActive(true);
+      setProgress((scrolled / scrollable) * (N - 1));
+    }
+  }, [N]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll(); /* Initial calc */
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [onScroll]);
+
+  /* Bar fill: 0→1 across the scroll range */
+  const barFill = Math.min(1, Math.max(0, progress / (N - 1)));
+  const bottomOpacity = isActive ? (barFill > 0.92 ? 0.4 : 1) : 0;
 
   return (
-    <section
-      ref={sectionRef}
-      data-testid="keyword-hero"
-      className="relative"
-      style={{ height: `${total * 45}vh`, paddingTop: 0, paddingBottom: 0 }}
-    >
-      <div
-        className="sticky top-0 overflow-hidden"
-        style={{ height: '100vh' }}
-      >
+    <>
+      {/* ── Scroll runway ── */}
+      <section
+        ref={sectionRef}
+        data-testid="keyword-hero"
+        className="relative"
+        style={{
+          height: `${N * 100}vh`,
+          paddingTop: 0,
+          paddingBottom: 0,
+        }}
+      />
+
+      {/* ── Fixed overlay (visible while section is in range) ── */}
+      {isActive && (
+        <div
+          data-testid="keyword-overlay"
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 5,
+            background: C.bg,
+            overflow: 'hidden',
+            pointerEvents: 'none',
+          }}
+        >
           {/* Top edge fade */}
           <div
-            className="absolute inset-x-0 top-0 h-28 z-10 pointer-events-none"
-            style={{ background: `linear-gradient(to bottom, ${C.bg}, transparent)` }}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              height: '7rem',
+              background: `linear-gradient(to bottom, ${C.bg}, transparent)`,
+              zIndex: 10,
+            }}
           />
           {/* Bottom edge fade */}
           <div
-            className="absolute inset-x-0 bottom-0 h-28 z-10 pointer-events-none"
-            style={{ background: `linear-gradient(to top, ${C.bg}, transparent)` }}
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: '7rem',
+              background: `linear-gradient(to top, ${C.bg}, transparent)`,
+              zIndex: 10,
+            }}
           />
 
-          {/* Keywords — anchor at 35% viewport height */}
-          <div style={{ position: 'absolute', top: '35%', left: 0, right: 0, height: 0 }}>
+          {/* Keywords — anchor at ~38% from top */}
+          <div
+            style={{
+              position: 'absolute',
+              top: '38%',
+              left: 0,
+              right: 0,
+              height: 0,
+            }}
+          >
             {keywords.map((word, i) => (
-              <WordItem key={word} word={word} index={i} scrollProgress={progress} />
+              <WordItem
+                key={word}
+                word={word}
+                distance={i - progress}
+              />
             ))}
           </div>
 
           {/* Bottom CTA */}
-          <motion.div
-            className="absolute bottom-8 md:bottom-12 inset-x-0 z-20 flex flex-col items-center gap-5 px-6 text-center"
-            style={{ opacity: bottomOpacity }}
+          <div
+            style={{
+              position: 'absolute',
+              bottom: '2rem',
+              left: 0,
+              right: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '1.25rem',
+              padding: '0 1.5rem',
+              textAlign: 'center',
+              zIndex: 20,
+              opacity: bottomOpacity,
+              transition: 'opacity 0.3s ease',
+              pointerEvents: 'auto',
+            }}
           >
             <p
-              className="text-[13px] md:text-[15px] max-w-sm leading-relaxed tracking-wide"
-              style={{ color: C.muted }}
+              style={{
+                fontSize: 'clamp(13px, 1.2vw, 15px)',
+                maxWidth: '24rem',
+                lineHeight: 1.6,
+                letterSpacing: '0.025em',
+                color: C.muted,
+                margin: 0,
+              }}
             >
               {subline}
             </p>
-            <div className="flex flex-wrap items-center justify-center gap-3">
+            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: '0.75rem' }}>
               <Link to={ctaHref}>
                 <button
                   data-testid="hero-cta-primary"
-                  className="inline-flex items-center gap-2 px-7 py-3 text-[13px] font-medium rounded-full transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
-                  style={{ background: C.text, color: '#fff' }}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    padding: '0.75rem 1.75rem',
+                    fontSize: '13px',
+                    fontWeight: 500,
+                    borderRadius: '9999px',
+                    background: C.text,
+                    color: '#fff',
+                    border: 'none',
+                    cursor: 'pointer',
+                    transition: 'transform 0.3s ease',
+                  }}
                 >
                   {ctaLabel}
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <ArrowRight style={{ width: '14px', height: '14px' }} />
                 </button>
               </Link>
               <Link to={secondaryHref}>
                 <button
                   data-testid="hero-cta-secondary"
-                  className="inline-flex items-center gap-2 px-7 py-3 text-[13px] font-medium rounded-full transition-all duration-300 hover:bg-black/[0.04]"
-                  style={{ border: `1.5px solid ${C.border}`, color: C.text }}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    padding: '0.75rem 1.75rem',
+                    fontSize: '13px',
+                    fontWeight: 500,
+                    borderRadius: '9999px',
+                    background: 'transparent',
+                    border: `1.5px solid ${C.border}`,
+                    color: C.text,
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                  }}
                 >
                   {secondaryLabel}
                 </button>
               </Link>
             </div>
-          </motion.div>
+          </div>
 
-          {/* Progress bar */}
-          <div className="absolute right-5 md:right-12 top-1/2 -translate-y-1/2 z-20">
-            <div className="w-px h-[90px] relative" style={{ background: 'rgba(0,0,0,0.06)' }}>
-              <motion.div
-                className="absolute top-0 left-0 w-full origin-top"
-                style={{ background: 'rgba(0,0,0,0.18)', scaleY: barScale, height: '100%' }}
+          {/* Progress bar (right edge) */}
+          <div
+            style={{
+              position: 'absolute',
+              right: 'clamp(1.25rem, 3vw, 3rem)',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              zIndex: 20,
+            }}
+          >
+            <div
+              style={{
+                width: '1px',
+                height: '100px',
+                position: 'relative',
+                background: 'rgba(0,0,0,0.06)',
+              }}
+            >
+              <div
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  background: 'rgba(0,0,0,0.2)',
+                  transformOrigin: 'top',
+                  transform: `scaleY(${barFill})`,
+                }}
               />
             </div>
           </div>
+
+          {/* Keyword counter */}
+          <div
+            style={{
+              position: 'absolute',
+              right: 'clamp(1.25rem, 3vw, 3rem)',
+              bottom: '2rem',
+              zIndex: 20,
+              fontSize: '11px',
+              letterSpacing: '0.1em',
+              pointerEvents: 'none',
+            }}
+          >
+            <span style={{ color: C.light, fontWeight: 500 }}>
+              {Math.min(N, Math.round(progress) + 1)}
+            </span>
+            <span style={{ color: 'rgba(0,0,0,0.15)' }}>
+              {' '}/ {N}
+            </span>
+          </div>
         </div>
-      </section>
+      )}
+    </>
   );
 }
 
