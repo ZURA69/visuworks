@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Linkedin, Instagram, Facebook, Youtube, ArrowRight } from 'lucide-react';
-import { NewsletterSignup } from '../NewsletterSignup';
 import { company, footerNav } from '../../content/site';
 import { useLanguage } from '../../contexts/LanguageContext';
 import * as t from '../../i18n/translations';
@@ -24,7 +23,7 @@ export const Footer = () => {
       {/* Main Footer */}
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16 py-20 md:py-28">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-10 lg:gap-12">
-          {/* Brand & Newsletter */}
+          {/* Brand */}
           <div className="col-span-2 lg:col-span-2">
             <Link to="/" className="inline-block mb-6">
               <span className="text-xl font-light tracking-[-0.03em] text-[#1A1A1A]">{company.name}</span>
@@ -32,12 +31,6 @@ export const Footer = () => {
             <p className="text-sm text-[#6B6B6B] mb-8 max-w-sm leading-relaxed font-light">
               {company.description}
             </p>
-            
-            {/* Newsletter Compact */}
-            <div className="mb-8">
-              <p className="text-[13px] font-medium text-[#9A9A9A] mb-3">Newsletter</p>
-              <NewsletterSignup variant="minimal" />
-            </div>
 
             {/* Social Links */}
             <div className="flex items-center gap-2">
