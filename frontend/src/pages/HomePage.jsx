@@ -152,7 +152,7 @@ function ServicesSection({ sectionLabel, sectionTitle, serviceItems }) {
   return (
     <section id="services" className="relative">
       {/* Section Header - Contained */}
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 pt-32 md:pt-44 pb-20 md:pb-28">
+      <div className="max-w-[1400px] mx-auto px-8 md:px-16 lg:px-20 pt-32 md:pt-44 pb-24 md:pb-32">
         <motion.div {...revealSlow}>
           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] mb-5" style={{ color: C.light }}>{sectionLabel}</p>
           <h2 className="text-4xl md:text-5xl lg:text-7xl font-semibold tracking-[-0.03em] leading-[1.05]">{sectionTitle}</h2>
@@ -189,7 +189,7 @@ function ServicesSection({ sectionLabel, sectionTitle, serviceItems }) {
             
             {/* Content Overlay */}
             <div className="absolute inset-0 flex items-center">
-              <div className={`w-full max-w-[1400px] mx-auto px-6 md:px-12 ${i % 2 === 0 ? '' : 'flex justify-end'}`}>
+              <div className={`w-full max-w-[1400px] mx-auto px-8 md:px-16 lg:px-20 ${i % 2 === 0 ? '' : 'flex justify-end'}`}>
                 <div className={`max-w-lg lg:max-w-xl ${i % 2 === 0 ? '' : 'text-right'}`}>
                   {/* Category Label */}
                   <p className="text-[11px] font-semibold uppercase tracking-[0.25em] mb-4 text-white/60">
@@ -232,9 +232,9 @@ function ServicesSection({ sectionLabel, sectionTitle, serviceItems }) {
             </div>
           </div>
           
-          {/* Spacer between sections */}
+          {/* Spacer between sections - increased */}
           {i < serviceItems.length - 1 && (
-            <div className="h-2 md:h-3" style={{ background: C.bg }} />
+            <div className="h-16 md:h-24 lg:h-32" style={{ background: C.bg }} />
           )}
         </motion.article>
       ))}
