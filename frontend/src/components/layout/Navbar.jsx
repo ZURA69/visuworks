@@ -80,7 +80,7 @@ export const Navbar = () => {
         <nav className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16" role="navigation" aria-label="Hauptnavigation">
           <div className="flex items-center justify-between h-20">
 
-            {/* Left: Leistungen + Projekte */}
+            {/* Left: Leistungen + Projekte (with dropdown) */}
             <div className="hidden lg:flex items-center gap-1">
               <div
                 ref={megaTriggerRef}
@@ -101,14 +101,36 @@ export const Navbar = () => {
                 </button>
               </div>
 
-              <Link
-                to="/projekte"
-                data-testid="nav-link-projekte"
-                className={`nav-link-base ${isLinkActive('/projekte') ? 'nav-link-active' : ''}`}
-              >
-                {isDE ? t.nav.projekte.de : t.nav.projekte.en}
-                {isLinkActive('/projekte') && <span className="nav-accent" />}
-              </Link>
+              {/* Projekte with Projektmanagement dropdown */}
+              <div className="relative group">
+                <Link
+                  to="/projekte"
+                  data-testid="nav-link-projekte"
+                  className={`nav-link-base flex items-center gap-1.5 ${isLinkActive('/projekte') || isLinkActive('/projektmanagement') ? 'nav-link-active' : ''}`}
+                >
+                  {isDE ? t.nav.projekte.de : t.nav.projekte.en}
+                  <ChevronDown className="w-3.5 h-3.5 transition-transform duration-200 group-hover:rotate-180" />
+                  {(isLinkActive('/projekte') || isLinkActive('/projektmanagement')) && <span className="nav-accent" />}
+                </Link>
+                
+                {/* Projekte Dropdown */}
+                <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                  <div className="bg-white/95 backdrop-blur-xl border border-black/[0.08] rounded-lg shadow-lg py-2 min-w-[200px]">
+                    <Link
+                      to="/projekte"
+                      className="block px-4 py-2 text-sm text-[#1A1A1A]/70 hover:text-[#1A1A1A] hover:bg-black/[0.03] transition-colors"
+                    >
+                      Alle Projekte
+                    </Link>
+                    <Link
+                      to="/projektmanagement"
+                      className="block px-4 py-2 text-sm text-[#1A1A1A]/70 hover:text-[#1A1A1A] hover:bg-black/[0.03] transition-colors"
+                    >
+                      {isDE ? t.nav.projektmanagement.de : t.nav.projektmanagement.en}
+                    </Link>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Logo - Always Centered */}
@@ -121,22 +143,16 @@ export const Navbar = () => {
               <span className="text-2xl font-bold tracking-tight transition-colors duration-300 text-[#1A1A1A]">VISUWORKS</span>
             </Link>
 
-            {/* Right: Projektmanagement + Kontakt + Language + CTA */}
+            {/* Right: Kontakt + Language + CTA */}
             <div className="hidden lg:flex items-center gap-1">
-              {simpleLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  to={link.href}
-                  data-testid={`nav-link-${link.href.replace(/\//g, '')}`}
-                  className={`nav-link-base ${isLinkActive(link.href) ? 'nav-link-active' : ''}`}
-                >
-                  {link.href === '/projektmanagement' 
-                    ? (isDE ? t.nav.projektmanagement.de : t.nav.projektmanagement.en)
-                    : (isDE ? t.nav.kontakt.de : t.nav.kontakt.en)
-                  }
-                  {isLinkActive(link.href) && <span className="nav-accent" />}
-                </Link>
-              ))}
+              <Link
+                to="/kontakt"
+                data-testid="nav-link-kontakt"
+                className={`nav-link-base ${isLinkActive('/kontakt') ? 'nav-link-active' : ''}`}
+              >
+                {isDE ? t.nav.kontakt.de : t.nav.kontakt.en}
+                {isLinkActive('/kontakt') && <span className="nav-accent" />}
+              </Link>
               <LanguageSwitcher className="ml-1" />
               <Link to="/kontakt" className="ml-2">
                 <button data-testid="nav-cta-button" className="px-5 py-2 text-[13px] font-medium tracking-[0.02em] uppercase transition-all duration-300 rounded-full bg-[#1A1A1A] text-white hover:bg-[#1A1A1A]/90">

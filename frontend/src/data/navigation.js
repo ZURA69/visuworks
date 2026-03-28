@@ -45,8 +45,14 @@ export const navStructure = {
       },
     ],
   },
+  projekte: {
+    label: 'Projekte',
+    href: '/projekte',
+    subItems: [
+      { label: 'Projektmanagement', href: '/projektmanagement', desc: 'Effiziente Projektsteuerung' },
+    ],
+  },
   simpleLinks: [
-    { label: 'Projektmanagement', href: '/projektmanagement' },
     { label: 'Kontakt', href: '/kontakt' },
   ],
 };
