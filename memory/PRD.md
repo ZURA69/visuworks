@@ -34,6 +34,12 @@ Home, Mobilität, Raum & Architektur, Markenkommunikation, Design & Konzeption, 
 - Animations (fade-up, fade-in, slide-left/right)
 - Section duplication, reusable layout templates
 
+### CMS Editor Improvements (DONE — March 2026)
+- **Text Block Reordering**: Up/down arrows on field hover to reorder within groups
+- **Spacing Control**: Layout icon per field toggles spacing options (none, small, medium, large)
+- **Save Sync Fix**: Immediate local state update before server refresh (no stale data)
+- **Image Upload Persistence**: Verified working - uploads persist after reload
+
 ### "Was wir tun" CMS Integration (DONE — Dec 2025)
 - Section heading (Obertitel + Überschrift) editable via CMS
 - 3 service items fully CMS-managed: Bild, Kategorie, Überschrift, Beschreibung, Merkmale (comma-separated), Link
@@ -51,6 +57,16 @@ Home, Mobilität, Raum & Architektur, Markenkommunikation, Design & Konzeption, 
 - **ProjektePage**: heroTitle, heroSubline (already implemented)
 - All pages use `useEditable()` hook from EditorContext
 - Registry.js updated with field definitions for all pages
+
+### Homepage Leistungen Section (DONE — March 2026)
+- Full-width immersive image blocks (edge-to-edge)
+- Text overlay positioned left/right (alternating)
+- Gradient overlays for readability
+- Constrained text width with proper padding
+
+### Newsletter Removal (DONE — March 2026)
+- Removed NewsletterSignup component
+- Cleaned Footer from newsletter references
 
 ### Contact Form (DONE)
 - IONOS SMTP integration with error handling and rate limiting
@@ -79,8 +95,9 @@ Home, Mobilität, Raum & Architektur, Markenkommunikation, Design & Konzeption, 
 
 ## Key API Endpoints
 - POST /api/contact — form submission
-- POST /api/editor/content — save content
-- POST /api/editor/layout/{page} — save layout
+- POST /api/admin/upload — image upload
+- POST /api/admin/overrides — save content
+- POST /api/admin/layout — save layout
 - GET /api/content/overrides — public content
 - GET /api/editor/layout — public layout
 
