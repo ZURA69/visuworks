@@ -111,11 +111,11 @@ export const Navbar = () => {
               </Link>
             </div>
 
-            {/* Logo */}
+            {/* Logo - Always Centered */}
             <Link
               to="/"
               data-testid="nav-logo"
-              className="absolute left-1/2 -translate-x-1/2 lg:static lg:translate-x-0"
+              className="absolute left-1/2 -translate-x-1/2"
               aria-label="VISUWORKS - Zur Startseite"
             >
               <span className="text-2xl font-bold tracking-tight transition-colors duration-300 text-[#1A1A1A]">VISUWORKS</span>
