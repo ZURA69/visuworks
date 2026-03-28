@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  # MongoDB Database
+  mongodb:
+    image: mongo:6
+    container_name: visuworks-mongodb
+    restart: unless-stopped
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - visuworks-network
+
+  # FastAPI Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: visuworks-backend
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    environment:
+      - MONGO_URL=mongodb://mongodb:27017
+      - DB_NAME=visuworks
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-visuworks2026}
+      - IONOS_SMTP_HOST=${IONOS_SMTP_HOST:-smtp.ionos.de}
+      - IONOS_SMTP_PORT=${IONOS_SMTP_PORT:-587}
+      - IONOS_SMTP_USER=${IONOS_SMTP_USER}
+      - IONOS_SMTP_PASS=${IONOS_SMTP_PASS}
+      - CONTACT_TO_EMAIL=${CONTACT_TO_EMAIL:-info@visuworks.de}
+      - CONTACT_FROM_EMAIL=${CONTACT_FROM_EMAIL:-info@visuworks.de}
+      - CORS_ORIGINS=${CORS_ORIGINS:-*}
+    depends_on:
+      - mongodb
+    volumes:
+      - uploads_data:/app/uploads
+    networks:
+      - visuworks-network
+
+  # React Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL:-http://localhost:8001}
+    container_name: visuworks-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - visuworks-network
+
+volumes:
+  mongodb_data:
+  uploads_data:
+
+networks:
+  visuworks-network:
+    driver: bridge

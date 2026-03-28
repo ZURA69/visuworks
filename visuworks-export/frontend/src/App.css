@@ -1,0 +1,185 @@
+/* VISUWORKS Global Styles */
+
+/* Prevent default center alignment */
+.App {
+  text-align: left;
+}
+
+/* ─────────────────────────────────────────────
+   MOBILE RESPONSIVE IMPROVEMENTS
+   ───────────────────────────────────────────── */
+
+/* Base responsive image behavior */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Prevent horizontal overflow on mobile */
+html, body {
+  overflow-x: hidden;
+}
+
+/* Mobile-first container adjustments */
+@media (max-width: 767px) {
+  /* Ensure proper padding on all containers */
+  .max-w-\[1200px\] {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  /* Hero section mobile optimizations */
+  [data-testid="hero-section"] {
+    min-height: 85vh;
+  }
+  
+  [data-testid="hero-section"] h1 {
+    font-size: 2rem;
+    line-height: 1.15;
+  }
+  
+  [data-testid="hero-section"] p {
+    font-size: 1rem;
+  }
+  
+  /* Service cards - full width on mobile */
+  [data-testid^="service-card-"] {
+    min-height: auto;
+  }
+  
+  /* Project tiles - proper aspect ratio */
+  [data-testid^="project-tile-"] {
+    aspect-ratio: 4/3;
+  }
+  
+  /* Value proposition section spacing */
+  [data-testid="value-proposition-section"] {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  
+  /* Fix button wrapping */
+  .flex-wrap {
+    gap: 0.75rem;
+  }
+  
+  /* Improve touch targets */
+  button, a {
+    min-height: 44px;
+  }
+  
+  /* Service section spacing */
+  [data-testid="services-section"] {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  
+  /* Fix any fixed-width elements */
+  .w-14 {
+    width: 3rem;
+    height: 3rem;
+    flex-shrink: 0;
+  }
+  
+  /* Ensure text doesn't overflow */
+  h1, h2, h3, h4, p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 374px) {
+  [data-testid="hero-section"] h1 {
+    font-size: 1.75rem;
+  }
+  
+  .text-4xl {
+    font-size: 1.5rem;
+  }
+  
+  .text-2xl {
+    font-size: 1.25rem;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 768px) and (max-width: 1023px) {
+  [data-testid="hero-section"] h1 {
+    font-size: 2.5rem;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   END MOBILE RESPONSIVE
+   ───────────────────────────────────────────── */
+
+/* Smooth page transitions */
+main {
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Custom focus styles */
+*:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.5);
+  outline-offset: 2px;
+}
+
+/* Link hover effects */
+a {
+  transition: color 0.2s ease;
+}
+
+/* Disable motion for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Glass morphism base class */
+.glass {
+  backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Premium glow effect */
+.glow {
+  box-shadow: 0 0 40px -10px rgba(99, 102, 241, 0.3);
+}
+
+/* Prose styles for legal pages */
+.prose h2 {
+  color: white;
+  margin-top: 2rem;
+}
+
+.prose h3 {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.prose p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.prose ul {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.prose strong {
+  color: white;
+}
