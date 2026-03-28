@@ -172,7 +172,126 @@ function ListField({ field, value, onChange }) {
 /* ═══════════════════════════════════════════ */
 /*          CONTENT FIELD GROUP                */
 /* ═══════════════════════════════════════════ */
-function FieldGroup({ title, fields, values, onChange, onUpload, isOpen, onToggle }) {
+
+const FIELD_SPACING_OPTIONS = [
+  { value: 'none', label: 'Kein' },
+  { value: 'small', label: 'Klein' },
+  { value: 'medium', label: 'Mittel' },
+  { value: 'large', label: 'Groß' },
+];
+
+function ContentField({ field, value, onChange, onUpload, index, total, onMoveUp, onMoveDown, fieldSpacing, onSpacingChange }) {
+  const [showSpacing, setShowSpacing] = useState(false);
+  
+  return (
+    <div className="relative group">
+      {/* Field Header with Controls */}
+      <div className="flex items-center gap-1 mb-1.5">
+        <label className="flex-1 text-[11px] text-white/30 font-mono truncate" title={field.key}>
+          {field.label}
+        </label>
+        
+        {/* Reorder buttons */}
+        <button
+          onClick={onMoveUp}
+          disabled={index === 0}
+          className="p-0.5 rounded text-white/20 hover:text-white/50 disabled:opacity-20 disabled:cursor-not-allowed opacity-0 group-hover:opacity-100 transition-all"
+          title="Nach oben"
+        >
+          <ArrowUp className="w-3 h-3" />
+        </button>
+        <button
+          onClick={onMoveDown}
+          disabled={index === total - 1}
+          className="p-0.5 rounded text-white/20 hover:text-white/50 disabled:opacity-20 disabled:cursor-not-allowed opacity-0 group-hover:opacity-100 transition-all"
+          title="Nach unten"
+        >
+          <ArrowDown className="w-3 h-3" />
+        </button>
+        
+        {/* Spacing toggle */}
+        <button
+          onClick={() => setShowSpacing(!showSpacing)}
+          className={`p-0.5 rounded opacity-0 group-hover:opacity-100 transition-all ${showSpacing ? 'text-indigo-400' : 'text-white/20 hover:text-white/50'}`}
+          title="Abstand anpassen"
+        >
+          <Layout className="w-3 h-3" />
+        </button>
+      </div>
+      
+      {/* Spacing Control */}
+      {showSpacing && (
+        <div className="mb-2 p-2 rounded bg-white/5 border border-white/10">
+          <span className="text-[10px] text-white/30 block mb-1">Abstand unten</span>
+          <div className="flex gap-1">
+            {FIELD_SPACING_OPTIONS.map(opt => (
+              <button
+                key={opt.value}
+                onClick={() => onSpacingChange(field.key, opt.value)}
+                className={`flex-1 py-1 text-[10px] rounded transition-colors ${
+                  (fieldSpacing || 'medium') === opt.value 
+                    ? 'bg-indigo-500/30 text-indigo-300' 
+                    : 'bg-white/5 text-white/40 hover:text-white/60'
+                }`}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+      
+      {/* Field Input */}
+      {field.type === 'image' ? (
+        <ImageField field={field} value={value} onChange={onChange} onUpload={onUpload} />
+      ) : field.type === 'list' ? (
+        <ListField field={field} value={value} onChange={onChange} />
+      ) : field.type === 'textarea' ? (
+        <textarea 
+          value={value ?? field.default ?? ''} 
+          onChange={(e) => onChange(field.key, e.target.value)} 
+          rows={3}
+          className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-indigo-500/50 resize-none transition-colors"
+        />
+      ) : (
+        <input 
+          type="text" 
+          value={value ?? field.default ?? ''} 
+          onChange={(e) => onChange(field.key, e.target.value)}
+          className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-indigo-500/50 transition-colors"
+        />
+      )}
+    </div>
+  );
+}
+
+function FieldGroup({ title, fields, values, onChange, onUpload, isOpen, onToggle, fieldOrder, onReorderField, fieldSpacings, onFieldSpacingChange }) {
+  // Sort fields by order if provided
+  const orderedFields = useMemo(() => {
+    if (!fieldOrder || fieldOrder.length === 0) return fields;
+    const orderMap = {};
+    fieldOrder.forEach((key, idx) => { orderMap[key] = idx; });
+    return [...fields].sort((a, b) => {
+      const orderA = orderMap[a.key] ?? 999;
+      const orderB = orderMap[b.key] ?? 999;
+      return orderA - orderB;
+    });
+  }, [fields, fieldOrder]);
+
+  const handleMoveUp = (index) => {
+    if (index === 0 || !onReorderField) return;
+    const newOrder = orderedFields.map(f => f.key);
+    [newOrder[index - 1], newOrder[index]] = [newOrder[index], newOrder[index - 1]];
+    onReorderField(title, newOrder);
+  };
+
+  const handleMoveDown = (index) => {
+    if (index >= orderedFields.length - 1 || !onReorderField) return;
+    const newOrder = orderedFields.map(f => f.key);
+    [newOrder[index], newOrder[index + 1]] = [newOrder[index + 1], newOrder[index]];
+    onReorderField(title, newOrder);
+  };
+
   return (
     <div className="border-b border-white/5 last:border-0">
       <button onClick={onToggle} className="w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-white/60 hover:text-white/80 transition-colors">
@@ -181,25 +300,20 @@ function FieldGroup({ title, fields, values, onChange, onUpload, isOpen, onToggl
       </button>
       {isOpen && (
         <div className="px-4 pb-4 space-y-4">
-          {fields.map((field) => (
-            <div key={field.key}>
-              <label className="block text-[11px] text-white/30 mb-1.5 font-mono truncate" title={field.key}>
-                {field.label}<span className="ml-1 text-white/15">{field.key}</span>
-              </label>
-              {field.type === 'image' ? (
-                <ImageField field={field} value={values[field.key] ?? field.default} onChange={onChange} onUpload={onUpload} />
-              ) : field.type === 'list' ? (
-                <ListField field={field} value={values[field.key] ?? field.default} onChange={onChange} />
-              ) : field.type === 'textarea' ? (
-                <textarea value={values[field.key] ?? field.default ?? ''} onChange={(e) => onChange(field.key, e.target.value)} rows={3}
-                  className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-indigo-500/50 resize-none transition-colors"
-                />
-              ) : (
-                <input type="text" value={values[field.key] ?? field.default ?? ''} onChange={(e) => onChange(field.key, e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-indigo-500/50 transition-colors"
-                />
-              )}
-            </div>
+          {orderedFields.map((field, index) => (
+            <ContentField
+              key={field.key}
+              field={field}
+              value={values[field.key] ?? field.default}
+              onChange={onChange}
+              onUpload={onUpload}
+              index={index}
+              total={orderedFields.length}
+              onMoveUp={() => handleMoveUp(index)}
+              onMoveDown={() => handleMoveDown(index)}
+              fieldSpacing={fieldSpacings?.[field.key]}
+              onSpacingChange={onFieldSpacingChange}
+            />
           ))}
         </div>
       )}
@@ -659,6 +773,8 @@ export function EditorSidebar() {
   const [activeTab, setActiveTab] = useState('content');
   const [search, setSearch] = useState('');
   const [openGroups, setOpenGroups] = useState({ Hero: true, Global: true, Projekt: true });
+  const [fieldOrders, setFieldOrders] = useState({});
+  const [fieldSpacings, setFieldSpacings] = useState({});
 
   const currentPath = location.pathname;
   const allFields = useMemo(() => getFieldsForPage(currentPath), [currentPath]);
@@ -685,6 +801,16 @@ export function EditorSidebar() {
   }, [allFields, pending, overrides]);
 
   const handleChange = useCallback((key, value) => { setValue(key, value); }, [setValue]);
+
+  const handleReorderField = useCallback((groupName, newOrder) => {
+    setFieldOrders(prev => ({ ...prev, [groupName]: newOrder }));
+  }, []);
+
+  const handleFieldSpacingChange = useCallback((fieldKey, spacing) => {
+    setFieldSpacings(prev => ({ ...prev, [fieldKey]: spacing }));
+    // Also save spacing as a content override
+    setValue(`_spacing.${fieldKey}`, spacing);
+  }, [setValue]);
 
   const handleSave = async () => {
     const ok = await save(currentPath);
@@ -780,6 +906,10 @@ export function EditorSidebar() {
                   onUpload={uploadImage}
                   isOpen={openGroups[groupName] ?? false}
                   onToggle={() => toggleGroup(groupName)}
+                  fieldOrder={fieldOrders[groupName]}
+                  onReorderField={handleReorderField}
+                  fieldSpacings={fieldSpacings}
+                  onFieldSpacingChange={handleFieldSpacingChange}
                 />
               ))
             )}

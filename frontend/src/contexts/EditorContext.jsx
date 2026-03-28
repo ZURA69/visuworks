@@ -155,7 +155,7 @@ export function EditorProvider({ children }) {
   }, []);
 
   const save = async (page) => {
-    if (Object.keys(pending).length === 0) return;
+    if (Object.keys(pending).length === 0) return true;
     setIsSaving(true);
     try {
       const entries = Object.entries(pending).map(([key, value]) => {
@@ -170,8 +170,15 @@ export function EditorProvider({ children }) {
         body: JSON.stringify({ overrides: entries }),
       });
       if (!res.ok) throw new Error('Save failed');
-      if (token) await fetchOverrides(token);
+      
+      // Immediately update local state with pending values
+      setOverrides(prev => ({ ...prev, ...pending }));
       setPending({});
+      
+      // Then refresh from server to ensure sync
+      if (token) {
+        setTimeout(() => fetchOverrides(token), 100);
+      }
       return true;
     } catch (err) {
       console.error('Save failed:', err);
