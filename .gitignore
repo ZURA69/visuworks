@@ -44,3 +44,7 @@ temp/
 
 # Emergent Platform (remove for export)
 .emergent/
+-e 
+# Environment files
+*.env
+*.env.*
